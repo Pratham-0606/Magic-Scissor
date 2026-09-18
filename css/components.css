@@ -1371,11 +1371,122 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 35px;
-  background: rgba(20, 20, 26, 0.85);
-  border: 1px solid var(--gold-border);
-  border-radius: var(--radius-md);
-  margin-bottom: 35px;
+  gap: 28px;
+  padding: 30px 38px;
+  background: rgba(20, 20, 26, 0.92);
+  border: 1px solid var(--accent-border, rgba(184, 107, 73, 0.25));
+  border-radius: var(--radius-md, 16px);
+  margin: 0 auto 35px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+}
+
+.insta-banner-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1 1 auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.insta-banner-eyebrow {
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-light, #D49A7E);
+  font-weight: 700;
+  display: block;
+}
+
+.insta-banner-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 600;
+  color: #FFFFFF !important;
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  margin: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.insta-banner-handle {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: clamp(0.9rem, 2vw, 1.12rem);
+  font-weight: 700;
+  color: var(--accent-light, #D49A7E);
+  background: var(--accent-gradient, linear-gradient(135deg, #D49A7E 0%, #B86B49 100%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+
+.insta-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  border: 1.5px solid #d6249f !important;
+  color: #FFFFFF !important;
+  background: rgba(214, 36, 159, 0.08);
+  box-shadow: 0 4px 16px rgba(214, 36, 159, 0.16);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  transition: all var(--transition-fast, 0.2s ease);
+  flex-shrink: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.insta-cta-btn:hover {
+  background: rgba(214, 36, 159, 0.2);
+  border-color: #f75eb8 !important;
+  box-shadow: 0 8px 24px rgba(214, 36, 159, 0.35);
+  transform: translateY(-2px);
+  color: #FFFFFF !important;
+}
+
+.insta-cta-icon {
+  flex-shrink: 0;
+  color: #f75eb8;
+}
+
+.insta-cta-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.insta-cta-action {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+.insta-cta-handle {
+  font-size: clamp(0.76rem, 1.8vw, 0.86rem);
+  font-weight: 600;
+  color: var(--accent-light, #D49A7E);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .instagram-grid {

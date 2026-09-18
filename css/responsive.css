@@ -541,8 +541,34 @@
   .instagram-banner-box {
     flex-direction: column;
     text-align: center;
-    gap: 14px;
-    padding: 18px 20px;
+    gap: 20px;
+    padding: 24px 20px;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .insta-banner-info {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .insta-banner-title {
+    font-size: clamp(1.3rem, 4.5vw, 1.8rem);
+    text-align: center;
+  }
+
+  .insta-banner-handle {
+    font-size: clamp(0.85rem, 3.2vw, 1.05rem);
+    text-align: center;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .insta-cta-btn {
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .instagram-grid {
@@ -817,6 +843,39 @@
     gap: 3px;
     min-height: 44px;
   }
+
+  .instagram-banner-box {
+    padding: 22px 16px;
+    gap: 16px;
+    border-radius: 14px;
+  }
+
+  .insta-cta-btn {
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px;
+    width: 100%;
+    max-width: 290px;
+    border-radius: 20px;
+    text-align: center;
+  }
+
+  .insta-cta-text {
+    flex-direction: column;
+    gap: 2px;
+    text-align: center;
+  }
+
+  .insta-cta-action {
+    font-size: 0.82rem;
+  }
+
+  .insta-cta-handle {
+    font-size: clamp(0.72rem, 3.2vw, 0.82rem);
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
 }
 
 /* ==========================================================================
@@ -874,6 +933,28 @@
   .service-tab-btn {
     padding: 8px 12px;
     font-size: 0.76rem;
+  }
+
+  .instagram-banner-box {
+    padding: 18px 12px;
+    gap: 14px;
+  }
+
+  .insta-banner-title {
+    font-size: 1.25rem;
+  }
+
+  .insta-banner-handle {
+    font-size: 0.82rem;
+  }
+
+  .insta-cta-btn {
+    padding: 10px 10px;
+    max-width: 100%;
+  }
+
+  .insta-cta-handle {
+    font-size: 0.70rem;
   }
 }
 
