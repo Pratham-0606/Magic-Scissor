@@ -615,8 +615,17 @@
      7. Forms (Booking, Contact, Franchise): iOS Auto-Zoom Prevention & Stacking
      -------------------------------------------------------------------------- */
   .booking-layout-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 28px;
+  }
+
+  .booking-form-col {
+    order: -1;
+  }
+
+  .booking-info-col {
+    order: 2;
   }
 
   .luxury-form-two-col {
