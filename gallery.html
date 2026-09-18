@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Salon Views & Ambience | Magic Scissors Studio Salons - Nashik</title>
   <meta name="description" content="Take a virtual tour of Magic Scissors Studio Salons in Nashik. Italian leather styling arenas, hydro-therapy head spa bays, private bridal suites, and barber lounges.">
+  <meta name="theme-color" content="#14141A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
@@ -20,6 +24,8 @@
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+  <!-- Accessible Skip Link -->
+  <a href="#mainContent" class="skip-to-content">Skip to main content</a>
 
   <!-- ========================================================================
        SITE HEADER / NAVIGATION BAR
@@ -76,9 +82,11 @@
     </div>
   </header>
 
-  <!-- ========================================================================
-       SUBPAGE HERO BANNER
-       ======================================================================== -->
+  <!-- Main Landmark for Screen Readers & Semantic Accessibility -->
+  <main id="mainContent">
+    <!-- ========================================================================
+         SUBPAGE HERO BANNER
+         ======================================================================== -->
   <section class="page-hero-banner">
     <div class="container">
       <div class="breadcrumb-nav">
@@ -113,7 +121,7 @@
   </section>
 
   <!-- Fullscreen Lightbox Modal -->
-  <div id="galleryLightbox" class="modal-overlay" role="dialog">
+  <div id="galleryLightbox" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Salon View Photo Preview">
     <div class="modal-container" style="max-width: 850px; background: rgba(10, 10, 14, 0.95); padding: 0;">
       <button class="modal-close-btn lightbox-close" aria-label="Close Lightbox">✕</button>
       <img src="" alt="" class="lightbox-img" style="width: 100%; max-height: 70vh; object-fit: contain; background: #000;">
@@ -157,6 +165,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- ========================================================================
        FOOTER

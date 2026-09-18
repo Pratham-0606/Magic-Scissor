@@ -151,11 +151,13 @@
      1. Header: Sleek, non-wrapping single line on phone
      -------------------------------------------------------------------------- */
   .site-header {
-    padding: 8px 0;
+    padding-top: max(8px, var(--sat));
+    padding-bottom: 8px;
   }
 
   .site-header.scrolled {
-    padding: 6px 0;
+    padding-top: max(6px, var(--sat));
+    padding-bottom: 6px;
   }
 
   .header-inner {
@@ -216,6 +218,10 @@
   .nav-drawer {
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
+    padding-top: max(16px, var(--sat));
+    padding-bottom: max(24px, calc(16px + var(--sab)));
+    padding-left: max(16px, var(--sal));
+    padding-right: max(16px, var(--sar));
   }
 
   .nav-drawer-close {
@@ -588,7 +594,10 @@
   }
 
   .site-footer {
-    padding: 50px 0 25px;
+    padding-top: 50px;
+    padding-bottom: max(25px, calc(20px + var(--sab)));
+    padding-left: max(0px, var(--sal));
+    padding-right: max(0px, var(--sar));
   }
 
   .footer-top-grid {
@@ -645,6 +654,9 @@
     gap: 14px;
   }
 
+  input,
+  select,
+  textarea,
   .luxury-input,
   .luxury-select,
   .luxury-textarea {

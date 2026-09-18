@@ -8,11 +8,14 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Magic Scissors | Luxury Unisex Salon & Aesthetic Studio</title>
   <meta name="description"
     content="Magic Scissors is a luxury unisex salon in Nashik specializing in precision haircuts, hair color, skin therapies, bridal styling, and men's grooming.">
-  <meta name="theme-color" content="#0a0a0c">
+  <meta name="theme-color" content="#14141A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
 
   <!-- Google Fonts: Cinzel (Cinematic Display), Cormorant Garamond (Editorial Serif) & Plus Jakarta Sans (Modern Professional Sans) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,6 +48,8 @@
 </head>
 
 <body>
+  <!-- Accessible Skip Link for Keyboard & Screen Reader Users -->
+  <a href="#mainContent" class="skip-to-content">Skip to main content</a>
 
   <!-- ========================================================================
        1. THEATRICAL INTRO ENTRANCE (Opening Animation)
@@ -152,10 +157,12 @@
   </header>
 
 
-  <!-- ========================================================================
-       3. HERO SHOWCASE SECTION
-       ======================================================================== -->
-  <section id="hero" class="hero-section">
+  <!-- Main Landmark for Screen Readers & Semantic Accessibility -->
+  <main id="mainContent">
+    <!-- ========================================================================
+         3. HERO SHOWCASE SECTION
+         ======================================================================== -->
+    <section id="hero" class="hero-section">
     <div class="hero-background-media" id="heroDynamicBg">
       <!-- Dynamic Salon Views Slides -->
       <div class="hero-bg-slide active" data-index="0" data-title="Main Styling Floor"
@@ -645,6 +652,7 @@
       </div>
     </div>
   </section>
+  </main>
 
 
   <!-- ========================================================================

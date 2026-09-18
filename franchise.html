@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Franchise Opportunities | Magic Scissors Studio Salons</title>
   <meta name="description" content="Own a Magic Scissors Studio Salon franchise. Premium luxury unisex salon brand with proven unit economics, turnkey setup, stylist training, and full marketing support.">
+  <meta name="theme-color" content="#14141A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
@@ -20,6 +24,8 @@
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+  <!-- Accessible Skip Link -->
+  <a href="#mainContent" class="skip-to-content">Skip to main content</a>
 
   <!-- ========================================================================
        SITE HEADER / NAVIGATION BAR
@@ -76,9 +82,11 @@
     </div>
   </header>
 
-  <!-- ========================================================================
-       SUBPAGE HERO BANNER
-       ======================================================================== -->
+  <!-- Main Landmark for Screen Readers & Semantic Accessibility -->
+  <main id="mainContent">
+    <!-- ========================================================================
+         SUBPAGE HERO BANNER
+         ======================================================================== -->
   <section class="page-hero-banner">
     <div class="container">
       <div class="breadcrumb-nav">
@@ -288,6 +296,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- ========================================================================
        FOOTER

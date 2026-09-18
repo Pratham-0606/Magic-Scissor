@@ -65,6 +65,12 @@
   --radius-full: 9999px;
   --container-width: 1240px;
   --focus-ring: 0 0 0 2px #FAF8F5, 0 0 0 4px #B86B49;
+
+  /* Safe Area Insets for iOS & Android Notches / Dynamic Island / Bottom Home Indicator */
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
 }
 
 /* Reset & Box Sizing */
@@ -76,9 +82,48 @@
   padding: 0;
 }
 
+/* Mobile Touch & Gesture Optimizations (iOS Safari & Android Chrome) */
+a,
+button,
+input,
+select,
+textarea,
+[role="button"],
+[role="tab"],
+.nav-link,
+.btn {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Accessible Skip to Content Link */
+.skip-to-content {
+  position: absolute;
+  top: -120px;
+  left: 16px;
+  background: var(--text-primary, #15171C);
+  color: #FFFFFF !important;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm, 8px);
+  border: 2px solid var(--accent-light, #D49A7E);
+  font-weight: 700;
+  font-size: 0.95rem;
+  z-index: 10000;
+  text-decoration: none;
+  transition: top 0.2s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.skip-to-content:focus,
+.skip-to-content:focus-visible {
+  top: 16px;
+  outline: 3px solid var(--accent-light, #D49A7E);
+  outline-offset: 2px;
+}
+
 /* Accessible Global Focus Visible */
 :focus-visible {
-  outline: 2px solid var(--accent-light);
+  outline: 2px solid var(--accent-primary, #B86B49);
   outline-offset: 3px;
 }
 
