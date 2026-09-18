@@ -1,0 +1,568 @@
+/* ==========================================================================
+   MAGIC SCISSORS - THEATRICAL INTRO & ENTRANCE ANIMATION SYSTEM
+   ========================================================================== */
+
+.theatrical-intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: all;
+  background-color: #050507;
+  transition: opacity 0.8s ease 0.8s, visibility 0.8s ease 0.8s;
+}
+
+.theatrical-intro-overlay.intro-completed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+html.intro-already-entered #theatricalIntroOverlay,
+html.intro-already-entered #salonChairTrack,
+.theatrical-intro-overlay.intro-bypassed {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: none !important;
+}
+
+html.intro-already-entered body {
+  overflow: auto !important;
+}
+
+/* ==========================================================================
+   1. Heavy Luxury Velvet Curtains (Left & Right)
+   ========================================================================== */
+.curtain-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.5%;
+  height: 100%;
+  z-index: 2;
+  transition: transform 1.25s cubic-bezier(0.77, 0, 0.175, 1);
+  will-change: transform;
+  overflow: hidden;
+}
+
+.curtain-left {
+  left: 0;
+  background: 
+    radial-gradient(ellipse at 80% 50%, rgba(20, 16, 22, 0.95), #09080b 80%),
+    repeating-linear-gradient(90deg, 
+      #080709 0px, 
+      #131018 25px, 
+      #050406 50px, 
+      #18141f 75px, 
+      #070608 100px);
+  box-shadow: inset -25px 0 50px rgba(0, 0, 0, 0.9), 10px 0 40px rgba(0, 0, 0, 0.9);
+}
+
+.curtain-right {
+  right: 0;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(20, 16, 22, 0.95), #09080b 80%),
+    repeating-linear-gradient(90deg, 
+      #070608 0px, 
+      #18141f 25px, 
+      #050406 50px, 
+      #131018 75px, 
+      #080709 100px);
+  box-shadow: inset 25px 0 50px rgba(0, 0, 0, 0.9), -10px 0 40px rgba(0, 0, 0, 0.9);
+}
+
+
+
+/* Curtain Parting Action */
+.curtain-open .curtain-left {
+  transform: translateX(-102%) skewX(-1.5deg);
+}
+
+.curtain-open .curtain-right {
+  transform: translateX(102%) skewX(1.5deg);
+}
+
+/* ==========================================================================
+   2. Theatrical Stage Content (Text, Scissor, Get Started Button)
+   ========================================================================== */
+.intro-stage {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 900px;
+  transition: opacity 0.5s ease;
+}
+
+.curtain-open .intro-stage {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: all 0.4s ease;
+}
+
+/* Spotlight Background Glow */
+.intro-spotlight {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 109, 74, 0.16) 0%, rgba(200, 109, 74, 0.02) 50%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: blur(40px);
+  animation: spotlightBreathe 4s ease-in-out infinite alternate;
+}
+
+@keyframes spotlightBreathe {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+/* Intro Brand Crown */
+.intro-crown {
+  font-family: var(--font-display, var(--font-serif));
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--accent-cream);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: introCrownFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.intro-crown::before,
+.intro-crown::after {
+  content: "✦";
+  color: var(--accent-primary);
+  font-size: 0.75rem;
+}
+
+@keyframes introCrownFadeIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 0.9; transform: translateY(0); }
+}
+
+/* Character-by-Character Fade Up for "MAGIC SCISSORS" */
+.intro-title {
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 7.8vw, 6rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 24px;
+  line-height: 1.1;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.intro-title .word {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.intro-title .word + .word {
+  margin-left: 0.35em;
+}
+
+.intro-title .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(40px) scale(0.9);
+  filter: blur(8px);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: charFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(0.3s + (var(--char-index) * 0.055s));
+}
+
+@keyframes charFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(45px) scale(0.85);
+    filter: blur(10px);
+  }
+  60% {
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Intro Subtitle */
+.intro-tagline {
+  font-family: var(--font-sans);
+  font-size: clamp(0.92rem, 1.8vw, 1.15rem);
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 35px;
+  opacity: 0;
+  animation: introTaglineFade 1s ease forwards 1.2s;
+}
+
+@keyframes introTaglineFade {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 0.85; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   3. Animated Scissor with Snipping Open-Close Action
+   ========================================================================== */
+.scissors-animation-container {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 35px;
+  opacity: 0;
+  animation: scissorsAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards;
+  cursor: pointer;
+}
+
+@keyframes scissorsAppear {
+  0% { opacity: 0; transform: scale(0.5) rotate(-30deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.scissor-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 6px 14px rgba(200, 109, 74, 0.45));
+}
+
+/* Dual Blade Pivot Snipping Mechanics */
+.scissor-blade-top {
+  transform-origin: 45px 45px;
+  animation: scissorCutTop 1.6s ease-in-out infinite;
+}
+
+.scissor-blade-bottom {
+  transform-origin: 45px 45px;
+  animation: scissorCutBottom 1.6s ease-in-out infinite;
+}
+
+@keyframes scissorCutTop {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-24deg);
+  }
+  45% {
+    transform: rotate(2deg);
+  }
+  60% {
+    transform: rotate(-18deg);
+  }
+  80% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes scissorCutBottom {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(24deg);
+  }
+  45% {
+    transform: rotate(-2deg);
+  }
+  60% {
+    transform: rotate(18deg);
+  }
+  80% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Sparkle Snip Burst */
+.snip-sparkles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.snip-sparkle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  box-shadow: 0 0 8px #fff;
+  opacity: 0;
+  animation: sparkleFlash 1.6s ease-in-out infinite;
+}
+
+.snip-sparkle:nth-child(1) { top: 0px; left: 20px; animation-delay: 0.45s; }
+.snip-sparkle:nth-child(2) { top: 25px; left: 35px; animation-delay: 0.48s; }
+.snip-sparkle:nth-child(3) { top: 32px; left: 8px; animation-delay: 0.46s; }
+
+@keyframes sparkleFlash {
+  0%, 35%, 55%, 100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.6);
+  }
+}
+
+/* ==========================================================================
+   4. The "Get Started" Luxury Entrance CTA
+   ========================================================================== */
+.btn-get-started {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: btnGetStartedEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
+  padding: 16px 42px;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--accent-gradient);
+  color: #ffffff;
+  font-weight: 800;
+  border-radius: var(--radius-full);
+  box-shadow: 0 6px 30px rgba(200, 109, 74, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  position: relative;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-get-started::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--accent-primary);
+  opacity: 0.6;
+  animation: pulseAccentRing 2s infinite;
+}
+
+@keyframes btnGetStartedEntrance {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseAccentRing {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+.btn-get-started:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 40px rgba(200, 109, 74, 0.65);
+}
+
+.btn-get-started:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   5. Rolling Salon Chair at High Speed (From Right to Left)
+   ========================================================================== */
+.salon-chair-track {
+  position: fixed;
+  bottom: 12%;
+  left: 0;
+  width: 100vw;
+  height: 220px;
+  pointer-events: none;
+  z-index: 999999;
+  display: none; /* activated during roll */
+}
+
+.salon-chair-track.active-roll {
+  display: block;
+}
+
+.rolling-salon-chair {
+  position: absolute;
+  right: -250px; /* Start completely offscreen right */
+  bottom: 0;
+  width: 170px;
+  height: 210px;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.9));
+  will-change: transform;
+}
+
+/* Speed Motion Animation: Shoots from Right (+120vw) to Left (-120vw) */
+.salon-chair-track.active-roll .rolling-salon-chair {
+  animation: chairHighSpeedRoll 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes chairHighSpeedRoll {
+  0% {
+    transform: translateX(0) rotate(5deg) scale(0.95);
+    opacity: 1;
+  }
+  30% {
+    transform: translateX(calc(-0.6 * (100vw + 350px))) rotate(-3deg) scale(1.05);
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(calc(-1.1 * (100vw + 350px))) rotate(-6deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(-1.35 * (100vw + 350px))) rotate(-8deg) scale(0.95);
+    opacity: 0;
+  }
+}
+
+/* Speed streaks behind the chair */
+.chair-speed-streaks {
+  position: absolute;
+  top: 50%;
+  left: 90%;
+  width: 180px;
+  height: 80px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(200, 109, 74, 0.5), transparent);
+  transform: translateY(-50%) skewX(-30deg);
+  opacity: 0.75;
+  filter: blur(4px);
+}
+
+/* Chair Wheels Spinning Effect */
+.chair-wheel {
+  transform-origin: center;
+  animation: wheelSpin 0.3s linear infinite;
+}
+
+@keyframes wheelSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+
+
+/* Reduced Motion Override for Theatrical Entrance */
+@media (prefers-reduced-motion: reduce) {
+  .curtain-panel,
+  .theatrical-intro-overlay,
+  .char,
+  .scissor-blade-top,
+  .scissor-blade-bottom,
+  .chair-wheel,
+  .rolling-salon-chair {
+    transition: opacity 0.2s ease !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  .theatrical-intro-overlay.curtain-open,
+  .theatrical-intro-overlay.intro-completed {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* ==========================================================================
+   Mobile View Specific Rules (Phone view only, zero change to laptop)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .intro-stage {
+    padding: 24px 16px;
+    max-width: 100%;
+  }
+
+  .intro-spotlight {
+    width: 300px;
+    height: 300px;
+  }
+
+  .intro-crown {
+    font-size: 0.68rem;
+    letter-spacing: 0.20em;
+    margin-bottom: 12px;
+  }
+
+  .intro-title {
+    font-size: clamp(2rem, 8.2vw, 3.2rem);
+    letter-spacing: 0.05em;
+    margin-bottom: 14px;
+    line-height: 1.15;
+  }
+
+  .intro-subtitle {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin-bottom: 20px;
+    max-width: 95%;
+  }
+
+  .intro-scissor-anim {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 18px;
+  }
+
+  .intro-scissor-svg {
+    width: 42px;
+    height: 42px;
+  }
+
+  .intro-btn-wrap {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 290px;
+  }
+
+  .intro-enter-btn,
+  .intro-skip-btn {
+    width: 100%;
+    padding: 11px 18px;
+    font-size: 0.82rem;
+    justify-content: center;
+  }
+
+  .rolling-salon-chair {
+    width: 95px;
+    height: 125px;
+  }
+
+  .salon-chair-track {
+    bottom: 6%;
+  }
+}
+

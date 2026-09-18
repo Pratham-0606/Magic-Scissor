@@ -1,0 +1,740 @@
+/* ==========================================================================
+   MAGIC SCISSORS - RESPONSIVE & MOBILE STYLING
+   ========================================================================== */
+
+/* Tablet & Mobile Nav Drawer (Up to 1100px for single-line desktop bar) */
+@media (max-width: 1100px) {
+  .site-header nav {
+    margin: 0;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 290px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 70px 22px 30px;
+    gap: 6px;
+    border: none;
+    border-left: 1px solid rgba(15, 17, 23, 0.10);
+    border-radius: 0;
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.10);
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 910;
+  }
+
+  .nav-menu li {
+    width: 100%;
+    white-space: normal;
+  }
+
+  /* Nav links inside drawer get clean button-like full-width pill structure */
+  .nav-menu .nav-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 11px 18px;
+    font-size: 0.94rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(15, 17, 23, 0.08);
+    background: rgba(15, 17, 23, 0.02);
+    transition: all var(--transition-fast);
+  }
+
+  .nav-menu .nav-link:hover {
+    background: rgba(200, 109, 74, 0.10);
+    border-color: rgba(200, 109, 74, 0.25);
+    color: var(--accent-dark);
+    transform: translateX(4px);
+  }
+
+  .nav-menu .nav-link.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(200, 109, 74, 0.30);
+  }
+
+  .nav-menu.open {
+    right: 0;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+    z-index: 920;
+  }
+
+  /* Show ✕ close button inside drawer on mobile */
+  .nav-drawer-close {
+    display: flex;
+  }
+
+  .hero-stats-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-main-img {
+    height: 380px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .packages-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    max-width: 550px;
+    margin: 0 auto;
+  }
+
+  .footer-top-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .instagram-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==========================================================================
+   Mobile & Phone Screens (max-width: 768px)
+   - Zero changes to laptop (> 768px)
+   - Eliminates floating button overlaps, text squishing, and horizontal overflow
+   ========================================================================== */
+@media (max-width: 768px) {
+
+  /* Prevent horizontal screen wobble on mobile */
+  html,
+  body {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+  }
+
+  .container {
+    padding: 0 16px;
+    width: 100%;
+  }
+
+  .section-padding {
+    padding: clamp(45px, 8vw, 65px) 0;
+  }
+
+  .section-title {
+    font-size: clamp(1.85rem, 6.2vw, 2.45rem);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .section-subtitle {
+    font-size: 0.94rem;
+    line-height: 1.65;
+    margin-bottom: 30px;
+  }
+
+  .page-hero-banner {
+    padding: 95px 0 45px;
+  }
+
+  .page-hero-title {
+    font-size: clamp(1.9rem, 6.5vw, 2.6rem);
+    margin-bottom: 10px;
+  }
+
+  .page-hero-subtitle {
+    font-size: 0.94rem;
+  }
+
+  /* --------------------------------------------------------------------------
+     1. Header: Sleek, non-wrapping single line on phone
+     -------------------------------------------------------------------------- */
+  .site-header {
+    padding: 8px 0;
+  }
+
+  .site-header.scrolled {
+    padding: 6px 0;
+  }
+
+  .header-inner {
+    padding: 0 14px;
+    gap: 8px;
+  }
+
+  .logo-scissor-mark {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+
+  .logo-title {
+    font-size: 0.92rem;
+    letter-spacing: 0.03em;
+  }
+
+  .logo-sub {
+    font-size: 0.48rem;
+    letter-spacing: 0.16em;
+  }
+
+  .header-tel-btn {
+    display: none !important;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .header-actions .btn-gold {
+    padding: 6px 12px;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+  }
+
+  .mobile-menu-btn {
+    font-size: 24px;
+    padding: 4px;
+  }
+
+  .nav-menu {
+    width: 280px;
+    max-width: 85vw;
+  }
+
+  /* --------------------------------------------------------------------------
+     2. Hero Section & Content Card: Fully visible, no overlap, crisp spacing
+     -------------------------------------------------------------------------- */
+  .hero-section {
+    min-height: auto;
+    padding-top: clamp(76px, 11vh, 90px);
+    padding-bottom: 35px;
+  }
+
+  .hero-content {
+    padding: clamp(16px, 4vw, 24px);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .hero-content::before {
+    top: 8px;
+    left: 8px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .hero-content::after {
+    bottom: 8px;
+    right: 8px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .hero-badge-pill {
+    padding: 5px 12px;
+    font-size: clamp(0.66rem, 2.5vw, 0.74rem);
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.35;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.6rem, 5.4vw, 2.3rem);
+    line-height: 1.16;
+    letter-spacing: 0.01em;
+    margin-bottom: 14px;
+    word-break: normal;
+  }
+
+  .hero-line-nowrap {
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  .hero-description {
+    font-size: 0.88rem;
+    line-height: 1.62;
+    margin-bottom: 18px;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+    padding: 11px 18px;
+    font-size: 0.82rem;
+    justify-content: center;
+  }
+
+  .hero-stats-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 10px;
+    padding: 14px 12px;
+    border-radius: 14px;
+  }
+
+  .stat-item {
+    min-width: 0;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+
+  .stat-sub {
+    font-size: 0.68rem;
+  }
+
+  .hero-view-pill {
+    border-radius: 14px;
+    padding: 9px 12px;
+    margin-top: 14px;
+  }
+
+  .hero-view-pill-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .hero-view-title {
+    font-size: 0.84rem;
+    max-width: clamp(110px, 32vw, 170px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hero-view-caption {
+    font-size: 0.60rem;
+  }
+
+  .hero-view-progress-track {
+    width: 32px;
+  }
+
+  .hero-view-arrow-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 0.9rem;
+  }
+
+  /* --------------------------------------------------------------------------
+     3. Services Tabs & Cards on Phone
+     -------------------------------------------------------------------------- */
+  .services-tabs {
+    border-radius: var(--radius-lg);
+    width: 100%;
+    padding: 8px 6px;
+    gap: 6px;
+    margin-bottom: 28px;
+  }
+
+  .service-tab-btn {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    flex: 1 1 auto;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .service-card-media {
+    height: 200px;
+  }
+
+  .service-card-body {
+    padding: 18px 16px;
+  }
+
+  .service-card-title {
+    font-size: 1.25rem;
+  }
+
+  .service-card-desc {
+    font-size: 0.88rem;
+    margin-bottom: 14px;
+  }
+
+  /* --------------------------------------------------------------------------
+     4. About & Gallery Grids
+     -------------------------------------------------------------------------- */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-main-img {
+    height: 300px;
+  }
+
+  .about-feature-list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin: 22px 0 24px;
+  }
+
+  .about-float-badge {
+    position: static;
+    margin-top: 14px;
+    max-width: 100%;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .gallery-card {
+    height: 240px;
+  }
+
+  /* --------------------------------------------------------------------------
+     5. Packages, Testimonials & Franchise Models
+     -------------------------------------------------------------------------- */
+  .packages-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    gap: 20px;
+  }
+
+  .package-card {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .package-card.highlighted {
+    transform: none;
+  }
+
+  .package-card:hover {
+    transform: none;
+  }
+
+  .package-price-val {
+    font-size: clamp(2rem, 6vw, 2.5rem);
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    gap: 18px;
+  }
+
+  .testimonial-card {
+    padding: 22px 18px;
+  }
+
+  .testimonial-quote {
+    font-size: 1.05rem;
+    margin-bottom: 18px;
+  }
+
+  .franchise-model-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* --------------------------------------------------------------------------
+     6. Instagram Strip & Footer
+     -------------------------------------------------------------------------- */
+  .instagram-banner-box {
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+    padding: 18px 20px;
+  }
+
+  .instagram-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .insta-tile:last-child:nth-child(odd) {
+    grid-column: span 2;
+    max-height: 200px;
+  }
+
+  .site-footer {
+    padding: 50px 0 25px;
+  }
+
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .footer-bottom-bar {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  /* --------------------------------------------------------------------------
+     7. Forms (Booking, Contact, Franchise): iOS Auto-Zoom Prevention
+     -------------------------------------------------------------------------- */
+  .luxury-form-card,
+  .inquiry-card,
+  .studio-info-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .luxury-form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .luxury-input,
+  .luxury-select,
+  .luxury-textarea {
+    font-size: 16px !important;
+    /* Critical for iOS Safari auto-zoom prevention */
+    padding: 11px 14px;
+  }
+
+  .luxury-actions-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .luxury-actions-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .studio-contact-item {
+    gap: 12px;
+  }
+
+  .studio-icon-badge {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+  }
+
+  .studio-contact-detail h4 {
+    font-size: 0.90rem;
+  }
+
+  .studio-contact-detail p {
+    font-size: 0.84rem;
+  }
+
+  /* --------------------------------------------------------------------------
+     8. Modals & Lightbox on Phone
+     -------------------------------------------------------------------------- */
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-container {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: 16px;
+    margin: auto;
+  }
+
+  .modal-body {
+    padding: 18px 14px;
+  }
+
+  .modal-banner-image {
+    height: 160px;
+  }
+
+  .modal-close-btn {
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+
+  .modal-header-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .modal-title {
+    font-size: 1.45rem;
+  }
+
+  .modal-price-pill {
+    font-size: 0.95rem;
+    padding: 6px 14px;
+  }
+
+  .modal-actions-footer {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 16px;
+  }
+
+  .modal-actions-footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* --------------------------------------------------------------------------
+     9. CRITICAL FIX: Hide Floating Action Bar on Mobile
+        Prevents vertical 5-button stack from covering content on phones!
+     -------------------------------------------------------------------------- */
+  .floating-actions-bar,
+  .floating-quick-bar {
+    display: none !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     10. Mobile Sticky Quick Bar: Clean App-like Bottom Navigation Dock
+     -------------------------------------------------------------------------- */
+  .mobile-sticky-quick-bar {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(184, 107, 73, 0.20);
+    z-index: 980;
+    padding: 8px 10px max(8px, env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.08);
+    gap: 6px;
+  }
+
+  .mobile-quick-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 9px 6px;
+    border-radius: var(--radius-sm);
+    font-size: 0.74rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .mobile-quick-menu {
+    background: rgba(184, 107, 73, 0.08);
+    border: 1px solid rgba(184, 107, 73, 0.22);
+    color: var(--accent-dark);
+    cursor: pointer;
+  }
+
+  .mobile-quick-nav {
+    background: rgba(234, 67, 53, 0.10);
+    border: 1px solid rgba(234, 67, 53, 0.25);
+    color: #EA4335;
+  }
+
+  .mobile-quick-call {
+    background: rgba(15, 17, 23, 0.07);
+    border: 1px solid rgba(15, 17, 23, 0.14);
+    color: var(--text-primary);
+  }
+
+  .mobile-quick-whatsapp {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  }
+
+  .mobile-quick-book {
+    background: var(--gold-gradient);
+    color: #ffffff;
+  }
+
+  /* Safe body padding so bottom sticky bar never obscures footer or content */
+  body {
+    padding-bottom: max(68px, calc(56px + env(safe-area-inset-bottom))) !important;
+  }
+}
+
+/* ==========================================================================
+   Small Phones (max-width: 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .hero-headline {
+    font-size: clamp(1.35rem, 5.2vw, 1.75rem);
+    line-height: 1.18;
+    word-break: normal;
+  }
+
+  .hero-stats-strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 8px;
+    padding: 12px 10px;
+  }
+
+  .stat-value {
+    font-size: 1.35rem;
+  }
+
+  .stat-label {
+    font-size: 0.70rem;
+  }
+
+  .stat-sub {
+    font-size: 0.64rem;
+  }
+
+  .header-actions .btn-gold {
+    padding: 5px 10px;
+    font-size: 0.68rem;
+  }
+
+  .mobile-quick-btn {
+    font-size: 0.70rem;
+    padding: 8px 4px;
+    gap: 3px;
+  }
+}
