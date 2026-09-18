@@ -252,27 +252,7 @@ h4 {
 
 
 .section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-display, var(--font-sans));
-  font-size: 0.74rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--accent-primary);
-  font-weight: 700;
-  margin-bottom: 14px;
-  position: relative;
-}
-
-.section-label::before,
-.section-label::after {
-  content: "";
-  display: inline-block;
-  width: 24px;
-  height: 1px;
-  background: var(--accent-primary);
-  opacity: 0.55;
+  display: none !important;
 }
 
 .section-title {
@@ -521,39 +501,9 @@ h4 {
   position: relative;
 }
 
-/* Cinematic Scene / Act Overline Eyebrow */
+/* Eyebrow Tag Removed */
 .cinema-scene-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-display, var(--font-sans));
-  font-size: 0.68rem;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--accent-primary);
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.cinema-scene-tag::before {
-  content: "◉";
-  font-size: 8px;
-  color: #EA4335;
-  animation: cinemaRecBlink 2.4s infinite ease-in-out;
-}
-
-@keyframes cinemaRecBlink {
-
-  0%,
-  100% {
-    opacity: 0.35;
-    transform: scale(0.9);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.15);
-  }
+  display: none !important;
 }
 
 /* Badge Component */
