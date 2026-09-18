@@ -525,17 +525,23 @@
   /* --------------------------------------------------------------------------
      6. Video Tour, Instagram Strip & Footer
      -------------------------------------------------------------------------- */
-  .video-custom-controls {
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    padding: 8px 14px;
+  .video-ctrl-btn {
+    width: 42px;
+    height: 42px;
+    bottom: 14px;
   }
 
-  .video-ctrl-btn {
-    min-height: 40px;
-    padding: 6px 12px;
-    font-size: 0.85rem;
+  .video-ctrl-play {
+    left: 14px;
+  }
+
+  .video-ctrl-mute {
+    right: 14px;
+  }
+
+  .video-ctrl-icon {
+    width: 19px;
+    height: 19px;
   }
 
   .instagram-banner-box {
@@ -801,10 +807,6 @@
     gap: 14px;
   }
 
-  .video-custom-controls div[style*="text-transform: uppercase"] {
-    display: none;
-  }
-
   .hero-headline {
     font-size: clamp(1.35rem, 5.2vw, 1.75rem);
     line-height: 1.18;
@@ -955,6 +957,25 @@
 
   .insta-cta-handle {
     font-size: 0.70rem;
+  }
+
+  .video-ctrl-btn {
+    width: 40px;
+    height: 40px;
+    bottom: 12px;
+  }
+
+  .video-ctrl-play {
+    left: 12px;
+  }
+
+  .video-ctrl-mute {
+    right: 12px;
+  }
+
+  .video-ctrl-icon {
+    width: 18px;
+    height: 18px;
   }
 }
 

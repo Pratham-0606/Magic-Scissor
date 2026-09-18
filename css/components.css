@@ -1148,32 +1148,53 @@
   display: block;
 }
 
-.video-custom-controls {
+.video-ctrl-btn {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
+  bottom: 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background: rgba(14, 14, 18, 0.85);
-  backdrop-filter: blur(12px);
-  padding: 10px 20px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--gold-border);
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(14, 14, 18, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 154, 126, 0.35);
+  color: var(--accent-light, #D49A7E);
+  cursor: pointer;
   z-index: 5;
+  transition: all var(--transition-fast, 0.2s ease);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  padding: 0;
+  outline: none;
 }
 
-.video-ctrl-btn {
-  background: transparent;
-  border: none;
-  color: var(--gold-light);
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
+.video-ctrl-btn:hover {
+  background: rgba(20, 20, 26, 0.92);
+  border-color: var(--accent-light, #D49A7E);
+  color: #FFFFFF;
+  transform: scale(1.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.video-ctrl-btn:focus-visible {
+  outline: 2px solid var(--accent-light, #D49A7E);
+  outline-offset: 2px;
+}
+
+.video-ctrl-play {
+  left: 16px;
+}
+
+.video-ctrl-mute {
+  right: 16px;
+}
+
+.video-ctrl-icon {
+  width: 21px;
+  height: 21px;
+  display: block;
 }
 
 /* --------------------------------------------------------------------------
