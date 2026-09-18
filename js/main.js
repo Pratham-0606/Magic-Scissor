@@ -376,7 +376,7 @@ class MagicScissorsApp {
           <div class="testimonial-avatar">${t.name.charAt(0)}</div>
           <div>
             <h5 class="testimonial-name">${t.name}</h5>
-            <span class="testimonial-role">${t.role} • <span style="color: var(--accent-light);">${t.service}</span></span>
+            <span class="testimonial-role" style="color: var(--accent-light);">${t.service}</span>
           </div>
         </div>
       </div>

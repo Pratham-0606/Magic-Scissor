@@ -314,21 +314,18 @@ export const SALON_DATA = {
     {
       quote: "The attention to detail and cleanliness here is exceptional. My stylist took the time to understand exactly what I wanted, and the cut grew out beautifully.",
       name: "Pooja Deshmukh",
-      role: "Fashion Entrepreneur",
       rating: 5,
       service: "French Balayage & HydraFacial"
     },
     {
       quote: "The team took care of everything in the private bridal suite on my wedding day. The makeup looked natural, felt lightweight, and stayed fresh all night.",
       name: "Dr. Aastha Sharma",
-      role: "Bride & Surgeon",
       rating: 5,
       service: "Royal HD Bridal Suite"
     },
     {
       quote: "Great atmosphere and consistently sharp haircuts. The hot towel shave and beard trim is something I look forward to every month.",
       name: "Vikram Singhania",
-      role: "Architect",
       rating: 5,
       service: "Classic Hot Towel Shave & Beard Sculpt"
     }
