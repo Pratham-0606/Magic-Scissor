@@ -84,9 +84,10 @@
   }
 
   .testimonials-grid {
-    grid-template-columns: 1fr;
-    max-width: 550px;
-    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 100%;
+    margin: 0;
   }
 
   .footer-grid,
@@ -97,6 +98,25 @@
 
   .instagram-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Franchise & Booking grids: collapse at tablet */
+  .franchise-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .booking-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .booking-form-col {
+    order: -1;
+  }
+
+  .booking-info-col {
+    order: 2;
   }
 }
 
@@ -478,7 +498,7 @@
   .gallery-card,
   .gallery-card.featured {
     grid-column: span 1;
-    height: clamp(250px, 68vw, 310px);
+    height: clamp(230px, 62vw, 290px);
   }
 
   .gallery-overlay {

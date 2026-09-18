@@ -1057,7 +1057,7 @@
 
 .gallery-card {
   position: relative;
-  height: 320px;
+  height: clamp(260px, 22vw, 320px);
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--gold-border);
@@ -1074,6 +1074,7 @@
 
 .gallery-card.featured {
   grid-column: span 2;
+  height: clamp(280px, 24vw, 340px);
 }
 
 .gallery-img {
