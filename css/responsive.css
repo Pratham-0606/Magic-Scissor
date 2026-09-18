@@ -89,9 +89,10 @@
     margin: 0 auto;
   }
 
+  .footer-grid,
   .footer-top-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
+    gap: 40px 32px;
   }
 
   .instagram-grid {
@@ -386,7 +387,7 @@
 
   .service-card.featured .service-card-media {
     width: 100%;
-    height: clamp(180px, 48vw, 220px);
+    height: clamp(195px, 52vw, 235px);
     min-height: unset;
   }
 
@@ -407,7 +408,15 @@
   }
 
   .service-card-media {
-    height: clamp(180px, 48vw, 220px);
+    height: clamp(195px, 52vw, 235px);
+  }
+
+  .service-card-tag {
+    top: 8px;
+    left: 8px;
+    padding: 2.5px 7px;
+    font-size: 0.58rem;
+    letter-spacing: 0.03em;
   }
 
   .service-card-body {
@@ -469,7 +478,15 @@
   .gallery-card,
   .gallery-card.featured {
     grid-column: span 1;
-    height: clamp(200px, 55vw, 250px);
+    height: clamp(250px, 68vw, 310px);
+  }
+
+  .gallery-overlay {
+    padding: 26px 16px 14px 16px;
+  }
+
+  .gallery-title {
+    font-size: 1.1rem;
   }
 
   .standards-grid {
@@ -594,16 +611,40 @@
   }
 
   .site-footer {
-    padding-top: 50px;
+    padding-top: 48px;
     padding-bottom: max(25px, calc(20px + var(--sab)));
     padding-left: max(0px, var(--sal));
     padding-right: max(0px, var(--sar));
   }
 
+  .footer-grid,
   .footer-top-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 20px;
+    margin-bottom: 36px;
+  }
+
+  .footer-col-brand {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid rgba(184, 107, 73, 0.16);
+    padding-bottom: 24px;
+    margin-bottom: 4px;
+  }
+
+  .footer-col-nav {
+    grid-column: 1;
+  }
+
+  .footer-col-hours {
+    grid-column: 2;
+  }
+
+  .footer-col-concierge {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(184, 107, 73, 0.16);
+    padding-top: 24px;
+    margin-top: 4px;
   }
 
   .footer-bottom-bar {
@@ -618,6 +659,24 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+
+  @media (max-width: 420px) {
+    .footer-grid,
+    .footer-top-grid {
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+
+    .footer-col-nav,
+    .footer-col-hours {
+      grid-column: 1 / -1;
+    }
+
+    .footer-col-hours {
+      border-top: 1px solid rgba(184, 107, 73, 0.14);
+      padding-top: 22px;
+    }
   }
 
   /* --------------------------------------------------------------------------

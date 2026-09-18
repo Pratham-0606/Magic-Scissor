@@ -237,7 +237,7 @@
 .gallery-card-skeleton {
   border-radius: var(--radius-md, 14px);
   overflow: hidden;
-  height: 310px;
+  height: 320px;
   position: relative;
   border: 1px solid rgba(184, 107, 73, 0.12);
 }
