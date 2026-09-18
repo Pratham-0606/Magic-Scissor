@@ -7,6 +7,7 @@ import { ServicesManager } from './services.js';
 import { supabaseService } from './supabase-client.js';
 import { AuthManager } from './auth.js';
 import { ConciergeDashboard } from './admin-dashboard.js';
+import { ButtonLoader, FormValidator, ToastManager, Skeleton, EmptyState, ErrorClassifier, StylePhotoUploader } from './ui-feedback.js';
 
 class MagicScissorsApp {
   constructor() {
@@ -14,6 +15,8 @@ class MagicScissorsApp {
     this.authMgr = null;
     this.conciergeDashboard = null;
     this.currentGalleryFilter = "all";
+    this.stylePhotoUploader = null;
+    this.galleryTimeout = null;
     this.init();
   }
 
@@ -65,7 +68,7 @@ class MagicScissorsApp {
     });
   }
 
-  // Gallery System
+  // Gallery System with Skeletons & Empty States
   renderGallery() {
     const grid = document.getElementById("galleryGrid");
     const tabs = document.getElementById("galleryTabs");
@@ -101,31 +104,53 @@ class MagicScissorsApp {
     const grid = document.getElementById("galleryGrid");
     if (!grid) return;
 
-    const filtered = cat === "all"
-      ? SALON_DATA.salonViews
-      : SALON_DATA.salonViews.filter(v => v.category === cat);
+    if (this.galleryTimeout) clearTimeout(this.galleryTimeout);
 
-    grid.innerHTML = filtered.map(view => `
-      <div class="gallery-card" tabindex="0" role="button" aria-label="View photo of ${view.title}" data-img="${view.image}" data-title="${view.title}" data-desc="${view.caption}">
-        <img src="${view.image}" alt="${view.title}" class="gallery-img" loading="lazy">
-        <div class="gallery-overlay">
-          <span class="gallery-tag">${view.categoryName}</span>
-          <h4 class="gallery-title">${view.title}</h4>
-          <p class="gallery-desc">${view.caption}</p>
+    // 1. Show high-fidelity gallery skeletons
+    Skeleton.renderGalleryGrid(grid, 6);
+
+    // 2. Smooth transition to loaded cards
+    this.galleryTimeout = setTimeout(() => {
+      const filtered = cat === "all"
+        ? SALON_DATA.salonViews
+        : SALON_DATA.salonViews.filter(v => v.category === cat);
+
+      if (!filtered || filtered.length === 0) {
+        EmptyState.render(grid, {
+          icon: "🖼️",
+          title: "No Salon Views Available",
+          description: "All studio areas are available in the master ambient walkthrough tour.",
+          actionText: "Show All Salon Views",
+          onAction: () => {
+            const allBtn = document.getElementById("galleryTabs")?.querySelector('[data-gallery-cat="all"]');
+            allBtn?.click();
+          }
+        });
+        return;
+      }
+
+      grid.innerHTML = filtered.map(view => `
+        <div class="gallery-card" tabindex="0" role="button" aria-label="View photo of ${view.title}" data-img="${view.image}" data-title="${view.title}" data-desc="${view.caption}">
+          <img src="${view.image}" alt="${view.title}" class="gallery-img" loading="lazy" onerror="this.src='assets/images/salon_interior.jpg'">
+          <div class="gallery-overlay">
+            <span class="gallery-tag">${view.categoryName}</span>
+            <h4 class="gallery-title">${view.title}</h4>
+            <p class="gallery-desc">${view.caption}</p>
+          </div>
         </div>
-      </div>
-    `).join("");
+      `).join("");
 
-    grid.querySelectorAll(".gallery-card").forEach(card => {
-      const activate = () => this.openLightbox(card.dataset.img, card.dataset.title, card.dataset.desc, card);
-      card.addEventListener("click", activate);
-      card.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          activate();
-        }
+      grid.querySelectorAll(".gallery-card").forEach(card => {
+        const activate = () => this.openLightbox(card.dataset.img, card.dataset.title, card.dataset.desc, card);
+        card.addEventListener("click", activate);
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            activate();
+          }
+        });
       });
-    });
+    }, 160);
   }
 
   // Lightbox with Accessible Dialog & Focus Management
@@ -195,10 +220,30 @@ class MagicScissorsApp {
     const titleEl = lightbox.querySelector(".lightbox-title");
     const descEl = lightbox.querySelector(".lightbox-desc");
 
+    // Add high-resolution loading overlay if not present
+    let loadingOverlay = lightbox.querySelector(".lightbox-loading-overlay");
+    if (!loadingOverlay) {
+      loadingOverlay = document.createElement("div");
+      loadingOverlay.className = "lightbox-loading-overlay";
+      loadingOverlay.innerHTML = `
+        <span class="ms-spinner" style="width: 28px; height: 28px; border-width: 3px; border-top-color: #D49A7E;" aria-hidden="true"></span>
+        <span style="color: #FAF8F5; font-size: 0.85rem; font-family: var(--font-sans);">Loading high-resolution view...</span>
+      `;
+      const contentBox = lightbox.querySelector(".lightbox-content") || lightbox;
+      contentBox.style.position = "relative";
+      contentBox.appendChild(loadingOverlay);
+    }
+    loadingOverlay.classList.remove("loaded");
+
     if (imgEl) {
       imgEl.alt = title || "Magic Scissors Salon View";
+      imgEl.onload = () => {
+        if (loadingOverlay) loadingOverlay.classList.add("loaded");
+      };
       imgEl.onerror = () => {
+        if (loadingOverlay) loadingOverlay.classList.add("loaded");
         imgEl.src = "assets/images/salon_interior.jpg";
+        ToastManager.info("Preview loaded in standard resolution.");
       };
       imgEl.src = imgUrl;
     }
@@ -607,77 +652,70 @@ class MagicScissorsApp {
     });
   }
 
-  // Booking Form with Client Validation, Submitting State, Supabase & WhatsApp Auto-formatting
+  // Booking Form with Client Validation, Submitting State, Supabase, Photo Upload & WhatsApp Auto-formatting
   setupBookingForm() {
     const form = document.getElementById("appointmentForm");
     if (!form) return;
 
+    // Automatic Appointment Date Validation: Minimum date is today
+    const today = new Date().toISOString().split("T")[0];
+    if (form.bookingDate) {
+      form.bookingDate.min = today;
+    }
+
+    // Initialize Optional Hair / Style Inspiration Photo Uploader
+    const dropzoneContainer = document.getElementById("styleInspirationDropzone");
+    if (dropzoneContainer) {
+      this.stylePhotoUploader = StylePhotoUploader.init(dropzoneContainer);
+    }
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const name = form.clientName.value.trim();
-      const phone = form.clientPhone.value.trim();
-      const serviceId = form.bookingServiceSelect.value;
-      const date = form.bookingDate.value;
-      const time = form.bookingTime.value;
-      const notes = form.bookingNotes.value.trim();
+      // 1. Validate form fields
+      const validation = FormValidator.validateAppointmentForm(form);
+      if (!validation.isValid) {
+        ToastManager.warning("Please complete the required appointment details.");
+        return;
+      }
+
+      const { clientName, clientPhone, serviceId, preferredDate, timeSlot, notes } = validation.data;
       const submitBtn = form.querySelector('button[type="submit"]');
-
-      // Client validation
-      if (!name || name.length < 2) {
-        alert("Please enter your full name.");
-        form.clientName.focus();
-        return;
-      }
-
-      const cleanPhone = phone.replace(/[^0-9]/g, "");
-      if (cleanPhone.length < 10) {
-        alert("Please enter a valid 10-digit mobile number.");
-        form.clientPhone.focus();
-        return;
-      }
-
-      if (!serviceId) {
-        alert("Please select your preferred service.");
-        form.bookingServiceSelect.focus();
-        return;
-      }
-
-      if (!date) {
-        alert("Please select your preferred appointment date.");
-        form.bookingDate.focus();
-        return;
-      }
 
       const service = SALON_DATA.services.find(s => s.id === serviceId);
       const serviceName = service ? service.title : "Custom Consultation";
 
-      // Prevent duplicate submission & show loading
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span>⏳</span> Securing Your Appointment...`;
+      // Check for attached style photo
+      const attachedPhoto = this.stylePhotoUploader ? this.stylePhotoUploader.getFile() : null;
+      let finalNotes = notes;
+      if (attachedPhoto) {
+        finalNotes = finalNotes ? `${finalNotes} [Style Photo: ${attachedPhoto.name}]` : `[Style Photo: ${attachedPhoto.name}]`;
       }
 
+      // 2. Prevent duplicate submission & show loading
+      ButtonLoader.start(submitBtn, "Securing Your Appointment...");
+
       try {
-        // 1. Store appointment in Supabase database & local reactive store
+        // 3. Store appointment in Supabase database & local reactive store
         const record = await supabaseService.saveAppointment({
-          clientName: name,
-          clientPhone: phone,
+          clientName: clientName,
+          clientPhone: clientPhone,
           serviceId: serviceId,
           serviceName: serviceName,
-          preferredDate: date,
-          timeSlot: time,
-          notes: notes
+          preferredDate: preferredDate,
+          timeSlot: timeSlot,
+          notes: finalNotes
         });
 
-        // 2. Prepare structured WhatsApp message
+        // 4. Prepare structured WhatsApp message
         const message = `*Magic Scissors - New Appointment Request*%0A%0A` +
           `• *Booking Reference:* ${record.id}%0A` +
-          `• *Client Name:* ${encodeURIComponent(name)}%0A` +
-          `• *Contact Phone:* ${encodeURIComponent(phone)}%0A` +
+          `• *Client Name:* ${encodeURIComponent(clientName)}%0A` +
+          `• *Contact Phone:* ${encodeURIComponent(clientPhone)}%0A` +
           `• *Selected Service:* ${encodeURIComponent(serviceName)}%0A` +
-          `• *Preferred Date:* ${encodeURIComponent(date)}%0A` +
-          `• *Preferred Time:* ${encodeURIComponent(time)}%0A` +
+          `• *Preferred Date:* ${encodeURIComponent(preferredDate)}%0A` +
+          `• *Preferred Time:* ${encodeURIComponent(timeSlot)}%0A` +
+          (attachedPhoto ? `• *Inspiration Photo:* Attached (${encodeURIComponent(attachedPhoto.name)})%0A` : "") +
           (notes ? `• *Special Notes:* ${encodeURIComponent(notes)}%0A` : "") +
           `%0APlease confirm my appointment slot!`;
 
@@ -686,23 +724,36 @@ class MagicScissorsApp {
         // Open WhatsApp
         window.open(waUrl, "_blank");
 
-        // Show friendly confirmation feedback
+        // 5. Toast notification & inline success banner
+        ToastManager.success(`Appointment #${record.id} recorded! Syncing with salon desk.`, {
+          title: "Reservation Secured"
+        });
+
         const feedback = document.getElementById("bookingConfirmationMsg");
         if (feedback) {
           feedback.innerHTML = `✓ Appointment <strong>#${record.id}</strong> recorded! Our desk has prepared your WhatsApp confirmation ticket.`;
           feedback.style.display = "block";
           form.reset();
+          if (this.stylePhotoUploader) {
+            this.stylePhotoUploader.reset();
+          }
+          if (form.bookingDate) {
+            form.bookingDate.min = today;
+          }
           setTimeout(() => {
             feedback.style.display = "none";
           }, 9000);
         }
       } catch (err) {
-        alert("Could not process appointment. Please contact our desk directly at +91 99601 35849.");
+        console.error("Booking error:", err);
+        const classified = ErrorClassifier.classify(err);
+        ToastManager.error(classified.userMessage, {
+          title: "Booking Notice",
+          retryText: "Try Again",
+          onRetry: () => form.requestSubmit()
+        });
       } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = `Confirm Appointment & Sync via WhatsApp`;
-        }
+        ButtonLoader.stop(submitBtn);
       }
     });
   }
@@ -714,52 +765,47 @@ class MagicScissorsApp {
 
     fForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = fForm.fName?.value.trim() || "";
-      const phone = fForm.fPhone?.value.trim() || "";
-      const city = fForm.fCity?.value.trim() || "";
-      const model = fForm.fModel?.value || "Studio Boutique";
-      const notes = fForm.fNotes?.value.trim() || "";
+
+      const validation = FormValidator.validateFranchiseForm(fForm);
+      if (!validation.isValid) {
+        ToastManager.warning("Please verify your franchise inquiry details.");
+        return;
+      }
+
+      const { name, phone, city, model, notes } = validation.data;
       const submitBtn = fForm.querySelector('button[type="submit"]');
 
-      if (!name || name.length < 2) {
-        alert("Please enter your name.");
-        return;
-      }
-      if (phone.replace(/[^0-9]/g, "").length < 10) {
-        alert("Please enter a valid mobile number.");
-        return;
-      }
+      ButtonLoader.start(submitBtn, "Connecting with Franchise Desk...");
 
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Connecting with Franchise Desk...";
-      }
+      try {
+        const msg = `*Magic Scissors - Franchise Partnership Inquiry*%0A%0A` +
+          `• *Partner Name:* ${encodeURIComponent(name)}%0A` +
+          `• *Mobile:* ${encodeURIComponent(phone)}%0A` +
+          `• *Target City:* ${encodeURIComponent(city)}%0A` +
+          `• *Preferred Model:* ${encodeURIComponent(model)}%0A` +
+          (notes ? `• *Notes:* ${encodeURIComponent(notes)}%0A` : "") +
+          `%0APlease share the franchise disclosure and investment prospectus!`;
 
-      const msg = `*Magic Scissors - Franchise Partnership Inquiry*%0A%0A` +
-        `• *Partner Name:* ${encodeURIComponent(name)}%0A` +
-        `• *Mobile:* ${encodeURIComponent(phone)}%0A` +
-        `• *Target City:* ${encodeURIComponent(city)}%0A` +
-        `• *Preferred Model:* ${encodeURIComponent(model)}%0A` +
-        (notes ? `• *Notes:* ${encodeURIComponent(notes)}%0A` : "") +
-        `%0APlease share the franchise disclosure and investment prospectus!`;
+        window.open(`https://wa.me/${SALON_DATA.brand.whatsappClean}?text=${msg}`, "_blank");
 
-      window.open(`https://wa.me/${SALON_DATA.brand.whatsappClean}?text=${msg}`, "_blank");
+        ToastManager.success("Franchise inquiry prepared! Connecting to franchise desk.");
 
-      const msgBox = document.getElementById("franchiseConfirmMsg");
-      if (msgBox) {
-        msgBox.style.display = "block";
-        fForm.reset();
-        setTimeout(() => {
-          msgBox.style.display = "none";
-        }, 9000);
-      }
-
-      setTimeout(() => {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Submit Franchise Inquiry via WhatsApp";
+        const msgBox = document.getElementById("franchiseConfirmMsg");
+        if (msgBox) {
+          msgBox.style.display = "block";
+          fForm.reset();
+          setTimeout(() => {
+            msgBox.style.display = "none";
+          }, 9000);
         }
-      }, 1500);
+      } catch (err) {
+        const classified = ErrorClassifier.classify(err);
+        ToastManager.error(classified.userMessage);
+      } finally {
+        setTimeout(() => {
+          ButtonLoader.stop(submitBtn);
+        }, 600);
+      }
     });
   }
 }

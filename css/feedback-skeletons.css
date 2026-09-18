@@ -1,0 +1,707 @@
+/* ==========================================================================
+   MAGIC SCISSORS - UNIFIED FEEDBACK, LOADING SKELETONS & ERROR SYSTEM
+   Adheres strictly to the Magic Scissors luxury aesthetic tokens.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Keyframes: Shimmer, Spinners, Fade & Micro-Interactions
+   -------------------------------------------------------------------------- */
+@keyframes ms-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes ms-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ms-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ms-toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ms-pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Accessible Reduced Motion Override
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .ms-shimmer,
+  .ms-skeleton,
+  .ms-skeleton-box,
+  .ms-skeleton-text,
+  .ms-skeleton-title,
+  .ms-skeleton-circle,
+  .ms-skeleton-btn {
+    animation: none !important;
+    background: #EDE8E2 !important;
+  }
+
+  .ms-spinner {
+    animation-duration: 2s !important;
+  }
+
+  .ms-toast {
+    animation: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Luxury Spinners & Button Loading States
+   -------------------------------------------------------------------------- */
+.ms-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(184, 107, 73, 0.25);
+  border-top-color: #B86B49;
+  border-radius: 50%;
+  animation: ms-spin 0.75s linear infinite;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.btn-gold .ms-spinner {
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: #FFFFFF;
+}
+
+.btn-outline-gold .ms-spinner {
+  border-color: rgba(184, 107, 73, 0.25);
+  border-top-color: var(--accent-primary, #B86B49);
+}
+
+.btn-glass .ms-spinner {
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: #D49A7E;
+}
+
+/* Button Loading State: Preserves exact layout dimensions (Zero CLS) */
+.btn.is-loading {
+  position: relative;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+  opacity: 0.88;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+
+.btn.is-loading .btn-loading-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   4. Base Skeletons (Light & Dark Themes)
+   -------------------------------------------------------------------------- */
+.ms-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(184, 107, 73, 0.08) 0%,
+    rgba(212, 154, 126, 0.22) 50%,
+    rgba(184, 107, 73, 0.08) 100%
+  );
+  background-size: 200% 100%;
+  animation: ms-shimmer 1.8s ease-in-out infinite;
+  border-radius: var(--radius-sm, 8px);
+}
+
+/* Dark theme skeleton (used in concierge drawer and dark cards) */
+.concierge-drawer .ms-skeleton,
+.dark-theme .ms-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(200, 109, 74, 0.16) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: ms-shimmer 1.8s ease-in-out infinite;
+}
+
+.ms-skeleton-box {
+  width: 100%;
+  height: 100%;
+  min-height: 18px;
+}
+
+.ms-skeleton-text {
+  height: 13px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.ms-skeleton-text.short {
+  width: 55%;
+}
+
+.ms-skeleton-text.medium {
+  width: 78%;
+}
+
+.ms-skeleton-title {
+  height: 22px;
+  width: 70%;
+  margin-bottom: 12px;
+  border-radius: 6px;
+}
+
+.ms-skeleton-circle {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ms-skeleton-btn {
+  height: 38px;
+  width: 140px;
+  border-radius: var(--radius-full, 9999px);
+}
+
+/* --------------------------------------------------------------------------
+   5. Component-Specific Skeletons
+   -------------------------------------------------------------------------- */
+
+/* Service Card Skeleton */
+.service-card-skeleton {
+  background: #FFFFFF;
+  border: 1px solid rgba(184, 107, 73, 0.14);
+  border-radius: var(--radius-md, 14px);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card-skeleton .skeleton-media {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 190px;
+  position: relative;
+}
+
+.service-card-skeleton .skeleton-body {
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.service-card-skeleton .skeleton-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(184, 107, 73, 0.08);
+}
+
+/* Gallery Card Skeleton */
+.gallery-card-skeleton {
+  border-radius: var(--radius-md, 14px);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  position: relative;
+  border: 1px solid rgba(184, 107, 73, 0.12);
+}
+
+.gallery-card-skeleton .skeleton-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(21, 23, 28, 0.75), transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Appointment Card Skeleton (Concierge Desk & VIP Profile) */
+.appointment-card-skeleton {
+  padding: 18px;
+  border-radius: var(--radius-sm, 8px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.appointment-card-skeleton.light-mode {
+  background: #FFFFFF;
+  border: 1px solid rgba(184, 107, 73, 0.16);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.appointment-card-skeleton .skeleton-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.appointment-card-skeleton .skeleton-details-box {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm, 8px);
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.appointment-card-skeleton.light-mode .skeleton-details-box {
+  background: #FAF8F5;
+}
+
+.appointment-card-skeleton .skeleton-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* Concierge Metrics Skeleton */
+.metrics-strip-skeleton {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.metric-card-skeleton {
+  padding: 14px;
+  border-radius: var(--radius-sm, 8px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Profile View Skeleton */
+.profile-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.profile-skeleton-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   6. Form Validation & Inline Error Feedback
+   -------------------------------------------------------------------------- */
+.luxury-form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.luxury-input.input-invalid,
+.luxury-select.input-invalid,
+.luxury-textarea.input-invalid {
+  border-color: #DC2626 !important;
+  background: #FFFDFD !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important;
+}
+
+.field-error-msg {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #DC2626;
+  margin-top: 6px;
+  line-height: 1.35;
+  animation: ms-fade-in 0.2s ease-out;
+}
+
+.field-error-msg.active {
+  display: flex;
+}
+
+.field-error-msg svg {
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   7. Reusable Empty State Component
+   -------------------------------------------------------------------------- */
+.ms-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(32px, 5vw, 56px) 24px;
+  border-radius: var(--radius-md, 14px);
+  background: rgba(250, 248, 245, 0.85);
+  border: 1px dashed rgba(184, 107, 73, 0.28);
+  margin: 12px 0;
+  width: 100%;
+}
+
+.concierge-drawer .ms-empty-state,
+.dark-theme .ms-empty-state {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.ms-empty-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(184, 107, 73, 0.1);
+  border: 1px solid rgba(184, 107, 73, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--accent-primary, #B86B49);
+  margin-bottom: 16px;
+}
+
+.concierge-drawer .ms-empty-icon {
+  background: rgba(200, 109, 74, 0.15);
+  border-color: rgba(200, 109, 74, 0.3);
+  color: #D49A7E;
+}
+
+.ms-empty-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary, #15171C);
+  margin-bottom: 6px;
+}
+
+.concierge-drawer .ms-empty-title {
+  color: #FFFFFF;
+}
+
+.ms-empty-desc {
+  font-size: 0.86rem;
+  color: var(--text-muted, #7A808C);
+  max-width: 360px;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Accessible Toast System (ToastManager)
+   -------------------------------------------------------------------------- */
+#msToastContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 420px;
+  width: calc(100% - 48px);
+  pointer-events: none;
+}
+
+.ms-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm, 8px);
+  background: #FFFFFF;
+  color: #15171C;
+  box-shadow: 0 10px 32px rgba(21, 23, 28, 0.16), 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(184, 107, 73, 0.22);
+  border-left: 4px solid var(--accent-primary, #B86B49);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  animation: ms-toast-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s ease;
+}
+
+.ms-toast.toast-success {
+  border-left-color: #10B981;
+}
+
+.ms-toast.toast-error {
+  border-left-color: #DC2626;
+}
+
+.ms-toast.toast-warning {
+  border-left-color: #F59E0B;
+}
+
+.ms-toast.toast-info {
+  border-left-color: #B86B49;
+}
+
+.ms-toast-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ms-toast-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ms-toast-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #15171C;
+}
+
+.ms-toast-message {
+  color: #4A4E58;
+  font-size: 0.83rem;
+}
+
+.ms-toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.toast-retry-btn {
+  background: none;
+  border: 1px solid #DC2626;
+  color: #DC2626;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.2s);
+}
+
+.toast-retry-btn:hover {
+  background: #DC2626;
+  color: #FFFFFF;
+}
+
+.toast-close-btn {
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.toast-close-btn:hover {
+  color: #15171C;
+}
+
+/* --------------------------------------------------------------------------
+   9. Style / Hair Inspiration Photo Upload Area
+   -------------------------------------------------------------------------- */
+.style-upload-box {
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.style-upload-dropzone {
+  border: 2px dashed rgba(184, 107, 73, 0.32);
+  border-radius: 12px;
+  padding: 20px 16px;
+  background: #FAF8F5;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.2s);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.style-upload-dropzone:hover,
+.style-upload-dropzone.is-dragover {
+  border-color: #B86B49;
+  background: #FFFFFF;
+  box-shadow: 0 4px 18px rgba(184, 107, 73, 0.12);
+}
+
+.style-upload-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #B86B49;
+  transition: transform 0.2s ease;
+}
+
+.style-upload-dropzone:hover .style-upload-icon {
+  transform: translateY(-2px);
+}
+
+.style-upload-prompt {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #15171C;
+}
+
+.style-upload-hint {
+  font-size: 0.76rem;
+  color: #7A808C;
+}
+
+/* Upload Preview State */
+.style-upload-preview {
+  display: none;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  border: 1px solid rgba(184, 107, 73, 0.28);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.style-upload-thumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(184, 107, 73, 0.2);
+  flex-shrink: 0;
+}
+
+.style-upload-meta {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.style-upload-filename {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #15171C;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.style-upload-filesize {
+  font-size: 0.75rem;
+  color: #7A808C;
+  margin-top: 2px;
+}
+
+.style-upload-remove-btn {
+  background: none;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #DC2626;
+  font-size: 0.78rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.style-upload-remove-btn:hover {
+  background: #DC2626;
+  color: #FFFFFF;
+}
+
+/* Upload Processing Skeleton */
+.upload-processing-box {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #FAF8F5;
+  border: 1px solid rgba(184, 107, 73, 0.2);
+  border-radius: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   10. Image Card Skeleton for Lightbox & Gallery
+   -------------------------------------------------------------------------- */
+.lightbox-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(13, 16, 23, 0.7);
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-loading-overlay.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 640px) {
+  #msToastContainer {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-width: none;
+  }
+
+  .metrics-strip-skeleton {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

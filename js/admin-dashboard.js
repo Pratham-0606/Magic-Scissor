@@ -3,6 +3,7 @@
  * Real-time appointment tracker, status management, and WhatsApp sync
  */
 import { supabaseService } from './supabase-client.js';
+import { ButtonLoader, ToastManager, Skeleton, EmptyState, ErrorClassifier } from './ui-feedback.js';
 
 export class ConciergeDashboard {
   constructor() {
@@ -54,9 +55,10 @@ export class ConciergeDashboard {
     if (code === "1234" || code.toLowerCase() === "admin" || code.toLowerCase() === "magicscissors") {
       sessionStorage.setItem("ms_admin_auth", "true");
       this.updateVisibility();
+      ToastManager.success("Staff Concierge Desk unlocked.");
       return true;
     } else {
-      alert("Access Denied: Incorrect staff passcode.");
+      ToastManager.error("Access Denied: Incorrect staff passcode.");
       return false;
     }
   }
@@ -134,8 +136,8 @@ export class ConciergeDashboard {
           <p style="font-size: 0.8rem; color: var(--text-muted);">${connStatus.mode} • Privileged Staff Desk</p>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <button id="conciergeLockBtn" class="btn btn-glass" style="padding: 6px 12px; font-size: 0.75rem; border-color: rgba(255,255,255,0.2);" title="Lock and exit staff mode">🔒 Lock</button>
-          <button id="conciergeCloseBtn" class="modal-close-btn" style="position: static;" aria-label="Close Staff Desk">✕</button>
+          <button id="conciergeLockBtn" type="button" class="btn btn-glass" style="padding: 6px 12px; font-size: 0.75rem; border-color: rgba(255,255,255,0.2);" title="Lock and exit staff mode">🔒 Lock</button>
+          <button id="conciergeCloseBtn" type="button" class="modal-close-btn" style="position: static;" aria-label="Close Staff Desk">✕</button>
         </div>
       </div>
 
@@ -161,16 +163,21 @@ export class ConciergeDashboard {
 
       <!-- Filter Buttons -->
       <div style="display: flex; gap: 8px; margin-bottom: 20px;">
-        <button class="btn ${this.filterStatus === 'all' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="all" style="padding: 6px 14px; font-size: 0.8rem;">All (${appointments.length})</button>
-        <button class="btn ${this.filterStatus === 'pending' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="pending" style="padding: 6px 14px; font-size: 0.8rem;">Pending</button>
-        <button class="btn ${this.filterStatus === 'confirmed' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="confirmed" style="padding: 6px 14px; font-size: 0.8rem;">Confirmed</button>
+        <button type="button" class="btn ${this.filterStatus === 'all' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="all" style="padding: 6px 14px; font-size: 0.8rem;">All (${appointments.length})</button>
+        <button type="button" class="btn ${this.filterStatus === 'pending' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="pending" style="padding: 6px 14px; font-size: 0.8rem;">Pending</button>
+        <button type="button" class="btn ${this.filterStatus === 'confirmed' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="confirmed" style="padding: 6px 14px; font-size: 0.8rem;">Confirmed</button>
       </div>
 
-      <!-- Appointments List -->
-      <div style="display: flex; flex-direction: column; gap: 14px; max-height: calc(85vh - 280px); overflow-y: auto; padding-right: 6px;">
+      <!-- Appointments List Container -->
+      <div id="conciergeAptList" style="display: flex; flex-direction: column; gap: 14px; max-height: calc(85vh - 280px); overflow-y: auto; padding-right: 6px;">
         ${filtered.length === 0 ? `
-          <div style="padding: 30px; text-align: center; color: var(--text-muted); background: rgba(255,255,255,0.03); border-radius: var(--radius-md);">
-            No appointments matching this filter.
+          <div class="ms-empty-state" style="margin: 10px 0;">
+            <div class="ms-empty-icon" style="font-size: 1.3rem;">📋</div>
+            <h4 class="ms-empty-title">No appointments matching "${this.filterStatus.toUpperCase()}"</h4>
+            <p class="ms-empty-desc">There are no client bookings currently in this queue.</p>
+            <button type="button" id="conciergeResetFilterBtn" class="btn btn-outline-gold" style="padding: 6px 16px; font-size: 0.8rem;">
+              Show All Appointments
+            </button>
           </div>
         ` : filtered.map(apt => {
           const cleanPhone = apt.client_phone.replace(/[^0-9]/g, '');
@@ -209,13 +216,13 @@ export class ConciergeDashboard {
                 </a>
 
                 ${apt.status === 'pending' ? `
-                  <button class="btn btn-outline-gold status-change-btn" data-id="${apt.id}" data-new-status="confirmed" style="padding: 6px 14px; font-size: 0.78rem;">
+                  <button type="button" class="btn btn-outline-gold status-change-btn" data-id="${apt.id}" data-new-status="confirmed" style="padding: 6px 14px; font-size: 0.78rem;">
                     ✓ Mark Confirmed
                   </button>
                 ` : ''}
 
                 ${apt.status === 'confirmed' ? `
-                  <button class="btn btn-glass status-change-btn" data-id="${apt.id}" data-new-status="completed" style="padding: 6px 14px; font-size: 0.78rem;">
+                  <button type="button" class="btn btn-glass status-change-btn" data-id="${apt.id}" data-new-status="completed" style="padding: 6px 14px; font-size: 0.78rem;">
                     ★ Mark Completed
                   </button>
                 ` : ''}
@@ -232,20 +239,20 @@ export class ConciergeDashboard {
             ${supabaseService.isConfigured ? '● Connected to Supabase Cloud' : '● Reactive Offline-First Mode'}
           </strong>
         </span>
-        <button id="toggleSupabaseSettingsBtn" style="background: none; border: none; color: var(--gold-light); font-size: 0.78rem; cursor: pointer; text-decoration: underline;">
+        <button id="toggleSupabaseSettingsBtn" type="button" style="background: none; border: none; color: var(--gold-light); font-size: 0.78rem; cursor: pointer; text-decoration: underline;">
           Configure Supabase Keys
         </button>
       </div>
 
       <!-- Config Inputs (Collapsible) -->
       <div id="supabaseConfigBox" style="display: none; margin-top: 15px; padding: 14px; background: rgba(0,0,0,0.5); border-radius: var(--radius-sm); border: 1px solid var(--gold-border);">
-        <label style="font-size: 0.78rem; color: var(--gold-light);">Supabase Project URL</label>
+        <label for="cfgSupabaseUrl" style="font-size: 0.78rem; color: var(--gold-light); display: block;">Supabase Project URL</label>
         <input type="text" id="cfgSupabaseUrl" placeholder="https://xyzcompany.supabase.co" style="width: 100%; padding: 8px 12px; margin: 4px 0 10px; background: #111; border: 1px solid #333; color: #fff; border-radius: 4px; font-size: 0.8rem;">
         
-        <label style="font-size: 0.78rem; color: var(--gold-light);">Supabase Anon Public Key</label>
+        <label for="cfgSupabaseKey" style="font-size: 0.78rem; color: var(--gold-light); display: block;">Supabase Anon Public Key</label>
         <input type="text" id="cfgSupabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="width: 100%; padding: 8px 12px; margin: 4px 0 10px; background: #111; border: 1px solid #333; color: #fff; border-radius: 4px; font-size: 0.8rem;">
         
-        <button id="saveSupabaseKeysBtn" class="btn btn-gold" style="width: 100%; padding: 8px; font-size: 0.82rem;">
+        <button type="button" id="saveSupabaseKeysBtn" class="btn btn-gold" style="width: 100%; padding: 8px; font-size: 0.82rem;">
           Save & Connect Supabase
         </button>
       </div>
@@ -257,20 +264,54 @@ export class ConciergeDashboard {
       sessionStorage.removeItem("ms_admin_auth");
       this.close();
       this.updateVisibility();
+      ToastManager.info("Concierge Desk locked.");
     });
 
+    container.querySelector("#conciergeResetFilterBtn")?.addEventListener("click", () => {
+      this.filterStatus = "all";
+      this.render(appointments);
+    });
+
+    // Filter switching with skeleton loading
     container.querySelectorAll(".filter-btn").forEach(btn => {
       btn.addEventListener("click", (e) => {
-        this.filterStatus = e.currentTarget.dataset.status;
-        this.render(appointments);
+        const newStatus = e.currentTarget.dataset.status;
+        this.filterStatus = newStatus;
+        
+        const listEl = container.querySelector("#conciergeAptList");
+        if (listEl) {
+          Skeleton.renderAppointmentList(listEl, 3);
+          setTimeout(() => {
+            this.render(appointments);
+          }, 150);
+        } else {
+          this.render(appointments);
+        }
       });
     });
 
+    // Individual button loading states for status changes
     container.querySelectorAll(".status-change-btn").forEach(btn => {
       btn.addEventListener("click", async (e) => {
-        const id = e.currentTarget.dataset.id;
-        const newStatus = e.currentTarget.dataset.newStatus;
-        await supabaseService.updateAppointmentStatus(id, newStatus);
+        const targetBtn = e.currentTarget;
+        const id = targetBtn.dataset.id;
+        const newStatus = targetBtn.dataset.newStatus;
+        const loadingText = newStatus === "confirmed" ? "Confirming..." : "Completing...";
+
+        ButtonLoader.start(targetBtn, loadingText);
+
+        try {
+          await supabaseService.updateAppointmentStatus(id, newStatus);
+          ToastManager.success(`Appointment #${id} marked as ${newStatus.toUpperCase()}.`);
+        } catch (err) {
+          const classified = ErrorClassifier.classify(err);
+          ToastManager.error(classified.userMessage, {
+            retryText: "Retry",
+            onRetry: () => targetBtn.click()
+          });
+        } finally {
+          ButtonLoader.stop(targetBtn);
+        }
       });
     });
 
@@ -287,11 +328,22 @@ export class ConciergeDashboard {
       saveBtn.addEventListener("click", () => {
         const url = container.querySelector("#cfgSupabaseUrl").value.trim();
         const key = container.querySelector("#cfgSupabaseKey").value.trim();
-        if (url && key) {
-          supabaseService.setCredentials(url, key);
-          alert("✓ Supabase credentials saved! Connecting to cloud database.");
-          this.render(supabaseService.getLocalAppointments());
+        if (!url || !url.startsWith("http")) {
+          ToastManager.error("Please enter a valid Supabase Project URL starting with https://");
+          return;
         }
+        if (!key || key.length < 20) {
+          ToastManager.error("Please enter a valid Supabase Anon Public Key.");
+          return;
+        }
+
+        ButtonLoader.start(saveBtn, "Connecting to Cloud...");
+        setTimeout(() => {
+          supabaseService.setCredentials(url, key);
+          ButtonLoader.stop(saveBtn);
+          ToastManager.success("Supabase credentials configured successfully! Real-time connected.");
+          this.render(supabaseService.getLocalAppointments());
+        }, 400);
       });
     }
   }

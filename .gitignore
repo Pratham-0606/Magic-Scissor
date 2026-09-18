@@ -11,6 +11,9 @@ dist/
 .env
 .env.local
 
+# Scratch & test scripts
+scratch/
+
 # OS files
 Thumbs.db
 .DS_Store

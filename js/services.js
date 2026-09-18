@@ -2,6 +2,7 @@
  * Magic Scissors - Interactive Services & Service Modal Controller
  */
 import { SALON_DATA } from './data/salon-data.js';
+import { Skeleton, EmptyState, ToastManager } from './ui-feedback.js';
 
 export class ServicesManager {
   constructor() {
@@ -10,6 +11,7 @@ export class ServicesManager {
     this.modalOverlay = document.getElementById("serviceModalOverlay");
     this.currentCategory = "all";
     this.lastFocusedElement = null;
+    this.renderTimeout = null;
 
     this.init();
   }
@@ -43,7 +45,7 @@ export class ServicesManager {
     const tabs = Array.from(this.tabsContainer.querySelectorAll(".service-tab-btn"));
 
     tabs.forEach((btn, idx) => {
-      btn.addEventListener("click", (e) => {
+      btn.addEventListener("click", () => {
         this.selectTab(btn.dataset.category, btn);
       });
 
@@ -65,14 +67,18 @@ export class ServicesManager {
   }
 
   selectTab(cat, tabBtn) {
-    this.tabsContainer.querySelectorAll(".service-tab-btn").forEach(b => {
-      b.classList.remove("active");
-      b.setAttribute("aria-selected", "false");
-      b.setAttribute("tabindex", "-1");
-    });
-    tabBtn.classList.add("active");
-    tabBtn.setAttribute("aria-selected", "true");
-    tabBtn.setAttribute("tabindex", "0");
+    if (this.tabsContainer) {
+      this.tabsContainer.querySelectorAll(".service-tab-btn").forEach(b => {
+        b.classList.remove("active");
+        b.setAttribute("aria-selected", "false");
+        b.setAttribute("tabindex", "-1");
+      });
+      if (tabBtn) {
+        tabBtn.classList.add("active");
+        tabBtn.setAttribute("aria-selected", "true");
+        tabBtn.setAttribute("tabindex", "0");
+      }
+    }
     this.currentCategory = cat;
     this.renderServices(cat);
   }
@@ -80,42 +86,79 @@ export class ServicesManager {
   renderServices(category) {
     if (!this.servicesContainer) return;
 
-    const filtered = category === "all" 
-      ? SALON_DATA.services 
-      : SALON_DATA.services.filter(s => s.category === category);
+    if (this.renderTimeout) clearTimeout(this.renderTimeout);
 
-    this.servicesContainer.innerHTML = filtered.map(item => `
-      <article class="service-card glass-card" data-service-id="${item.id}">
-        <div class="service-card-media">
-          <img src="${item.image}" alt="${item.title}" class="service-card-img" loading="lazy">
-          <span class="service-card-tag">${item.tag}</span>
-        </div>
-        <div class="service-card-body">
-          <h3 class="service-card-title">${item.title}</h3>
-          <p class="service-card-desc">${item.shortDesc}</p>
-          <div class="service-meta-row">
-            <span class="service-duration">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              ${item.duration}
-            </span>
-            <button class="btn btn-outline-gold btn-sm view-service-btn" style="padding: 8px 18px; font-size: 0.82rem;" data-service-id="${item.id}">
-              View Details & Book
-            </button>
-          </div>
-        </div>
-      </article>
-    `).join("");
+    // 1. Show high-fidelity skeletons matching service cards
+    Skeleton.renderServiceGrid(this.servicesContainer, 6);
 
-    // Attach click listeners on cards & buttons
-    this.servicesContainer.querySelectorAll(".service-card").forEach(card => {
-      card.addEventListener("click", (e) => {
-        const serviceId = card.dataset.serviceId;
-        this.openServiceModal(serviceId, e.currentTarget);
-      });
-    });
+    // 2. Smooth transition into content
+    this.renderTimeout = setTimeout(() => {
+      try {
+        const filtered = category === "all" 
+          ? SALON_DATA.services 
+          : SALON_DATA.services.filter(s => s.category === category);
+
+        if (!filtered || filtered.length === 0) {
+          EmptyState.render(this.servicesContainer, {
+            icon: "✂️",
+            title: "No Services in this Category",
+            description: "We are continually curating specialized rituals. Please explore our full menu of luxury services.",
+            actionText: "View All Salon Services",
+            onAction: () => {
+              const allTab = this.tabsContainer?.querySelector('[data-category="all"]');
+              this.selectTab("all", allTab);
+            }
+          });
+          return;
+        }
+
+        this.servicesContainer.innerHTML = filtered.map(item => `
+          <article class="service-card glass-card" data-service-id="${item.id}">
+            <div class="service-card-media">
+              <img src="${item.image}" alt="${item.title}" class="service-card-img" loading="lazy" onerror="this.src='assets/images/salon_hair_styling.jpg'">
+              <span class="service-card-tag">${item.tag}</span>
+            </div>
+            <div class="service-card-body">
+              <h3 class="service-card-title">${item.title}</h3>
+              <p class="service-card-desc">${item.shortDesc}</p>
+              <div class="service-meta-row">
+                <span class="service-duration">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  ${item.duration}
+                </span>
+                <button class="btn btn-outline-gold btn-sm view-service-btn" style="padding: 8px 18px; font-size: 0.82rem;" data-service-id="${item.id}">
+                  View Details & Book
+                </button>
+              </div>
+            </div>
+          </article>
+        `).join("");
+
+        // Attach click listeners on cards & buttons
+        this.servicesContainer.querySelectorAll(".service-card").forEach(card => {
+          card.addEventListener("click", (e) => {
+            const serviceId = card.dataset.serviceId;
+            this.openServiceModal(serviceId, e.currentTarget);
+          });
+        });
+      } catch (err) {
+        console.error("Error loading services:", err);
+        EmptyState.render(this.servicesContainer, {
+          icon: "⚠️",
+          title: "Unable to Load Services",
+          description: "Something went wrong while loading salon services. Please try again.",
+          actionText: "Try Again",
+          onAction: () => this.renderServices(this.currentCategory)
+        });
+        ToastManager.error("Something went wrong while loading services.", {
+          retryText: "Try Again",
+          onRetry: () => this.renderServices(this.currentCategory)
+        });
+      }
+    }, 180);
   }
 
   openServiceModal(serviceId, triggerEl = null) {

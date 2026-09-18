@@ -264,30 +264,28 @@ class SupabaseService {
   async signUpUser(name, email, phone, password) {
     // If Supabase Auth is configured
     if (this.isConfigured && this.client) {
-      try {
-        const { data, error } = await this.client.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { full_name: name, phone: phone }
-          }
-        });
-        if (error) throw error;
-        if (data?.user) {
-          const profile = {
-            id: data.user.id,
-            name,
-            email,
-            phone,
-            vip_tier: "Studio Elite Member",
-            loyalty_points: 250,
-            joined_date: new Date().toISOString()
-          };
-          localStorage.setItem("ms_current_user", JSON.stringify(profile));
-          return { success: true, user: profile };
+      const { data, error } = await this.client.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: name, phone: phone }
         }
-      } catch (err) {
-        console.warn("Supabase Auth sign up notice, falling back to local account:", err.message);
+      });
+      if (error) {
+        throw new Error(error.message || "Unable to create account. Please check your credentials.");
+      }
+      if (data?.user) {
+        const profile = {
+          id: data.user.id,
+          name,
+          email,
+          phone,
+          vip_tier: "Studio Elite Member",
+          loyalty_points: 250,
+          joined_date: new Date().toISOString()
+        };
+        localStorage.setItem("ms_current_user", JSON.stringify(profile));
+        return { success: true, user: profile };
       }
     }
 
@@ -307,24 +305,22 @@ class SupabaseService {
 
   async signInUser(email, password) {
     if (this.isConfigured && this.client) {
-      try {
-        const { data, error } = await this.client.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        if (data?.user) {
-          const profile = {
-            id: data.user.id,
-            name: data.user.user_metadata?.full_name || email.split('@')[0],
-            email: data.user.email,
-            phone: data.user.user_metadata?.phone || '+91 98000 00000',
-            vip_tier: "Platinum VIP Member",
-            loyalty_points: 620,
-            joined_date: data.user.created_at
-          };
-          localStorage.setItem("ms_current_user", JSON.stringify(profile));
-          return { success: true, user: profile };
-        }
-      } catch (err) {
-        console.warn("Supabase Auth sign in notice, using stored profile:", err.message);
+      const { data, error } = await this.client.auth.signInWithPassword({ email, password });
+      if (error) {
+        throw new Error(error.message || "Invalid login credentials.");
+      }
+      if (data?.user) {
+        const profile = {
+          id: data.user.id,
+          name: data.user.user_metadata?.full_name || email.split('@')[0],
+          email: data.user.email,
+          phone: data.user.user_metadata?.phone || '+91 98000 00000',
+          vip_tier: "Platinum VIP Member",
+          loyalty_points: 620,
+          joined_date: data.user.created_at
+        };
+        localStorage.setItem("ms_current_user", JSON.stringify(profile));
+        return { success: true, user: profile };
       }
     }
 

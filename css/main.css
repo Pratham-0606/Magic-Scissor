@@ -1,6 +1,7 @@
 /* ==========================================================================
    MAGIC SCISSORS - LUXURY DESIGN SYSTEM & CORE STYLES
    ========================================================================== */
+@import './feedback-skeletons.css';
 
 :root {
   /* Warm Luxury Aesthetic Palette: Warm Alabaster Silk, Champagne Terracotta Bronze, Deep Noir Charcoal */
