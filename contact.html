@@ -289,7 +289,7 @@
   <!-- ========================================================================
        LOCATION MAP & DIRECTIONS EMBED SECTION
        ======================================================================== -->
-  <section class="section-padding" style="background: var(--bg-secondary); border-top: 1px solid rgba(184, 107, 73, 0.15); border-bottom: 1px solid rgba(184, 107, 73, 0.15); padding-top: 40px;">
+  <section class="section-padding studio-location-section" style="background: var(--bg-secondary); border-top: 1px solid rgba(184, 107, 73, 0.15); border-bottom: 1px solid rgba(184, 107, 73, 0.15);">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Studio <span class="accent-text">Location & Directions</span></h2>
@@ -298,25 +298,25 @@
         </p>
       </div>
 
-      <div style="border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(184, 107, 73, 0.20); background: #FFFFFF; box-shadow: 0 16px 45px rgba(0,0,0,0.05); position: relative;">
-        <!-- Interactive stylized map graphic / frame -->
-        <div style="width: 100%; height: 360px; background: linear-gradient(135deg, #FFFFFF, #FAF8F5); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; position: relative; overflow: hidden;">
-          <div style="position: absolute; inset: 0; opacity: 0.15; background-image: radial-gradient(#B86B49 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
+      <div class="studio-location-card">
+        <!-- Interactive stylized map showcase card -->
+        <div class="studio-location-inner">
+          <div class="studio-location-pattern"></div>
           
-          <div style="width: 68px; height: 68px; border-radius: 50%; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 30px rgba(184, 107, 73, 0.35); margin-bottom: 16px; position: relative; z-index: 2;">
+          <div class="studio-location-icon">
             ✂️
           </div>
-          <h3 class="font-serif" style="font-size: 1.8rem; color: var(--text-primary); margin-bottom: 6px; position: relative; z-index: 2;">
+          <h3 class="studio-location-title font-serif">
             Magic Scissors Studio Salons
           </h3>
-          <p style="color: var(--text-secondary); font-size: 0.95rem; max-width: 500px; margin-bottom: 20px; position: relative; z-index: 2;">
+          <p class="studio-location-address">
             Shop No 1, near Gayatri Medical, Trimurti Chowk, Cidco, Durganagar, Nashik, Maharashtra 422008
           </p>
-          <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 2;">
-            <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" class="btn btn-maps" style="padding: 10px 24px;">
+          <div class="studio-location-actions">
+            <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" rel="noopener noreferrer" class="btn btn-maps">
               Get Directions
             </a>
-            <a href="tel:+919960135849" class="btn btn-call" style="padding: 10px 24px;">
+            <a href="tel:+919960135849" class="btn btn-call">
               Call Front Desk
             </a>
           </div>

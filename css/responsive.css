@@ -708,6 +708,58 @@
     border-radius: 16px;
   }
 
+  /* Studio Location Card (Map/Directions Showcase Box) */
+  .studio-location-section {
+    padding: clamp(36px, 6vw, 55px) 0;
+  }
+
+  .studio-location-card {
+    margin: 0 4px;
+    border-radius: var(--radius-md);
+  }
+
+  .studio-location-inner {
+    padding: 34px 18px 36px;
+    min-height: auto;
+  }
+
+  .studio-location-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+
+  .studio-location-title {
+    font-size: clamp(1.3rem, 5vw, 1.6rem);
+    margin-bottom: 8px;
+  }
+
+  .studio-location-address {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin-bottom: 22px;
+    padding: 0 4px;
+  }
+
+  .studio-location-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    gap: 11px;
+    margin: 0 auto;
+  }
+
+  .studio-location-actions .btn {
+    width: 100%;
+    padding: 13px 20px;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+
   .luxury-form-grid {
     grid-template-columns: 1fr;
     gap: 14px;
