@@ -132,8 +132,8 @@ export class ConciergeDashboard {
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
         <div>
           <span class="badge-gold">${connStatus.isConfigured ? '🟢 Supabase Cloud Live' : '🟠 Offline Reactive Mode'}</span>
-          <h2 class="font-serif gold-text" style="font-size: 1.6rem; margin: 4px 0 2px;">Concierge Live Desk</h2>
-          <p style="font-size: 0.8rem; color: var(--text-muted);">${connStatus.mode} • Privileged Staff Desk</p>
+          <h2 class="font-serif gold-text" style="font-size: 1.6rem; margin: 4px 0 2px;">Concierge Desk</h2>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">${connStatus.mode} • Front Desk Management</p>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <button id="conciergeLockBtn" type="button" class="btn btn-glass" style="padding: 6px 12px; font-size: 0.75rem; border-color: rgba(255,255,255,0.2);" title="Lock and exit staff mode">🔒 Lock</button>
@@ -145,11 +145,11 @@ export class ConciergeDashboard {
       <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px;">
         <div style="background: rgba(255,255,255,0.04); padding: 12px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.08); text-align: center;">
           <div style="font-size: 1.4rem; font-weight: 700; color: #fff;">${appointments.length}</div>
-          <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Total Bookings</div>
+          <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">All Bookings</div>
         </div>
         <div style="background: rgba(200,109,74,0.12); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--accent-primary); text-align: center;">
           <div style="font-size: 1.4rem; font-weight: 700; color: var(--accent-light);">${appointments.filter(a => a.status === 'pending').length}</div>
-          <div style="font-size: 0.72rem; color: var(--accent-light); text-transform: uppercase;">Pending</div>
+          <div style="font-size: 0.72rem; color: var(--accent-light); text-transform: uppercase;">Pending Confirmation</div>
         </div>
         <div style="background: rgba(37,211,102,0.1); padding: 12px; border-radius: var(--radius-sm); border: 1px solid rgba(37,211,102,0.3); text-align: center;">
           <div style="font-size: 1.4rem; font-weight: 700; color: #25D366;">${appointments.filter(a => a.status === 'confirmed').length}</div>
@@ -157,15 +157,15 @@ export class ConciergeDashboard {
         </div>
         <div style="background: rgba(255,255,255,0.04); padding: 12px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.08); text-align: center;">
           <div style="font-size: 1.4rem; font-weight: 700; color: #b8c0ff;">${summary.whatsappClicks}</div>
-          <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">WA Clicks</div>
+          <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">WhatsApp Inquiries</div>
         </div>
       </div>
 
       <!-- Filter Buttons -->
       <div style="display: flex; gap: 8px; margin-bottom: 20px;">
-        <button type="button" class="btn ${this.filterStatus === 'all' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="all" style="padding: 6px 14px; font-size: 0.8rem;">All (${appointments.length})</button>
-        <button type="button" class="btn ${this.filterStatus === 'pending' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="pending" style="padding: 6px 14px; font-size: 0.8rem;">Pending</button>
-        <button type="button" class="btn ${this.filterStatus === 'confirmed' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="confirmed" style="padding: 6px 14px; font-size: 0.8rem;">Confirmed</button>
+        <button type="button" class="btn ${this.filterStatus === 'all' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="all" style="padding: 6px 14px; font-size: 0.8rem;">View All (${appointments.length})</button>
+        <button type="button" class="btn ${this.filterStatus === 'pending' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="pending" style="padding: 6px 14px; font-size: 0.8rem;">Pending Confirmation</button>
+        <button type="button" class="btn ${this.filterStatus === 'confirmed' ? 'btn-gold' : 'btn-glass'} filter-btn" data-status="confirmed" style="padding: 6px 14px; font-size: 0.8rem;">Confirmed Visits</button>
       </div>
 
       <!-- Appointments List Container -->
@@ -173,15 +173,15 @@ export class ConciergeDashboard {
         ${filtered.length === 0 ? `
           <div class="ms-empty-state" style="margin: 10px 0;">
             <div class="ms-empty-icon" style="font-size: 1.3rem;">📋</div>
-            <h4 class="ms-empty-title">No appointments matching "${this.filterStatus.toUpperCase()}"</h4>
-            <p class="ms-empty-desc">There are no client bookings currently in this queue.</p>
+            <h4 class="ms-empty-title">No appointments in this view</h4>
+            <p class="ms-empty-desc">There are no bookings matching the selected filter.</p>
             <button type="button" id="conciergeResetFilterBtn" class="btn btn-outline-gold" style="padding: 6px 16px; font-size: 0.8rem;">
-              Show All Appointments
+              View All Bookings
             </button>
           </div>
         ` : filtered.map(apt => {
           const cleanPhone = apt.client_phone.replace(/[^0-9]/g, '');
-          const waConfirmMsg = encodeURIComponent(`Hi ${apt.client_name}! Your appointment at Magic Scissors for "${apt.service_name}" on ${apt.preferred_date} (${apt.time_slot}) is CONFIRMED. We look forward to welcoming you!`);
+          const waConfirmMsg = encodeURIComponent(`Hi ${apt.client_name}! Your appointment at Magic Scissors for "${apt.service_name}" on ${apt.preferred_date} (${apt.time_slot}) is confirmed. We look forward to seeing you.`);
           const waConfirmUrl = `https://wa.me/${cleanPhone}?text=${waConfirmMsg}`;
 
           return `
@@ -209,21 +209,21 @@ export class ConciergeDashboard {
               <!-- Action Buttons -->
               <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                 <a href="${waConfirmUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" style="padding: 6px 14px; font-size: 0.78rem;">
-                  WhatsApp Confirm
+                  Confirm via WhatsApp
                 </a>
                 <a href="tel:${cleanPhone}" class="btn btn-glass" style="padding: 6px 14px; font-size: 0.78rem;">
-                  Direct Call
+                  Call Client
                 </a>
 
                 ${apt.status === 'pending' ? `
                   <button type="button" class="btn btn-outline-gold status-change-btn" data-id="${apt.id}" data-new-status="confirmed" style="padding: 6px 14px; font-size: 0.78rem;">
-                    ✓ Mark Confirmed
+                    Confirm Booking
                   </button>
                 ` : ''}
 
                 ${apt.status === 'confirmed' ? `
                   <button type="button" class="btn btn-glass status-change-btn" data-id="${apt.id}" data-new-status="completed" style="padding: 6px 14px; font-size: 0.78rem;">
-                    ★ Mark Completed
+                    Mark Completed
                   </button>
                 ` : ''}
               </div>

@@ -68,38 +68,13 @@
           Book Appointment
         </a>
 
-        <!-- Mobile Hamburger Toggle -->
-        <button id="mobileNavToggle" class="mobile-menu-btn" aria-label="Toggle Navigation">
-          <span></span>
-          <span></span>
-          <span></span>
+        <!-- Mobile Drawer Toggle -->
+        <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Toggle navigation">
+          ☰
         </button>
       </div>
     </div>
   </header>
-
-  <!-- Mobile Drawer Menu -->
-  <div id="mobileDrawer" class="mobile-drawer">
-    <div class="drawer-header">
-      <span class="logo-title">MAGIC SCISSORS</span>
-      <button id="drawerCloseBtn" class="drawer-close" aria-label="Close Menu">✕</button>
-    </div>
-    <ul class="drawer-nav">
-      <li><a href="index.html" class="nav-link">Home</a></li>
-      <li><a href="about.html" class="nav-link">About Us</a></li>
-      <li><a href="services.html" class="nav-link">Services</a></li>      <li><a href="gallery.html" class="nav-link">Salon Views</a></li>
-      <li><a href="franchise.html" class="nav-link">Franchise</a></li>
-      <li><a href="contact.html" class="nav-link active">Contact & Book</a></li>
-    </ul>
-    <div class="drawer-contact" style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.08);">
-      <a href="tel:+919960135849" class="btn btn-gold" style="width: 100%; text-align: center; margin-bottom: 10px;">
-        📞 Call +91 99601 35849
-      </a>
-      <a href="https://wa.me/919960135849" target="_blank" rel="noopener noreferrer" class="btn btn-glass" style="width: 100%; text-align: center;">
-        💬 WhatsApp Concierge
-      </a>
-    </div>
-  </div>
 
   <!-- ========================================================================
        SUBPAGE HERO BANNER
@@ -115,7 +90,7 @@
         Contact & <span class="accent-text">Appointments</span>
       </h1>
       <p class="page-hero-subtitle">
-        Reserve your personalized session with our master stylists. Experience precision scissor craft, bespoke aesthetic consultations, and serene studio hospitality in Nashik.
+        Book an appointment with our senior stylists — haircuts, hair color, skin treatments, and bridal services, all in Nashik.
       </p>
     </div>
   </section>
@@ -125,17 +100,17 @@
        ======================================================================== -->
   <section id="bookingSection" class="section-padding">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 36px; align-items: start;">
+      <div class="booking-layout-grid">
         
         <!-- Left Column: Studio Information & Direct Lines -->
         <div>
           <div class="studio-info-card">
-            <span class="section-label cinema-scene-tag">ACT I // STUDIO CONCIERGE</span>
+            <span class="section-label cinema-scene-tag">FRONT DESK</span>
             <h3 class="studio-title">
-              Visit Our Flagship <span class="accent-text">Studio</span>
+              Our Nashik <span class="accent-text">Studio</span>
             </h3>
             <p class="studio-lead">
-              Conveniently situated at Trimurti Chowk, Cidco, Nashik with designated parking and easy road accessibility.
+              Located at Trimurti Chowk, Cidco, Nashik with dedicated parking and easy access.
             </p>
 
             <div class="studio-contact-list">
@@ -160,11 +135,11 @@
                   📞
                 </div>
                 <div class="studio-contact-detail">
-                  <h4>Direct Calling Line</h4>
+                  <h4>Phone</h4>
                   <a href="tel:+919960135849">
                     +91 99601 35849
                   </a>
-                  <p style="font-size: 0.78rem; color: #7A808C; margin-top: 2px;">Tap to launch phone dialer directly</p>
+                  <p style="font-size: 0.78rem; color: #7A808C; margin-top: 2px;">Tap to call us directly</p>
                 </div>
               </div>
 
@@ -174,11 +149,11 @@
                   💬
                 </div>
                 <div class="studio-contact-detail">
-                  <h4>WhatsApp Concierge Desk</h4>
+                  <h4>WhatsApp</h4>
                   <a href="https://wa.me/919960135849" target="_blank" rel="noopener noreferrer" style="color: #25D366;">
-                    Chat with Desk Concierge
+                    Chat on WhatsApp
                   </a>
-                  <p style="font-size: 0.78rem; color: #7A808C; margin-top: 2px;">Typical response within 3 minutes</p>
+                  <p style="font-size: 0.78rem; color: #7A808C; margin-top: 2px;">Quick confirmation from front desk</p>
                 </div>
               </div>
 
@@ -188,10 +163,11 @@
                   ⏰
                 </div>
                 <div class="studio-contact-detail">
-                  <h4>Salon Operating Hours</h4>
+                  <h4>Hours</h4>
                   <p>
-                    <strong style="color: #15171C;">Tuesday – Sunday:</strong> 09:30 AM – 08:30 PM<br>
-                    <span style="color: var(--accent-primary); font-weight: 600;">Monday:</span> Deep Sanitization & Training (Closed)
+                    <strong style="color: #15171C;">Monday – Saturday:</strong> 9:00 AM – 9:30 PM<br>
+                    <strong style="color: #15171C;">Sunday:</strong> 9:00 AM – 10:00 PM<br>
+                    <span style="color: var(--accent-primary); font-size: 0.85rem; font-weight: 600;">Open 7 Days a Week</span>
                   </p>
                 </div>
               </div>
@@ -199,7 +175,7 @@
 
             <!-- Get Directions Action -->
             <div class="studio-map-action">
-              <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" rel="noopener noreferrer" class="btn btn-outline-gold" style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;">
+              <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" rel="noopener noreferrer" class="btn btn-maps" style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;">
                 <span>🗺️ Open in Google Maps</span>
               </a>
             </div>
@@ -207,19 +183,19 @@
 
           <!-- Studio Assurances Card -->
           <div class="studio-assurances-card">
-            <h4>Studio Etiquette & Assurance</h4>
+            <h4>Studio Standards</h4>
             <ul class="studio-assurances-list">
               <li>
-                <span class="check-icon">✓</span> Zero waiting time with confirmed appointments
+                <span class="check-icon">✓</span> Dedicated slots — no long waits
               </li>
               <li>
-                <span class="check-icon">✓</span> Fresh autoclave UV sealed instrument pack opened before your service
+                <span class="check-icon">✓</span> Autoclave-sterilized tools before every service
               </li>
               <li>
-                <span class="check-icon">✓</span> Complimentary consultation prior to chemical or coloring treatments
+                <span class="check-icon">✓</span> Pre-service consultation for color, chemical, and skin treatments
               </li>
               <li>
-                <span class="check-icon">✓</span> Valet parking assistance available on arrival
+                <span class="check-icon">✓</span> Parking assistance available on arrival
               </li>
             </ul>
           </div>
@@ -227,12 +203,12 @@
 
         <!-- Right Column: Appointment Reservation Form -->
         <div class="luxury-form-card">
-          <span class="section-label cinema-scene-tag">ACT II // VIP RESERVATION</span>
+          <span class="section-label cinema-scene-tag">APPOINTMENT REQUEST</span>
           <h2 class="font-serif" style="font-size: 2rem; margin: 8px 0 10px; color: #15171C;">
-            Book Your <span class="accent-text">Session</span>
+            Book an <span class="accent-text">Appointment</span>
           </h2>
           <p style="color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 24px; line-height: 1.6;">
-            Submit your appointment request below. Your slot is automatically recorded in our booking registry and confirmed with you via WhatsApp.
+            Fill in your details below and we'll confirm your slot via WhatsApp or phone.
           </p>
 
           <form id="appointmentForm" style="display: flex; flex-direction: column; gap: 18px;">
@@ -257,7 +233,7 @@
             </div>
 
             <!-- Date and Time Slots -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="luxury-form-two-col">
               <div class="luxury-form-group">
                 <label for="bookingDate" class="luxury-label">Preferred Date *</label>
                 <input type="date" id="bookingDate" name="bookingDate" class="luxury-input" required>
@@ -266,13 +242,13 @@
                 <label for="bookingTime" class="luxury-label">Preferred Time Slot *</label>
                 <select id="bookingTime" name="bookingTime" class="luxury-select" required>
                   <option value="" disabled selected>Select time slot...</option>
-                  <option value="10:00 AM">10:00 AM – Morning Opening</option>
-                  <option value="11:30 AM">11:30 AM – Late Morning</option>
-                  <option value="01:00 PM">01:00 PM – Afternoon Slot</option>
-                  <option value="02:30 PM">02:30 PM – Afternoon Slot</option>
-                  <option value="04:00 PM">04:00 PM – Tea-time Slot</option>
-                  <option value="05:30 PM">05:30 PM – Evening Sunset Slot</option>
-                  <option value="07:00 PM">07:00 PM – Evening Prime Slot</option>
+                  <option value="10:00 AM">10:00 AM – Morning</option>
+                  <option value="11:30 AM">11:30 AM – Morning</option>
+                  <option value="01:00 PM">01:00 PM – Afternoon</option>
+                  <option value="02:30 PM">02:30 PM – Afternoon</option>
+                  <option value="04:00 PM">04:00 PM – Late Afternoon</option>
+                  <option value="05:30 PM">05:30 PM – Evening</option>
+                  <option value="07:00 PM">07:00 PM – Evening</option>
                 </select>
               </div>
             </div>
@@ -280,7 +256,7 @@
             <!-- Notes -->
             <div class="luxury-form-group">
               <label for="bookingNotes" class="luxury-label">Special Notes / Stylist Preferences (Optional)</label>
-              <textarea id="bookingNotes" name="bookingNotes" class="luxury-textarea" rows="3" placeholder="Tell us about your hair length, specific master stylist request, or wedding date..."></textarea>
+              <textarea id="bookingNotes" name="bookingNotes" class="luxury-textarea" rows="3" placeholder="Tell us about any specific preferences, hair length, or event timeline..."></textarea>
             </div>
 
             <!-- Optional Hair / Style Inspiration Photo Upload Dropzone -->
@@ -290,12 +266,12 @@
 
             <!-- Submit Button -->
             <button type="submit" class="btn btn-gold" style="width: 100%; padding: 14px; font-size: 1rem; margin-top: 4px;">
-              Confirm Appointment & Sync via WhatsApp
+              Book via WhatsApp
             </button>
 
             <!-- Confirmation Message Container -->
             <div id="bookingConfirmationMsg" class="booking-success-banner" style="grid-column: unset;">
-              ✓ Appointment stored in Supabase & WhatsApp message opened! Our desk will confirm your slot shortly.
+              ✓ Booking details sent to WhatsApp. We'll confirm your slot shortly.
             </div>
           </form>
         </div>
@@ -310,10 +286,10 @@
   <section class="section-padding" style="background: var(--bg-secondary); border-top: 1px solid rgba(184, 107, 73, 0.15); border-bottom: 1px solid rgba(184, 107, 73, 0.15); padding-top: 40px;">
     <div class="container">
       <div class="section-header">
-        <span class="section-label">Find Us in Town</span>
-        <h2 class="section-title">Studio <span class="accent-text">Directions & Map</span></h2>
+        <span class="section-label">VISIT US</span>
+        <h2 class="section-title">Studio <span class="accent-text">Location & Directions</span></h2>
         <p class="section-subtitle">
-          Located conveniently at Trimurti Chowk, Cidco, Nashik with direct road accessibility.
+          Located at Trimurti Chowk, Cidco, Nashik with easy road access.
         </p>
       </div>
 
@@ -332,11 +308,11 @@
             Shop No 1, near Gayatri Medical, Trimurti Chowk, Cidco, Durganagar, Nashik, Maharashtra 422008
           </p>
           <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 2;">
-            <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" class="btn btn-gold" style="padding: 10px 24px;">
-              Get Driving Directions
+            <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" class="btn btn-maps" style="padding: 10px 24px;">
+              Get Directions
             </a>
-            <a href="tel:+919960135849" class="btn btn-glass" style="padding: 10px 24px;">
-              Call Front Desk for Assistance
+            <a href="tel:+919960135849" class="btn btn-call" style="padding: 10px 24px;">
+              Call Front Desk
             </a>
           </div>
         </div>
@@ -360,7 +336,7 @@
             </div>
           </a>
           <p style="color: #9c9cb0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px;">
-            Nashik's premier salon sanctuary for precision hair artistry, bespoke bridal styling, and restorative aesthetic therapies.
+            A modern luxury unisex salon in Nashik offering precision haircuts, restorative hair therapies, and private styling suites.
           </p>
           <div class="footer-social-row">
             <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-nav" title="Studio GPS Navigation" aria-label="Studio GPS Navigation">
@@ -391,14 +367,14 @@
 
         <!-- Col 2: Navigation Links -->
         <div class="footer-col">
-          <h4 class="footer-title">Explore Studio</h4>
+          <h4 class="footer-title">Navigation</h4>
           <ul class="footer-links">
-            <li><a href="index.html">Home Entrance</a></li>
-            <li><a href="about.html">About Our Craft</a></li>
-            <li><a href="services.html">Couture Services</a></li>
-            <li><a href="gallery.html">Salon Views & Ambience</a></li>
-            <li><a href="franchise.html">Franchise Partnership</a></li>
-            <li><a href="contact.html">Contact & Book</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="gallery.html">Salon Views</a></li>
+            <li><a href="franchise.html">Franchise</a></li>
+            <li><a href="contact.html">Contact</a></li>
           </ul>
         </div>
 
@@ -414,7 +390,7 @@
             Closed for deep studio sterilization
           </p>
           <div style="padding: 10px 14px; background: rgba(200, 109, 74, 0.1); border-radius: var(--radius-sm); border: 1px solid rgba(200, 109, 74, 0.2); font-size: 0.82rem; color: #ddd;">
-            ✨ Appointments recommended to guarantee zero wait time.
+            ✨ Book ahead to guarantee your preferred time slot.
           </div>
         </div>
 
@@ -433,14 +409,14 @@
             <span>📞</span>
             <div>
               <a href="tel:+919960135849" style="font-weight: 600; color: var(--accent-light);">+91 99601 35849</a><br>
-              <span style="font-size: 0.78rem; color: #777;">Click to automatically open dialer</span>
+              <span style="font-size: 0.78rem; color: #777;">Tap to call</span>
             </div>
           </div>
           <div class="footer-contact-item">
             <span>💬</span>
             <div>
-              <a href="https://wa.me/919960135849" target="_blank" rel="noopener noreferrer" style="color: #25D366; font-weight: 600;">Chat on WhatsApp Desk</a><br>
-              <span style="font-size: 0.78rem; color: #777;">Instant replies</span>
+              <a href="https://wa.me/919960135849" target="_blank" rel="noopener noreferrer" style="color: #25D366; font-weight: 600;">Message on WhatsApp</a><br>
+              <span style="font-size: 0.78rem; color: #777;">Quick replies</span>
             </div>
           </div>
         </div>
@@ -454,66 +430,93 @@
     </div>
   </footer>
 
-  <!-- Floating Quick Actions Bar -->
-  <aside class="floating-quick-bar" aria-label="Quick Connect Actions">
-    <!-- Quick Site Navigation Menu Drawer Toggle -->
-    <button class="floating-action-btn action-menu-nav" onclick="document.getElementById('mobileMenuBtn').click()" title="Site Navigation Menu" aria-label="Open Navigation Menu">
-      <span class="tooltip-text">Site Navigation Menu</span>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
+  <!-- ========================================================================
+       UNIFIED NAVIGATION & QUICK ACTIONS DRAWER SIDEBAR
+       ======================================================================== -->
+  <div id="navDrawerBackdrop" class="nav-drawer-backdrop" aria-hidden="true"></div>
+  <aside id="navDrawer" class="nav-drawer" role="dialog" aria-label="Navigation & Quick Actions" aria-modal="true">
+    <div class="nav-drawer-header">
+      <div class="drawer-brand">
+        <span class="drawer-brand-icon">✂</span>
+        <div class="drawer-brand-text">
+          <span class="drawer-brand-title">MAGIC SCISSORS</span>
+          <span class="drawer-brand-sub">STUDIO SALONS</span>
+        </div>
+      </div>
+      <button id="navDrawerCloseBtn" class="nav-drawer-close" type="button" aria-label="Close navigation menu">✕</button>
+    </div>
 
-    <!-- Studio GPS / Google Maps Navigation Redirect -->
-    <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" rel="noopener noreferrer" class="floating-action-btn action-navigation" title="Studio GPS Navigation" aria-label="Studio GPS Navigation">
-      <span class="tooltip-text">Studio GPS Navigation</span>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-        <circle cx="12" cy="9" r="2.5"/>
-      </svg>
-    </a>
+    <div class="nav-drawer-content">
+      <!-- Section 1: Main Navigation -->
+      <div class="drawer-section">
+        <span class="drawer-section-label">MAIN NAVIGATION</span>
+        <ul class="drawer-nav-list">
+          <li><a href="index.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Home</span></a></li>
+          <li><a href="about.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>About Us</span></a></li>
+          <li><a href="services.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Services</span></a></li>
+          <li><a href="gallery.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Salon Views</span></a></li>
+          <li><a href="franchise.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Franchise</span></a></li>
+          <li><a href="contact.html" class="drawer-nav-link active"><span class="drawer-nav-icon">✦</span><span>Contact & Book</span></a></li>
+        </ul>
+      </div>
 
-    <!-- Direct Dialpad Automatic Number Click-To-Call -->
-    <a href="tel:+919960135849" class="floating-action-btn action-phone" title="Call Salon Dialpad" aria-label="Call Direct">
-      <span class="tooltip-text">Direct Call Front Desk</span>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-      </svg>
-    </a>
+      <!-- Section 2: Quick Actions -->
+      <div class="drawer-section">
+        <span class="drawer-section-label">QUICK ACTIONS</span>
+        <div class="drawer-actions-grid">
+          <a href="contact.html" class="drawer-btn drawer-btn-book">
+            <span>📅</span>
+            <span>Book an Appointment</span>
+          </a>
+          <a href="https://wa.me/919960135849?text=Hello%20Magic%20Scissors!%20I%20would%20like%20to%20inquire%20about%20booking%20an%20appointment."
+            target="_blank" rel="noopener noreferrer" class="drawer-btn drawer-btn-whatsapp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.18-.553-1.631-.676-2.731-2.316-2.812-2.424-.082-.108-.66-8.79-.66-1.682 0-.802.417-1.196.565-1.356.148-.16.324-.2.433-.2.11 0 .219.002.312.008.102.006.236-.041.368.277.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.087.187-.174.289-.088.102-.185.228-.264.306-.09.088-.184.184-.079.364.105.18.468.772.998 1.246.684.61 1.258.8 1.439.89.18.089.286.076.393-.047.108-.124.465-.544.59-.73.125-.187.25-.156.417-.094.167.062 1.059.5 1.241.59.182.09.303.136.348.212.046.078.046.452-.098.857z"/>
+            </svg>
+            <span>Chat on WhatsApp</span>
+          </a>
+          <a href="tel:+919960135849" class="drawer-btn drawer-btn-call">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>Call Us: +91 99601 35849</span>
+          </a>
+          <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" rel="noopener noreferrer" class="drawer-btn drawer-btn-directions">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+            <span>Get Directions</span>
+          </a>
+        </div>
+      </div>
 
-    <!-- WhatsApp Direct Booking -->
-    <a href="https://wa.me/919960135849?text=Hello%20Magic%20Scissors!%20I%20would%20like%20to%20inquire%20about%20booking%20an%20appointment." target="_blank" rel="noopener noreferrer" class="floating-action-btn action-whatsapp" title="WhatsApp Chat" aria-label="Chat on WhatsApp">
-      <span class="tooltip-text">Chat on WhatsApp</span>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.18-.553-1.631-.676-2.731-2.316-2.812-2.424-.082-.108-.66-8.79-.66-1.682 0-.802.417-1.196.565-1.356.148-.16.324-.2.433-.2.11 0 .219.002.312.008.102.006.236-.041.368.277.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.087.187-.174.289-.088.102-.185.228-.264.306-.09.088-.184.184-.079.364.105.18.468.772.998 1.246.684.61 1.258.8 1.439.89.18.089.286.076.393-.047.108-.124.465-.544.59-.73.125-.187.25-.156.417-.094.167.062 1.059.5 1.241.59.182.09.303.136.348.212.046.078.046.452-.098.857z"/>
-      </svg>
-    </a>
+      <!-- Section 3: Social & Studio Info -->
+      <div class="drawer-section">
+        <span class="drawer-section-label">FOLLOW & CONNECT</span>
+        <a href="https://www.instagram.com/magicscissorsunisexsalon?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw=="
+          target="_blank" rel="noopener noreferrer" class="drawer-instagram-card">
+          <div class="drawer-ig-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </div>
+          <div class="drawer-ig-text">
+            <span class="drawer-ig-title">Instagram</span>
+            <span class="drawer-ig-handle">@magicscissorsunisexsalon</span>
+          </div>
+          <span class="drawer-ig-arrow">→</span>
+        </a>
 
-    <!-- Instagram Direct Redirect -->
-    <a href="https://www.instagram.com/magicscissorsunisexsalon?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="floating-action-btn action-instagram" title="Follow on Instagram" aria-label="View Instagram">
-      <span class="tooltip-text">Follow on Instagram</span>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-      </svg>
-    </a>
-  </aside>
-
-  <!-- Mobile Sticky Bar (Sticky at Bottom on small screens) -->
-  <aside class="mobile-sticky-quick-bar" aria-label="Mobile Navigation Quick Bar">
-    <button class="mobile-quick-btn mobile-quick-menu" onclick="document.getElementById('mobileMenuBtn').click()" type="button" style="border: none;">
-      ☰ Menu
-    </button>
-    <a href="https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9" target="_blank" rel="noopener noreferrer" class="mobile-quick-btn mobile-quick-nav">
-      📍 Navigate
-    </a>
-    <a href="tel:+919960135849" class="mobile-quick-btn mobile-quick-call">
-      📞 Call
-    </a>
-    <a href="https://wa.me/919960135849?text=Hello%20Magic%20Scissors!%20I%20would%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener noreferrer" class="mobile-quick-btn mobile-quick-whatsapp">
-      💬 WhatsApp
-    </a>
+        <div class="drawer-studio-details">
+          <div class="drawer-detail-item">
+            <span class="pulse-dot"></span>
+            <span>Open Today: 9:00 AM – 9:30 PM</span>
+          </div>
+          <div class="drawer-detail-sub">Shop No 1, Trimurti Chowk, Cidco, Nashik</div>
+        </div>
+      </div>
+    </div>
   </aside>
 
   <!-- Concierge Staff Live Drawer -->

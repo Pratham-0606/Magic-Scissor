@@ -2,85 +2,47 @@
    MAGIC SCISSORS - RESPONSIVE & MOBILE STYLING
    ========================================================================== */
 
-/* Tablet & Mobile Nav Drawer (Up to 1100px for single-line desktop bar) */
+/* Tablet & Mobile Header Navigation (Up to 1100px) */
 @media (max-width: 1100px) {
-  .site-header nav {
-    margin: 0;
+  .site-header nav,
+  .desktop-nav {
+    display: none !important;
   }
 
-  .nav-menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 290px;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 70px 22px 30px;
-    gap: 6px;
-    border: none;
-    border-left: 1px solid rgba(15, 17, 23, 0.10);
-    border-radius: 0;
-    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.10);
-    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 910;
-  }
-
-  .nav-menu li {
-    width: 100%;
-    white-space: normal;
-  }
-
-  /* Nav links inside drawer get clean button-like full-width pill structure */
-  .nav-menu .nav-link {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 11px 18px;
-    font-size: 0.94rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    border-radius: var(--radius-full);
-    border: 1px solid rgba(15, 17, 23, 0.08);
-    background: rgba(15, 17, 23, 0.02);
-    transition: all var(--transition-fast);
-  }
-
-  .nav-menu .nav-link:hover {
-    background: rgba(200, 109, 74, 0.10);
-    border-color: rgba(200, 109, 74, 0.25);
-    color: var(--accent-dark);
-    transform: translateX(4px);
-  }
-
-  .nav-menu .nav-link.active {
-    background: var(--accent-gradient);
-    border-color: transparent;
-    color: #ffffff;
-    font-weight: 600;
-    box-shadow: 0 4px 14px rgba(200, 109, 74, 0.30);
-  }
-
-  .nav-menu.open {
-    right: 0;
+  .header-tel-btn {
+    display: none !important;
   }
 
   .mobile-menu-btn {
-    display: block;
+    display: inline-flex !important;
     z-index: 920;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
 
   /* Show ✕ close button inside drawer on mobile */
   .nav-drawer-close {
     display: flex;
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
   }
 
   .hero-stats-strip {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+  }
+
+  .stat-item:nth-child(2n) {
+    border-right: none;
+    padding-right: 0;
   }
 
   .about-grid {
@@ -92,8 +54,27 @@
     height: 380px;
   }
 
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .service-card.featured {
+    grid-column: span 2;
+  }
+
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .gallery-card.featured {
+    grid-column: span 2;
+  }
+
+  .standards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 
   .packages-grid {
@@ -210,16 +191,50 @@
     padding: 6px 12px;
     font-size: 0.72rem;
     letter-spacing: 0.02em;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
   }
 
   .mobile-menu-btn {
     font-size: 24px;
     padding: 4px;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
 
   .nav-menu {
     width: 280px;
     max-width: 85vw;
+  }
+
+  /* Drawer Mobile Rules */
+  .nav-drawer {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-drawer-close {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 20px;
+  }
+
+  .drawer-nav-link {
+    min-height: 44px;
+    padding: 11px 16px;
+  }
+
+  .drawer-btn {
+    min-height: 44px;
+    padding: 11px 14px;
+    font-size: clamp(0.80rem, 3.6vw, 0.90rem);
   }
 
   /* --------------------------------------------------------------------------
@@ -239,20 +254,6 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   }
 
-  .hero-content::before {
-    top: 8px;
-    left: 8px;
-    width: 12px;
-    height: 12px;
-  }
-
-  .hero-content::after {
-    bottom: 8px;
-    right: 8px;
-    width: 12px;
-    height: 12px;
-  }
-
   .hero-badge-pill {
     padding: 5px 12px;
     font-size: clamp(0.66rem, 2.5vw, 0.74rem);
@@ -264,7 +265,7 @@
   }
 
   .hero-headline {
-    font-size: clamp(1.6rem, 5.4vw, 2.3rem);
+    font-size: clamp(1.45rem, 5.2vw, 2.15rem);
     line-height: 1.16;
     letter-spacing: 0.01em;
     margin-bottom: 14px;
@@ -292,8 +293,9 @@
 
   .hero-cta-group .btn {
     width: 100%;
-    padding: 11px 18px;
-    font-size: 0.82rem;
+    padding: 12px 18px;
+    font-size: 0.85rem;
+    min-height: 44px;
     justify-content: center;
   }
 
@@ -306,6 +308,11 @@
 
   .stat-item {
     min-width: 0;
+  }
+
+  .stat-item:not(:last-child) {
+    border-right: none;
+    padding-right: 0;
   }
 
   .stat-value {
@@ -322,67 +329,79 @@
     font-size: 0.68rem;
   }
 
-  .hero-view-pill {
-    border-radius: 14px;
-    padding: 9px 12px;
-    margin-top: 14px;
-  }
-
-  .hero-view-pill-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .hero-view-title {
-    font-size: 0.84rem;
-    max-width: clamp(110px, 32vw, 170px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .hero-view-caption {
-    font-size: 0.60rem;
-  }
-
-  .hero-view-progress-track {
-    width: 32px;
-  }
-
-  .hero-view-arrow-btn {
-    width: 26px;
-    height: 26px;
-    font-size: 0.9rem;
-  }
-
   /* --------------------------------------------------------------------------
      3. Services Tabs & Cards on Phone
      -------------------------------------------------------------------------- */
   .services-tabs {
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-full);
     width: 100%;
-    padding: 8px 6px;
-    gap: 6px;
-    margin-bottom: 28px;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 6px 8px;
+    gap: 8px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: flex-start;
+  }
+
+  .services-tabs::-webkit-scrollbar {
+    display: none;
   }
 
   .service-tab-btn {
-    padding: 8px 12px;
-    font-size: 0.78rem;
-    flex: 1 1 auto;
-    text-align: center;
+    padding: 9px 16px;
+    font-size: 0.80rem;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
   }
 
-  .services-grid {
-    grid-template-columns: 1fr;
+  /* Fix: Override desktop :has() adaptive grids on mobile */
+  .services-grid,
+  .services-grid:has(> .service-card:only-child),
+  .services-grid:has(> .service-card:first-child:nth-last-child(2)) {
+    grid-template-columns: 1fr !important;
     gap: 20px;
+    justify-content: stretch;
+  }
+
+  .service-card.featured {
+    grid-column: span 1;
+    flex-direction: column;
+  }
+
+  .service-card.featured .service-card-media {
+    width: 100%;
+    height: clamp(180px, 48vw, 220px);
+    min-height: unset;
+  }
+
+  .service-card.featured .service-card-body {
+    width: 100%;
+    padding: 18px 16px;
+  }
+
+  .service-card.featured .service-card-title {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+
+  .service-card.featured .service-card-desc {
+    font-size: 0.88rem;
+    margin-bottom: 14px;
+    -webkit-line-clamp: 3;
   }
 
   .service-card-media {
-    height: 200px;
+    height: clamp(180px, 48vw, 220px);
   }
 
   .service-card-body {
@@ -407,7 +426,9 @@
   }
 
   .about-main-img {
-    height: 300px;
+    height: clamp(220px, 60vw, 320px);
+    width: 100%;
+    object-fit: cover;
   }
 
   .about-feature-list {
@@ -420,15 +441,34 @@
     position: static;
     margin-top: 14px;
     max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .gallery-grid {
+  .team-showcase-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  /* Fix: Override desktop gallery :has() adaptive grids on mobile */
+  .gallery-grid,
+  .gallery-grid:has(> .gallery-card:only-child),
+  .gallery-grid:has(> .gallery-card:first-child:nth-last-child(2)),
+  .gallery-grid:has(> .gallery-card:first-child:nth-last-child(3)) {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+    justify-content: stretch;
+  }
+
+  .gallery-card,
+  .gallery-card.featured {
+    grid-column: span 1;
+    height: clamp(200px, 55vw, 250px);
+  }
+
+  .standards-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-  }
-
-  .gallery-card {
-    height: 240px;
   }
 
   /* --------------------------------------------------------------------------
@@ -477,9 +517,27 @@
     gap: 16px;
   }
 
+  .franchise-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   /* --------------------------------------------------------------------------
-     6. Instagram Strip & Footer
+     6. Video Tour, Instagram Strip & Footer
      -------------------------------------------------------------------------- */
+  .video-custom-controls {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    padding: 8px 14px;
+  }
+
+  .video-ctrl-btn {
+    min-height: 40px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
   .instagram-banner-box {
     flex-direction: column;
     text-align: center;
@@ -513,9 +571,27 @@
     text-align: center;
   }
 
+  .footer-social-link {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   /* --------------------------------------------------------------------------
-     7. Forms (Booking, Contact, Franchise): iOS Auto-Zoom Prevention
+     7. Forms (Booking, Contact, Franchise): iOS Auto-Zoom Prevention & Stacking
      -------------------------------------------------------------------------- */
+  .booking-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .luxury-form-two-col {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
   .luxury-form-card,
   .inquiry-card,
   .studio-info-card {
@@ -534,6 +610,7 @@
     font-size: 16px !important;
     /* Critical for iOS Safari auto-zoom prevention */
     padding: 11px 14px;
+    min-height: 46px;
   }
 
   .luxury-actions-row {
@@ -544,6 +621,7 @@
   .luxury-actions-row .btn {
     width: 100%;
     justify-content: center;
+    min-height: 44px;
   }
 
   .studio-contact-item {
@@ -565,33 +643,55 @@
   }
 
   /* --------------------------------------------------------------------------
-     8. Modals & Lightbox on Phone
+     8. Modals, Concierge Drawer & Lightbox on Phone
      -------------------------------------------------------------------------- */
   .modal-overlay {
-    padding: 12px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
   }
 
   .modal-container {
     width: 100%;
-    max-height: 92vh;
+    max-width: 100%;
+    max-height: calc(100vh - 20px);
+    max-height: calc(100dvh - 20px);
     border-radius: 16px;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
   .modal-body {
     padding: 18px 14px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+  }
+
+  .modal-banner-wrap {
+    height: clamp(160px, 42vw, 220px) !important;
+    flex-shrink: 0;
   }
 
   .modal-banner-image {
-    height: 160px;
+    height: 100% !important;
+    object-fit: cover;
   }
 
   .modal-close-btn {
     top: 10px;
     right: 10px;
-    width: 34px;
-    height: 34px;
-    font-size: 16px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 18px;
+    z-index: 25;
+    background: rgba(15, 17, 23, 0.75);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .modal-header-info {
@@ -619,83 +719,50 @@
   .modal-actions-footer .btn {
     width: 100%;
     justify-content: center;
+    min-height: 44px;
   }
 
-  /* --------------------------------------------------------------------------
-     9. CRITICAL FIX: Hide Floating Action Bar on Mobile
-        Prevents vertical 5-button stack from covering content on phones!
-     -------------------------------------------------------------------------- */
-  .floating-actions-bar,
-  .floating-quick-bar {
-    display: none !important;
+  /* Concierge Drawer Mobile Viewport */
+  .concierge-drawer-overlay {
+    z-index: 10050;
   }
 
-  /* --------------------------------------------------------------------------
-     10. Mobile Sticky Quick Bar: Clean App-like Bottom Navigation Dock
-     -------------------------------------------------------------------------- */
-  .mobile-sticky-quick-bar {
-    display: flex !important;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+  .concierge-drawer {
     width: 100%;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border-top: 1px solid rgba(184, 107, 73, 0.20);
-    z-index: 980;
-    padding: 8px 10px max(8px, env(safe-area-inset-bottom));
-    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.08);
-    gap: 6px;
+    max-width: 100vw;
+    padding: 20px 14px;
   }
 
-  .mobile-quick-btn {
-    flex: 1;
-    display: flex;
+  #conciergeCloseBtn {
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    padding: 9px 6px;
-    border-radius: var(--radius-sm);
-    font-size: 0.74rem;
-    font-weight: 600;
-    text-decoration: none;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
   }
 
-  .mobile-quick-menu {
-    background: rgba(184, 107, 73, 0.08);
-    border: 1px solid rgba(184, 107, 73, 0.22);
-    color: var(--accent-dark);
-    cursor: pointer;
+  /* Gallery Lightbox Mobile Viewport */
+  #galleryLightbox .modal-container {
+    max-width: 95vw;
+    max-height: 88vh;
+    max-height: 88dvh;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
   }
 
-  .mobile-quick-nav {
-    background: rgba(234, 67, 53, 0.10);
-    border: 1px solid rgba(234, 67, 53, 0.25);
-    color: #EA4335;
+  #galleryLightbox .lightbox-img {
+    max-height: 55vh;
+    max-height: 55dvh;
+    width: 100%;
+    object-fit: contain;
   }
 
-  .mobile-quick-call {
-    background: rgba(15, 17, 23, 0.07);
-    border: 1px solid rgba(15, 17, 23, 0.14);
-    color: var(--text-primary);
-  }
-
-  .mobile-quick-whatsapp {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-  }
-
-  .mobile-quick-book {
-    background: var(--gold-gradient);
-    color: #ffffff;
-  }
-
-  /* Safe body padding so bottom sticky bar never obscures footer or content */
+  /* Zero padding at bottom of page - bottom bar removed */
   body {
-    padding-bottom: max(68px, calc(56px + env(safe-area-inset-bottom))) !important;
+    padding-bottom: 0 !important;
   }
 }
 
@@ -703,6 +770,15 @@
    Small Phones (max-width: 480px)
    ========================================================================== */
 @media (max-width: 480px) {
+  .luxury-form-two-col {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .video-custom-controls div[style*="text-transform: uppercase"] {
+    display: none;
+  }
+
   .hero-headline {
     font-size: clamp(1.35rem, 5.2vw, 1.75rem);
     line-height: 1.18;
@@ -728,13 +804,89 @@
   }
 
   .header-actions .btn-gold {
-    padding: 5px 10px;
+    padding: 6px 10px;
     font-size: 0.68rem;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
   }
 
   .mobile-quick-btn {
     font-size: 0.70rem;
     padding: 8px 4px;
     gap: 3px;
+    min-height: 44px;
+  }
+}
+
+/* ==========================================================================
+   Ultra-Compact Phones (max-width: 360px - e.g. iPhone SE 1st gen, Galaxy Fold)
+   ========================================================================== */
+@media (max-width: 360px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .hero-content {
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.22rem, 4.8vw, 1.5rem);
+  }
+
+  .hero-line-nowrap {
+    white-space: normal;
+    display: inline;
+  }
+
+  .hero-stats-strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 6px;
+    padding: 10px 8px;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+  }
+
+  .stat-label {
+    font-size: 0.66rem;
+  }
+
+  .stat-sub {
+    font-size: 0.60rem;
+  }
+
+  .drawer-btn {
+    padding: 10px 10px;
+    font-size: 0.78rem;
+    gap: 6px;
+  }
+
+  .luxury-form-card,
+  .inquiry-card,
+  .studio-info-card {
+    padding: 16px 12px;
+  }
+
+  .service-tab-btn {
+    padding: 8px 12px;
+    font-size: 0.76rem;
+  }
+}
+
+/* ==========================================================================
+   Reduced Motion Accessibility
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

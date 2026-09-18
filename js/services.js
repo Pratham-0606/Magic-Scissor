@@ -101,9 +101,9 @@ export class ServicesManager {
         if (!filtered || filtered.length === 0) {
           EmptyState.render(this.servicesContainer, {
             icon: "✂️",
-            title: "No Services in this Category",
-            description: "We are continually curating specialized rituals. Please explore our full menu of luxury services.",
-            actionText: "View All Salon Services",
+            title: "No Services in This Category",
+            description: "No services found in this category. Please explore our full service menu.",
+            actionText: "View All Services",
             onAction: () => {
               const allTab = this.tabsContainer?.querySelector('[data-category="all"]');
               this.selectTab("all", allTab);
@@ -112,30 +112,41 @@ export class ServicesManager {
           return;
         }
 
-        this.servicesContainer.innerHTML = filtered.map(item => `
-          <article class="service-card glass-card" data-service-id="${item.id}">
-            <div class="service-card-media">
-              <img src="${item.image}" alt="${item.title}" class="service-card-img" loading="lazy" onerror="this.src='assets/images/salon_hair_styling.jpg'">
-              <span class="service-card-tag">${item.tag}</span>
-            </div>
-            <div class="service-card-body">
-              <h3 class="service-card-title">${item.title}</h3>
-              <p class="service-card-desc">${item.shortDesc}</p>
-              <div class="service-meta-row">
-                <span class="service-duration">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                  ${item.duration}
-                </span>
-                <button class="btn btn-outline-gold btn-sm view-service-btn" style="padding: 8px 18px; font-size: 0.82rem;" data-service-id="${item.id}">
-                  View Details & Book
-                </button>
+        const isAll = category === "all";
+        this.servicesContainer.innerHTML = filtered.map((item, idx) => {
+          const isFeatured = isAll && idx === 0;
+          return `
+            <article class="service-card glass-card ${isFeatured ? 'featured' : ''}" data-service-id="${item.id}">
+              <div class="service-card-media">
+                <img src="${item.image}" alt="${item.title}" class="service-card-img"
+                     loading="${isFeatured ? 'eager' : 'lazy'}"
+                     decoding="async"
+                     ${isFeatured ? 'fetchpriority="high"' : ''}
+                     onload="this.classList.add('is-loaded')"
+                     onerror="this.onerror=null;this.src='assets/images/salon_hair_styling.jpg';this.classList.add('is-loaded');">
+                <span class="service-card-tag">${item.tag}</span>
               </div>
-            </div>
-          </article>
-        `).join("");
+              <div class="service-card-body">
+                <div>
+                  <h3 class="service-card-title">${item.title}</h3>
+                  <p class="service-card-desc">${item.shortDesc}</p>
+                </div>
+                <div class="service-meta-row">
+                  <span class="service-duration">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    ${item.duration}
+                  </span>
+                  <button class="btn btn-outline-gold btn-sm view-service-btn" style="padding: 8px 18px; font-size: 0.82rem;" data-service-id="${item.id}">
+                    View & Book
+                  </button>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join("");
 
         // Attach click listeners on cards & buttons
         this.servicesContainer.querySelectorAll(".service-card").forEach(card => {
@@ -170,13 +181,19 @@ export class ServicesManager {
     const modalContainer = this.modalOverlay.querySelector(".modal-container");
     this.modalOverlay.setAttribute("aria-labelledby", "serviceModalTitle");
 
-    const waText = encodeURIComponent(`Hello Magic Scissors! I want to book an appointment for "${service.title}" (${service.price}). Please let me know your available slots today/this week.`);
+    const waText = encodeURIComponent(`Hi! I'd like to book "${service.title}" (${service.price}). What slots do you have available?`);
     const waUrl = `https://wa.me/${SALON_DATA.brand.whatsappClean}?text=${waText}`;
     const telUrl = `tel:${SALON_DATA.brand.phoneClean}`;
 
     modalContainer.innerHTML = `
       <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close dialog">✕</button>
-      <img src="${service.image}" alt="${service.title}" class="modal-banner-image">
+      <div class="modal-banner-wrap" style="position: relative; width: 100%; height: 260px; overflow: hidden;">
+        <img src="${service.image}" alt="${service.title}" class="modal-banner-image"
+             loading="eager" decoding="async"
+             style="width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.35s ease;"
+             onload="this.style.opacity='1'"
+             onerror="this.onerror=null;this.src='assets/images/salon_hair_styling.jpg';this.style.opacity='1';">
+      </div>
       
       <div class="modal-body">
         <div class="modal-header-info">
@@ -192,7 +209,7 @@ export class ServicesManager {
 
         <!-- Service Procedure Steps -->
         <h4 class="modal-section-title">
-          <span>✧</span> Procedure & Ritual Steps
+          <span>✧</span> Service Steps
         </h4>
         <ul class="modal-steps-list">
           ${service.steps.map((step, idx) => `
@@ -205,7 +222,7 @@ export class ServicesManager {
 
         <!-- Key Benefits -->
         <h4 class="modal-section-title">
-          <span>✧</span> Key Client Benefits
+          <span>✧</span> Key Benefits
         </h4>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
           ${service.benefits.map(b => `
@@ -217,7 +234,7 @@ export class ServicesManager {
 
         <!-- Premium Products Used -->
         <h4 class="modal-section-title">
-          <span>✧</span> Luxury Products & Formulations
+          <span>✧</span> Products Used
         </h4>
         <div class="modal-products-strip">
           ${service.products.map(p => `<span class="modal-product-tag">${p}</span>`).join("")}
@@ -229,18 +246,18 @@ export class ServicesManager {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.18-.553-1.631-.676-2.731-2.316-2.812-2.424-.082-.108-.66-8.79-.66-1.682 0-.802.417-1.196.565-1.356.148-.16.324-.2.433-.2.11 0 .219.002.312.008.102.006.236-.041.368.277.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.087.187-.174.289-.088.102-.185.228-.264.306-.09.088-.184.184-.079.364.105.18.468.772.998 1.246.684.61 1.258.8 1.439.89.18.089.286.076.393-.047.108-.124.465-.544.59-.73.125-.187.25-.156.417-.094.167.062 1.059.5 1.241.59.182.09.303.136.348.212.046.078.046.452-.098.857z"/>
             </svg>
-            Book via WhatsApp Instant
+            Book via WhatsApp
           </a>
 
           <a href="${telUrl}" class="btn btn-call" style="flex: 1;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
-            Call Salon Directly
+            Call Front Desk
           </a>
 
           <button class="btn btn-outline-gold select-in-form-btn" data-service-title="${service.title}" style="flex: 1;">
-            Reserve in Form
+            Fill Booking Form
           </button>
         </div>
       </div>

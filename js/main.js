@@ -118,9 +118,9 @@ class MagicScissorsApp {
       if (!filtered || filtered.length === 0) {
         EmptyState.render(grid, {
           icon: "🖼️",
-          title: "No Salon Views Available",
-          description: "All studio areas are available in the master ambient walkthrough tour.",
-          actionText: "Show All Salon Views",
+          title: "No Photos Available",
+          description: "Explore our studio spaces through our gallery or take a video tour.",
+          actionText: "View All Photos",
           onAction: () => {
             const allBtn = document.getElementById("galleryTabs")?.querySelector('[data-gallery-cat="all"]');
             allBtn?.click();
@@ -129,16 +129,26 @@ class MagicScissorsApp {
         return;
       }
 
-      grid.innerHTML = filtered.map(view => `
-        <div class="gallery-card" tabindex="0" role="button" aria-label="View photo of ${view.title}" data-img="${view.image}" data-title="${view.title}" data-desc="${view.caption}">
-          <img src="${view.image}" alt="${view.title}" class="gallery-img" loading="lazy" onerror="this.src='assets/images/salon_interior.jpg'">
-          <div class="gallery-overlay">
-            <span class="gallery-tag">${view.categoryName}</span>
-            <h4 class="gallery-title">${view.title}</h4>
-            <p class="gallery-desc">${view.caption}</p>
+      const isAll = cat === "all";
+      grid.innerHTML = filtered.map((view, idx) => {
+        const isFeatured = isAll && (idx === 0 || idx === filtered.length - 1);
+        const isAboveFold = idx < 2;
+        return `
+          <div class="gallery-card ${isFeatured ? 'featured' : ''}" tabindex="0" role="button" aria-label="View photo of ${view.title}" data-img="${view.image}" data-title="${view.title}" data-desc="${view.caption}">
+            <img src="${view.image}" alt="${view.title}" class="gallery-img"
+                 loading="${isAboveFold ? 'eager' : 'lazy'}"
+                 decoding="async"
+                 ${isAboveFold ? 'fetchpriority="high"' : ''}
+                 onload="this.classList.add('is-loaded')"
+                 onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
+            <div class="gallery-overlay">
+              <span class="gallery-tag">${view.categoryName}</span>
+              <h4 class="gallery-title">${view.title}</h4>
+              <p class="gallery-desc">${view.caption}</p>
+            </div>
           </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
 
       grid.querySelectorAll(".gallery-card").forEach(card => {
         const activate = () => this.openLightbox(card.dataset.img, card.dataset.title, card.dataset.desc, card);
@@ -216,6 +226,7 @@ class MagicScissorsApp {
 
     this.lastLightboxTrigger = triggerEl || document.activeElement;
 
+    const modalContainer = lightbox.querySelector(".modal-container") || lightbox;
     const imgEl = lightbox.querySelector(".lightbox-img");
     const titleEl = lightbox.querySelector(".lightbox-title");
     const descEl = lightbox.querySelector(".lightbox-desc");
@@ -227,26 +238,86 @@ class MagicScissorsApp {
       loadingOverlay.className = "lightbox-loading-overlay";
       loadingOverlay.innerHTML = `
         <span class="ms-spinner" style="width: 28px; height: 28px; border-width: 3px; border-top-color: #D49A7E;" aria-hidden="true"></span>
-        <span style="color: #FAF8F5; font-size: 0.85rem; font-family: var(--font-sans);">Loading high-resolution view...</span>
+        <span style="color: #FAF8F5; font-size: 0.85rem; font-family: var(--font-sans); letter-spacing: 0.02em;">Loading photo...</span>
       `;
-      const contentBox = lightbox.querySelector(".lightbox-content") || lightbox;
-      contentBox.style.position = "relative";
-      contentBox.appendChild(loadingOverlay);
+      modalContainer.style.position = "relative";
+      modalContainer.appendChild(loadingOverlay);
     }
+
+    // Add error fallback container if not present
+    let errorBox = lightbox.querySelector(".lightbox-error-box");
+    if (!errorBox) {
+      errorBox = document.createElement("div");
+      errorBox.className = "lightbox-error-box";
+      errorBox.innerHTML = `
+        <span aria-hidden="true" style="font-size: 2.2rem; margin-bottom: 12px;">🖼️</span>
+        <h4 class="font-serif" style="color: #FAF8F5; font-size: 1.25rem; margin-bottom: 6px;">Image Preview Unavailable</h4>
+        <p style="color: #9CA3AF; font-size: 0.88rem; max-width: 320px; margin-bottom: 18px; line-height: 1.5;">We couldn't preview this high-resolution photo. Please check your connection or try again.</p>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+          <button type="button" class="btn btn-gold btn-sm lightbox-retry-btn">Retry Loading</button>
+          <button type="button" class="btn btn-outline-gold btn-sm lightbox-fallback-btn">View Standard Photo</button>
+        </div>
+      `;
+      modalContainer.appendChild(errorBox);
+    }
+
+    // Reset states
+    errorBox.style.display = "none";
     loadingOverlay.classList.remove("loaded");
 
     if (imgEl) {
+      imgEl.style.display = "block";
+      imgEl.style.opacity = "0";
+      imgEl.style.transition = "opacity 0.35s ease";
       imgEl.alt = title || "Magic Scissors Salon View";
+
       imgEl.onload = () => {
-        if (loadingOverlay) loadingOverlay.classList.add("loaded");
+        loadingOverlay.classList.add("loaded");
+        imgEl.style.opacity = "1";
+        errorBox.style.display = "none";
       };
+
       imgEl.onerror = () => {
-        if (loadingOverlay) loadingOverlay.classList.add("loaded");
-        imgEl.src = "assets/images/salon_interior.jpg";
-        ToastManager.info("Preview loaded in standard resolution.");
+        loadingOverlay.classList.add("loaded");
+        imgEl.style.display = "none";
+        errorBox.style.display = "flex";
+
+        const retryBtn = errorBox.querySelector(".lightbox-retry-btn");
+        const fallbackBtn = errorBox.querySelector(".lightbox-fallback-btn");
+
+        if (retryBtn) {
+          retryBtn.onclick = (e) => {
+            e.preventDefault();
+            errorBox.style.display = "none";
+            loadingOverlay.classList.remove("loaded");
+            imgEl.style.display = "block";
+            imgEl.style.opacity = "0";
+            const separator = imgUrl.includes("?") ? "&" : "?";
+            imgEl.src = `${imgUrl}${separator}_t=${Date.now()}`;
+          };
+        }
+
+        if (fallbackBtn) {
+          fallbackBtn.onclick = (e) => {
+            e.preventDefault();
+            errorBox.style.display = "none";
+            loadingOverlay.classList.remove("loaded");
+            imgEl.style.display = "block";
+            imgEl.style.opacity = "0";
+            imgEl.src = "assets/images/salon_styling_arena.jpg";
+          };
+        }
       };
+
       imgEl.src = imgUrl;
+
+      // Handle cached image
+      if (imgEl.complete && imgEl.naturalWidth > 0) {
+        loadingOverlay.classList.add("loaded");
+        imgEl.style.opacity = "1";
+      }
     }
+
     if (titleEl) titleEl.textContent = title;
     if (descEl) descEl.textContent = desc;
 
@@ -283,8 +354,8 @@ class MagicScissorsApp {
         <ul class="package-features-list">
           ${pkg.features.map(f => `<li class="package-feature-item">${f}</li>`).join("")}
         </ul>
-        <a href="https://wa.me/${SALON_DATA.brand.whatsappClean}?text=${encodeURIComponent('Hello Magic Scissors! I would like to book the "' + pkg.title + '" package (' + pkg.price + ').')}" target="_blank" rel="noopener noreferrer" class="btn ${idx === 1 ? 'btn-gold' : 'btn-outline-gold'}">
-          Book Package via WhatsApp
+        <a href="https://wa.me/${SALON_DATA.brand.whatsappClean}?text=${encodeURIComponent('Hi! I\'d like to book the "' + pkg.title + '" package (' + pkg.price + ').')}" target="_blank" rel="noopener noreferrer" class="btn ${idx === 1 ? 'btn-gold' : 'btn-outline-gold'}">
+          Reserve via WhatsApp
         </a>
       </div>
     `).join("");
@@ -318,7 +389,7 @@ class MagicScissorsApp {
     if (!select) return;
 
     select.innerHTML = `
-      <option value="" disabled selected>Choose Preferred Service...</option>
+      <option value="" disabled selected>Select a Service...</option>
       ${SALON_DATA.services.map(s => `
         <option value="${s.id}">${s.title}</option>
       `).join("")}
@@ -479,65 +550,61 @@ class MagicScissorsApp {
     }, { passive: true });
   }
 
-  // Mobile Menu — with backdrop, click-outside close, Escape close & ARIA state
+  // Sidebar Navigation & Quick-Actions Drawer
   setupMobileMenu() {
     const menuBtn = document.getElementById("mobileMenuBtn");
-    const navMenu = document.getElementById("navMenu");
-    if (!menuBtn || !navMenu) return;
+    const drawer = document.getElementById("navDrawer") || document.getElementById("navMenu");
+    if (!menuBtn || !drawer) return;
 
-    // Inject a single backdrop element (only once)
+    // Use existing backdrop or create if not in DOM
     let backdrop = document.getElementById("navDrawerBackdrop");
     if (!backdrop) {
       backdrop = document.createElement("div");
       backdrop.id = "navDrawerBackdrop";
+      backdrop.className = "nav-drawer-backdrop";
       backdrop.setAttribute("aria-hidden", "true");
       document.body.appendChild(backdrop);
     }
 
-    // Inject a ✕ close button at top of drawer (only once)
-    if (!navMenu.querySelector(".nav-drawer-close")) {
-      const closeBtn = document.createElement("button");
-      closeBtn.className = "nav-drawer-close";
-      closeBtn.setAttribute("type", "button");
-      closeBtn.setAttribute("aria-label", "Close navigation menu");
-      closeBtn.textContent = "✕";
-      navMenu.prepend(closeBtn);
-      closeBtn.addEventListener("click", () => closeDrawer());
-    }
+    const closeBtn = document.getElementById("navDrawerCloseBtn") || drawer.querySelector(".nav-drawer-close");
 
     const openDrawer = () => {
-      navMenu.classList.add("open");
+      drawer.classList.add("open");
       backdrop.classList.add("active");
       menuBtn.setAttribute("aria-expanded", "true");
       menuBtn.setAttribute("aria-label", "Close navigation");
-      // Focus first link inside drawer
-      const firstLink = navMenu.querySelector(".nav-link");
+      document.body.style.overflow = "hidden";
+      const firstLink = drawer.querySelector(".drawer-nav-link, .nav-link");
       if (firstLink) firstLink.focus();
     };
 
     const closeDrawer = () => {
-      navMenu.classList.remove("open");
+      drawer.classList.remove("open");
       backdrop.classList.remove("active");
       menuBtn.setAttribute("aria-expanded", "false");
       menuBtn.setAttribute("aria-label", "Open navigation");
+      document.body.style.overflow = "";
       menuBtn.focus();
     };
 
-    // Initialize ARIA state
     menuBtn.setAttribute("aria-expanded", "false");
     menuBtn.setAttribute("aria-label", "Open navigation");
-    menuBtn.setAttribute("aria-controls", "navMenu");
+    menuBtn.setAttribute("aria-controls", drawer.id);
 
     menuBtn.addEventListener("click", () => {
-      if (navMenu.classList.contains("open")) {
+      if (drawer.classList.contains("open")) {
         closeDrawer();
       } else {
         openDrawer();
       }
     });
 
-    // Close on nav link click
-    navMenu.querySelectorAll(".nav-link").forEach(link => {
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => closeDrawer());
+    }
+
+    // Close on any navigation link click inside drawer
+    drawer.querySelectorAll(".drawer-nav-link, .nav-link").forEach(link => {
       link.addEventListener("click", () => closeDrawer());
     });
 
@@ -546,14 +613,14 @@ class MagicScissorsApp {
 
     // Close on Escape key
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && navMenu.classList.contains("open")) {
+      if (e.key === "Escape" && drawer.classList.contains("open")) {
         closeDrawer();
       }
     });
 
     // Auto-close drawer if window is resized above breakpoint
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 1180 && navMenu.classList.contains("open")) {
+      if (window.innerWidth > 1180 && drawer.classList.contains("open")) {
         closeDrawer();
       }
     });
@@ -693,7 +760,7 @@ class MagicScissorsApp {
       }
 
       // 2. Prevent duplicate submission & show loading
-      ButtonLoader.start(submitBtn, "Securing Your Appointment...");
+      ButtonLoader.start(submitBtn, "Saving Appointment...");
 
       try {
         // 3. Store appointment in Supabase database & local reactive store
@@ -725,13 +792,13 @@ class MagicScissorsApp {
         window.open(waUrl, "_blank");
 
         // 5. Toast notification & inline success banner
-        ToastManager.success(`Appointment #${record.id} recorded! Syncing with salon desk.`, {
-          title: "Reservation Secured"
+        ToastManager.success(`Appointment #${record.id} saved.`, {
+          title: "Appointment Requested"
         });
 
         const feedback = document.getElementById("bookingConfirmationMsg");
         if (feedback) {
-          feedback.innerHTML = `✓ Appointment <strong>#${record.id}</strong> recorded! Our desk has prepared your WhatsApp confirmation ticket.`;
+          feedback.innerHTML = `✓ Appointment <strong>#${record.id}</strong> saved. We have prepared your WhatsApp confirmation request.`;
           feedback.style.display = "block";
           form.reset();
           if (this.stylePhotoUploader) {
@@ -748,7 +815,7 @@ class MagicScissorsApp {
         console.error("Booking error:", err);
         const classified = ErrorClassifier.classify(err);
         ToastManager.error(classified.userMessage, {
-          title: "Booking Notice",
+          title: "Notice",
           retryText: "Try Again",
           onRetry: () => form.requestSubmit()
         });
@@ -775,7 +842,7 @@ class MagicScissorsApp {
       const { name, phone, city, model, notes } = validation.data;
       const submitBtn = fForm.querySelector('button[type="submit"]');
 
-      ButtonLoader.start(submitBtn, "Connecting with Franchise Desk...");
+      ButtonLoader.start(submitBtn, "Preparing Inquiry...");
 
       try {
         const msg = `*Magic Scissors - Franchise Partnership Inquiry*%0A%0A` +
@@ -788,7 +855,7 @@ class MagicScissorsApp {
 
         window.open(`https://wa.me/${SALON_DATA.brand.whatsappClean}?text=${msg}`, "_blank");
 
-        ToastManager.success("Franchise inquiry prepared! Connecting to franchise desk.");
+        ToastManager.success("Franchise inquiry prepared. Opening WhatsApp.");
 
         const msgBox = document.getElementById("franchiseConfirmMsg");
         if (msgBox) {

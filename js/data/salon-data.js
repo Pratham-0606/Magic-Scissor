@@ -7,8 +7,8 @@ export const SALON_DATA = {
     name: "Magic Scissors",
     shortName: "MS",
     tagline: "Luxury Unisex Salon & Aesthetic Studio",
-    subheading: "Where Master Artistry Meets Timeless Elegance",
-    founder: "Curated by Master Stylists",
+    subheading: "Refined styling, precise technique, and care designed around you.",
+    founder: "Led by Senior Stylists",
     phone: "+91 99601 35849",
     phoneClean: "919960135849",
     whatsapp: "+91 99601 35849",
@@ -33,9 +33,9 @@ export const SALON_DATA = {
     ],
     stats: [
       { value: "4.9★", label: "Google Rating", sub: "Based on 1,400+ reviews" },
-      { value: "15+", label: "Master Stylists", sub: "Certified International Artists" },
-      { value: "25k+", label: "Happy Clients", sub: "Groomed & Pampered" },
-      { value: "100%", label: "Hygiene Standard", sub: "Autoclave Sterilized Tools" }
+      { value: "15+", label: "Master Stylists", sub: "Senior Stylists & Colorists" },
+      { value: "25k+", label: "Happy Clients", sub: "Appointments Completed" },
+      { value: "100%", label: "Hygiene Standard", sub: "Sterilized Tools & Fresh Linens" }
     ]
   },
 
@@ -60,14 +60,14 @@ export const SALON_DATA = {
       duration: "45 mins",
       image: "assets/images/salon_hair_styling.jpg",
       shortDesc: "Tailored haircut shaped to your features and natural hair movement, complete with a clarifying wash, deep conditioning, and signature blowdry.",
-      fullDesc: "Every cut begins with an in-depth consultation with a senior stylist to assess your lifestyle, hair texture, and styling preferences. We finish with a relaxing scalp massage, precision scissor shaping, and a polished blowout.",
+      fullDesc: "Every cut begins with a consultation with a senior stylist to assess your hair texture, lifestyle, and styling routine. We finish with a relaxing wash, scalp massage, precise scissor shaping, and a polished blowdry.",
       steps: [
-        "Personal consultation & hair texture analysis",
-        "Aromatherapeutic detox hair wash & deep conditioner",
-        "Precision scissor cut tailored to your personal style",
-        "Thermal heat-protection mist & signature blowout finish"
+        "One-on-one consultation and hair texture analysis",
+        "Relaxing hair wash and deep conditioning treatment",
+        "Precision scissor shaping tailored to your features",
+        "Heat protection and professional blowdry finish"
       ],
-      benefits: ["Accentuate jawline and natural curls", "Split ends removal with zero volume loss", "Long-lasting weightless movement"],
+      benefits: ["Shapes around your natural hair movement", "Removes split ends while preserving volume", "Clean, long-lasting shape that styles easily at home"],
       products: ["Kérastase Nutritive", "Olaplex No. 7 Bonding Oil", "Schwarzkopf Professional"]
     },
     {
@@ -80,15 +80,15 @@ export const SALON_DATA = {
       priceNum: 4499,
       duration: "150 mins",
       image: "assets/images/salon_wash_spa.jpg",
-      shortDesc: "Intense molecular hair restoration that infuses deep amino acids, eliminating frizz and imparting liquid glass shine.",
-      fullDesc: "Formulated with hydrolyzed keratin, silk proteins, and caviar extract, this treatment deeply repairs damaged hair cuticles caused by heat and pollution. Imparts mirror-like glossy reflect that lasts up to 6 months.",
+      shortDesc: "Deep restorative hair treatment that seals in moisture, controls frizz, and leaves hair smooth and manageable.",
+      fullDesc: "Enriched with hydrolyzed keratin and nourishing proteins to repair cuticle damage from heat and styling. Leaves hair soft, glossy, and humidity-resistant for months.",
       steps: [
-        "Clarifying scalp cleanse to open hair cuticles",
-        "Strand-by-strand caviar keratin emulsion infusion",
-        "Infrared thermal sealing with micro-mist hydration",
-        "Cool-shot cuticle lock & silk protein serum application"
+        "Clarifying cleanse to prepare hair for deep absorption",
+        "Section-by-section keratin and protein infusion",
+        "Gentle thermal sealing with micro-mist hydration",
+        "Cuticle-sealing rinse and lightweight smoothing serum"
       ],
-      benefits: ["100% frizz control in high humidity", "Restores elasticity and natural tensile strength", "Effortless styling for 20+ weeks"],
+      benefits: ["Long-lasting frizz control in humid weather", "Restores elasticity and natural softness", "Reduces everyday styling time"],
       products: ["Brazilian Blowout Pro", "GK Hair The Best", "Olaplex Bonding System"]
     },
     {
@@ -101,15 +101,15 @@ export const SALON_DATA = {
       priceNum: 5200,
       duration: "180 mins",
       image: "assets/images/salon_hair_styling.jpg",
-      shortDesc: "Hand-painted sun-kissed gradients, honey caramel or mushroom blonde dimensions with bond multiplier protection.",
-      fullDesc: "Our colorists create seamless, custom color transitions that grow out naturally without harsh demarcation lines. Powered by bonder technology to protect keratin integrity throughout lightening.",
+      shortDesc: "Hand-painted color gradients and custom toning with built-in bond protection to maintain hair health.",
+      fullDesc: "Seamless color transitions tailored to your skin tone and natural base. Designed to grow out softly without harsh lines, using bond protectors to keep strands healthy.",
       steps: [
-        "Custom color formulation based on undertone matching",
-        "Freehand Balayage & Foilayage placement",
-        "Post-lightening bonding bath & neutralizing gloss glaze",
-        "Anti-fade lock masque & dynamic radiant blowout"
+        "Color consultation and undertone matching",
+        "Freehand balayage application and foil placement",
+        "Bonding treatment and neutralizing gloss glaze",
+        "Color-lock conditioning mask and blowdry finish"
       ],
-      benefits: ["Graceful, low-maintenance root grow-out", "Rich multidimensional depth and optical volume", "Zero straw-like dryness"],
+      benefits: ["Soft, low-maintenance root grow-out", "Multidimensional tone and natural depth", "Leaves hair soft and conditioned"],
       products: ["L'Oréal Professionnel French Balayage", "Wella Koleston Perfect", "Olaplex No. 1 & 2"]
     },
     {
@@ -159,20 +159,20 @@ export const SALON_DATA = {
       category: "bridal",
       categoryName: "Bridal & Makeover",
       title: "Signature HD & Airbrush Bridal Makeover",
-      tag: "Signature Masterpiece",
+      tag: "Bridal Signature",
       price: "₹14,999",
       priceNum: 14999,
       duration: "240 mins",
       image: "assets/images/salon_bridal.jpg",
-      shortDesc: "Long-lasting, photo-ready bridal makeup with bespoke hair styling, premium lashes, and dupatta draping.",
-      fullDesc: "Crafted for the bride who wants to look timeless and feel completely comfortable all day. Our bridal team creates breathable, waterproof makeup that stays fresh under venue lighting and through hours of celebration.",
+      shortDesc: "Long-lasting, camera-ready bridal makeup with personalized hair styling, premium lashes, and dupatta draping.",
+      fullDesc: "Crafted for the bride who wants to look timeless and feel completely comfortable throughout the day. Our bridal team creates breathable, long-wearing makeup that stays fresh under venue lighting and through hours of celebration.",
       steps: [
-        "Skin prep & soothing ice-roller treatment",
-        "Customized lightweight HD airbrush base application",
-        "Defined eye artistry with lightweight 3D lashes",
-        "Bridal hair couture with fresh florals & dupatta draping"
+        "Skin preparation and cooling eye treatment",
+        "Custom lightweight HD airbrush base application",
+        "Detailed eye makeup with lightweight lashes",
+        "Bridal hair styling with fresh florals and dupatta draping"
       ],
-      benefits: ["16-hour sweat and smudge-resistant finish", "Looks soft and seamless both in person and on camera", "Private VIP bridal suite experience"],
+      benefits: ["Long-wearing, sweat-resistant finish", "Looks soft and natural both in person and on camera", "Private bridal suite experience"],
       products: ["Charlotte Tilbury Hollywood Flawless", "Dior Backstage", "MAC Studio Fix", "Huda Beauty"]
     },
     {
@@ -180,20 +180,20 @@ export const SALON_DATA = {
       category: "nails",
       categoryName: "Nails & Art",
       title: "Russian Gel Manicure & French Ombré Art",
-      tag: "High Fashion",
+      tag: "Client Favorite",
       price: "₹1,899",
       priceNum: 1899,
       duration: "75 mins",
       image: "assets/images/salon_nails.jpg",
-      shortDesc: "E-file precision cuticle work combined with indestructible gel overlay and custom chrome or minimalist art.",
-      fullDesc: "The pinnacle of cuticle precision. Dry hardware technique provides clean nail beds, allowing gel application millimeter-close to the cuticles for an ultra-long-lasting manicure that looks fresh for 4+ weeks.",
+      shortDesc: "Dry hardware cuticle care with a strengthening gel overlay and custom French or minimalist nail art.",
+      fullDesc: "Specialized dry hardware manicure that cleans the nail bed thoroughly for a seamless, long-lasting gel overlay that stays chip-free for up to four weeks.",
       steps: [
         "Diamond bit dry hardware cuticle cleansing",
         "Nail plate apex balancing with rubber base gel",
-        "Custom chrome, French ombré, or abstract hand-painted art",
-        "High-gloss diamond non-wipe top coat & organic cuticle elixir"
+        "Custom chrome, French ombré, or minimalist hand-painted art",
+        "High-gloss non-wipe top coat and nourishing cuticle oil"
       ],
-      benefits: ["Zero peeling or chipping for 4 weeks", "Strengthens brittle, bending natural nails", "Exquisite high-fashion finish"],
+      benefits: ["Zero peeling or chipping for up to 4 weeks", "Strengthens brittle, bending natural nails", "Clean, high-gloss finish"],
       products: ["OPI GelColor", "Kodi Professional", "Bio Seaweed Gel"]
     },
     {
@@ -206,15 +206,15 @@ export const SALON_DATA = {
       priceNum: 999,
       duration: "50 mins",
       image: "assets/images/salon_men_grooming.jpg",
-      shortDesc: "Warm eucalyptus steam, straight-razor detailing, soothing herbal towels, and post-shave balm.",
+      shortDesc: "Warm towel wrap, straight-razor detailing, soothing herbal mist, and post-shave conditioning balm.",
       fullDesc: "Traditional barbering crafted for modern comfort. We shape your beard cleanly, soothe sensitive skin with warm towels and witch hazel, and finish with a rich conditioning balm.",
       steps: [
-        "Warm towel infusion with natural essential oils",
-        "Precision straight-razor edging & cheek definition",
-        "Cooling herbal towel press & witch hazel tonic",
-        "Deep conditioning beard oil & shoulder massage"
+        "Warm towel wrap with natural essential oils",
+        "Precision straight-razor edging and beard shaping",
+        "Cooling herbal towel compress and toner",
+        "Conditioning beard oil and relaxing shoulder massage"
       ],
-      benefits: ["Clean, well-defined beard lines", "Relieves razor irritation and ingrown hairs", "Softens and tames coarse facial hair"],
+      benefits: ["Clean, well-defined beard lines", "Reduces razor irritation and ingrown hairs", "Softens and tames coarse facial hair"],
       products: ["Proraso Firenze", "Truefitt & Hill", "Captain Fawcett"]
     }
   ],
@@ -226,35 +226,35 @@ export const SALON_DATA = {
       price: "₹4,999",
       origPrice: "₹7,200",
       features: [
-        "Signature Scissor Cut & Couture Blowdry",
-        "Hydra-Glow Dermal Facial Ritual",
-        "Deluxe Pedicure & Hand Reflexology",
-        "Olaplex Express Hair Rebirth Therapy"
+        "Signature Scissor Cut & Professional Blowdry",
+        "Hydra-Glow Facial Treatment",
+        "Deluxe Pedicure & Hand Care",
+        "Olaplex Express Hair Repair"
       ]
     },
     {
-      title: "VIP Bridal Euphoria",
+      title: "VIP Bridal Package",
       badge: "Exclusive",
       price: "₹24,999",
       origPrice: "₹32,000",
       features: [
-        "Full Pre-Bridal Skin, Hair & Body Rituals",
-        "Royal HD / Airbrush Bridal Makeover",
-        "Russian Sculpted Nails & Chrome Art",
-        "Private VIP Bridal Lounge with Refreshments",
+        "Complete Pre-Bridal Skin and Hair Care",
+        "HD or Airbrush Bridal Makeover",
+        "Gel Manicure with Custom Nail Art",
+        "Private Bridal Suite with Refreshments",
         "Complimentary Groom Touch-up Service"
       ]
     },
     {
-      title: "Gentleman's Royal Suite",
+      title: "Gentleman's Grooming Suite",
       badge: "Top Rated",
       price: "₹2,499",
       origPrice: "₹3,500",
       features: [
-        "Master Scissor Haircut & Scalp Scrub",
+        "Precision Scissor Haircut & Scalp Scrub",
         "Classic Beard Sculpt & Hot Towel Shave",
-        "Charcoal D-Tan & Pore Vacuum Facial",
-        "Stress Relief Neck & Shoulder Massage"
+        "Charcoal Deep-Cleanse Facial",
+        "Relaxing Neck & Shoulder Massage"
       ]
     }
   ],
@@ -262,63 +262,71 @@ export const SALON_DATA = {
   salonViews: [
     {
       id: "view-1",
-      title: "The Grand Styling Arena",
+      title: "Main Styling Floor",
       category: "interior",
-      categoryName: "Styling Arena",
-      caption: "Spacious styling floor with custom arched backlit mirrors, cognac leather salon chairs, and dedicated portals to the Makeup & Skin Lounge.",
+      categoryName: "Styling Floor",
+      caption: "Spacious styling floor with arched backlit mirrors, comfortable leather styling chairs, and dedicated consultation stations.",
       image: "assets/images/salon_styling_arena.jpg"
     },
     {
       id: "view-2",
-      title: "Welcome Foyer & Reception",
+      title: "Reception & Waiting Lounge",
       category: "interior",
-      categoryName: "Welcome Foyer",
-      caption: "Contemporary luxury foyer featuring fluted black architectural desk, warm illuminated Magic Scissors signage, and designer pendant chandeliers.",
+      categoryName: "Reception Lounge",
+      caption: "Modern reception desk and quiet waiting lounge with warm lighting and comfortable seating.",
       image: "assets/images/salon_reception_foyer.jpg"
     },
     {
       id: "view-3",
-      title: "Hydro-Therapy & Pedicure Spa Bay",
+      title: "Pedicure & Spa Area",
       category: "wash",
-      categoryName: "Spa & Wash Bay",
-      caption: "Dual ceramic shampoo wash stations paired with a diamond-quilted leather pedicure massage throne and illuminated hair care backbar.",
+      categoryName: "Pedicure Area",
+      caption: "Dedicated pedicure stations with leather massage chairs and ceramic wash basins.",
       image: "assets/images/salon_pedicure_spa.jpg"
     },
     {
       id: "view-4",
-      title: "Head Spa & Wash Sanctuary",
+      title: "Hair Wash & Treatment Suite",
       category: "wash",
-      categoryName: "Head Spa Bay",
-      caption: "Artisan hair wash stations equipped with reclining leather pods, professional backbar formulations, and custom Magic Scissors embroidered linens.",
+      categoryName: "Wash Suite",
+      caption: "Ergonomic wash basins designed for relaxing scalp treatments and hair washes.",
       image: "assets/images/salon_wash_suite.jpg"
     },
     {
       id: "view-5",
-      title: "Private VIP Bridal & Make-Up Suite",
+      title: "Private Bridal & Styling Suite",
       category: "bridal",
-      categoryName: "VIP Bridal Suite",
-      caption: "Exclusive private sanctuary featuring gold-trimmed ivory chairs, warm halo-lit vanity mirrors with etched MS crest, and personal vanity consoles.",
+      categoryName: "Bridal Suite",
+      caption: "Private styling suite with dedicated mirror stations and wash basin.",
       image: "assets/images/salon_vip_bridal.jpg"
+    },
+    {
+      id: "view-6",
+      title: "Hair Care & Styling Lounge",
+      category: "interior",
+      categoryName: "Styling Floor",
+      caption: "Specialized styling stations equipped for precision cutting, styling, and restorative hair rituals.",
+      image: "assets/images/salon_hair_styling.jpg"
     }
   ],
 
   testimonials: [
     {
-      quote: "Magic Scissors has set a totally new benchmark in luxury salon experience. The attention to detail, hygienic protocols, and the scissor precision of their stylists are unmatched.",
+      quote: "The attention to detail and cleanliness here is exceptional. My stylist took the time to understand exactly what I wanted, and the cut grew out beautifully.",
       name: "Pooja Deshmukh",
       role: "Fashion Entrepreneur",
       rating: 5,
       service: "French Balayage & HydraFacial"
     },
     {
-      quote: "The royal bridal package was a dream. They took care of everything in the private VIP suite, and my makeup looked as fresh at 2 AM as it did at 4 PM. Highly recommended!",
+      quote: "The team took care of everything in the private bridal suite on my wedding day. The makeup looked natural, felt lightweight, and stayed fresh all night.",
       name: "Dr. Aastha Sharma",
       role: "Bride & Surgeon",
       rating: 5,
       service: "Royal HD Bridal Suite"
     },
     {
-      quote: "Best men's grooming in town hands down. The beard shaping and hot towel ritual is pure therapy after a grueling work week.",
+      quote: "Great atmosphere and consistently sharp haircuts. The hot towel shave and beard trim is something I look forward to every month.",
       name: "Vikram Singhania",
       role: "Architect",
       rating: 5,
@@ -329,19 +337,19 @@ export const SALON_DATA = {
   faqs: [
     {
       q: "How do I book an appointment at Magic Scissors?",
-      a: "You can book directly by clicking our 'Book Appointment' button, chatting with us instantly on WhatsApp (+91 99601 35849), or by tapping the dialpad call button to speak directly with our front desk concierge."
+      a: "You can book online through our website, message us directly on WhatsApp (+91 99601 35849), or call our front desk."
     },
     {
       q: "Do you offer walk-in appointments?",
-      a: "Yes, walk-ins are warmly welcomed! However, to guarantee your preferred master stylist and avoid waiting times, we recommend booking in advance, especially on weekends."
+      a: "Yes, walk-ins are always welcome. However, we recommend booking in advance to ensure your preferred time slot and stylist, especially on weekends."
     },
     {
       q: "What safety and hygiene standards do you follow?",
-      a: "We maintain hospital-grade cleanliness: every metal scissor, comb, and clipper undergoes 3-stage ultrasonic cleansing and medical autoclave UV sterilization prior to every client service. Disposables are strictly single-use."
+      a: "All metal tools undergo ultrasonic cleaning and autoclave sterilization before every service. Linens are freshly laundered, and disposable items are strictly single-use."
     },
     {
       q: "Can I customize bridal or party makeover packages?",
-      a: "Absolutely. We provide personalized pre-bridal consultations where our creative director designs a bespoke package aligned with your outfits, events, and skin timeline."
+      a: "Yes. We offer pre-bridal consultations where our senior team discusses your wedding timeline, outfits, and styling preferences to create a package that works for you."
     }
   ]
 };

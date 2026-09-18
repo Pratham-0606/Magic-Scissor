@@ -98,20 +98,9 @@
     elements.forEach(el => observer.observe(el));
   }
 
-  // 3. Cinematic Viewfinder Framing Decorator
+  // 3. Cinematic Viewfinder Framing Decorator (Removed per design update)
   function initViewfinderFraming() {
-    // Add subtle cinematic viewfinder corners to key showcase elements
-    const heroCard = document.querySelector('.hero-content');
-    if (heroCard && !heroCard.classList.contains('cinema-frame')) {
-      heroCard.classList.add('cinema-frame');
-    }
-
-    const galleryCards = document.querySelectorAll('.gallery-card');
-    galleryCards.forEach(card => {
-      if (!card.classList.contains('cinema-frame')) {
-        card.classList.add('cinema-frame');
-      }
-    });
+    // Corner viewfinder framing removed for clean modern layout
   }
 
   // Bootstrap when DOM is ready

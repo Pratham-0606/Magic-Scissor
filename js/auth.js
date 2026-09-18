@@ -80,7 +80,7 @@ export class AuthManager {
         <div style="text-align: center; margin-bottom: 25px;">
           <div class="logo-scissor-mark" style="margin: 0 auto 12px; width: 44px; height: 44px; font-size: 20px;">✂</div>
           <h2 class="font-serif gold-text" style="font-size: 1.8rem; margin-bottom: 6px;">Magic Scissors VIP</h2>
-          <p style="color: var(--text-muted); font-size: 0.88rem;">Access live appointment tracking and exclusive member privileges</p>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">Enjoy priority booking, appointment tracking, and exclusive member privileges.</p>
         </div>
 
         <!-- Auth Tabs -->
@@ -89,7 +89,7 @@ export class AuthManager {
             Sign In
           </button>
           <button id="tabBtnSignUp" type="button" class="btn ${activeTab === 'signup' ? 'btn-gold' : 'btn-outline-gold'}" style="flex: 1; padding: 8px 14px; font-size: 0.85rem; border-radius: var(--radius-full); ${activeTab === 'signup' ? 'border: none;' : ''}">
-            New Membership
+            Join VIP
           </button>
         </div>
 
@@ -105,7 +105,7 @@ export class AuthManager {
               <input type="password" id="signInPassword" name="password" class="luxury-input" placeholder="••••••••" autocomplete="current-password">
             </div>
             <button type="submit" id="btnSignInSubmit" class="btn btn-gold" style="width: 100%; margin-top: 8px; padding: 12px;">
-              Sign In to Account
+              Sign In
             </button>
           </form>
         </div>
@@ -130,7 +130,7 @@ export class AuthManager {
               <input type="password" id="signUpPassword" name="password" class="luxury-input" placeholder="••••••••" autocomplete="new-password">
             </div>
             <button type="submit" id="btnSignUpSubmit" class="btn btn-gold" style="width: 100%; margin-top: 8px; padding: 12px;">
-              Create VIP Membership
+              Create VIP Account
             </button>
           </form>
         </div>
@@ -208,7 +208,7 @@ export class AuthManager {
 
       if (hasError) return;
 
-      ButtonLoader.start(submitBtn, "Authenticating VIP...");
+      ButtonLoader.start(submitBtn, "Signing in...");
 
       try {
         const res = await supabaseService.signInUser(email, password);
@@ -269,16 +269,16 @@ export class AuthManager {
 
       if (hasError) return;
 
-      ButtonLoader.start(submitBtn, "Creating VIP Membership...");
+      ButtonLoader.start(submitBtn, "Creating account...");
 
       try {
         const res = await supabaseService.signUpUser(name, email, phone, password);
         if (res && res.success) {
-          ToastManager.success(`VIP membership created! Welcome to Magic Scissors, ${res.user.name.split(" ")[0]}.`);
+          ToastManager.success(`Account created. Welcome to Magic Scissors, ${res.user.name.split(" ")[0]}!`);
           this.updateHeaderAccountBtn();
           this.renderProfileView(res.user);
         } else {
-          showAuthError("Unable to create membership. Please try again or check your information.");
+          showAuthError("Unable to create account. Please check your information and try again.");
         }
       } catch (err) {
         const classified = ErrorClassifier.classify(err);
@@ -321,17 +321,17 @@ export class AuthManager {
 
           <!-- Appointment Tracking History -->
           <h3 class="font-serif" style="font-size: 1.25rem; margin-bottom: 16px; color: var(--accent-light);">
-            Your Salon Bookings & Live Status
+            Your Appointments
           </h3>
 
           <div id="profileAppointmentsContainer">
             ${appointments.length === 0 ? `
               <div class="ms-empty-state" style="padding: 28px 16px; margin: 8px 0;">
                 <div class="ms-empty-icon" style="width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 10px;">📅</div>
-                <h4 class="ms-empty-title" style="font-size: 1.05rem; margin-bottom: 4px;">No appointments booked yet</h4>
-                <p class="ms-empty-desc" style="font-size: 0.82rem; margin-bottom: 14px;">Schedule your first luxury couture hair or skin ritual today.</p>
+                <h4 class="ms-empty-title" style="font-size: 1.05rem; margin-bottom: 4px;">No appointments scheduled</h4>
+                <p class="ms-empty-desc" style="font-size: 0.82rem; margin-bottom: 14px;">Book your next visit with our stylists.</p>
                 <a href="#booking" id="emptyBookNowBtn" class="btn btn-gold" style="padding: 6px 18px; font-size: 0.82rem;">
-                  Schedule Your First Appointment
+                  Book an Appointment
                 </a>
               </div>
             ` : `
@@ -362,11 +362,11 @@ export class AuthManager {
             <div style="display: flex; gap: 8px; align-items: center;">
               ${(user.email && (user.email.toLowerCase().includes("admin") || user.email.toLowerCase().includes("concierge"))) ? `
                 <button id="authStaffDeskBtn" type="button" class="btn btn-outline-gold" style="padding: 8px 16px; font-size: 0.82rem;">
-                  💼 Concierge Desk
+                  Concierge Desk
                 </button>
               ` : ''}
               <a href="#booking" id="authBookNewBtn" class="btn btn-gold" style="padding: 8px 20px; font-size: 0.88rem;">
-                Book New Appointment
+                Book an Appointment
               </a>
             </div>
           </div>

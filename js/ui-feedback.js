@@ -607,7 +607,7 @@ export class ErrorClassifier {
     if (raw.includes("failed to fetch") || raw.includes("networkerror") || raw.includes("offline") || (typeof navigator !== "undefined" && navigator.onLine === false)) {
       return {
         category: "Network Error",
-        userMessage: "Unable to connect to the salon network. Please check your internet connection and try again.",
+        userMessage: "Unable to connect. Please check your internet connection and try again.",
         canRetry: true
       };
     }
@@ -616,7 +616,7 @@ export class ErrorClassifier {
     if (raw.includes("invalid login credentials") || raw.includes("invalid password") || raw.includes("user not found") || raw.includes("auth")) {
       return {
         category: "Authentication Error",
-        userMessage: "Invalid email or password. Please verify your VIP credentials and try again.",
+        userMessage: "Invalid email or password. Please check your credentials and try again.",
         canRetry: false
       };
     }
@@ -625,7 +625,7 @@ export class ErrorClassifier {
     if (raw.includes("user already registered") || raw.includes("already exists")) {
       return {
         category: "Registration Error",
-        userMessage: "An account with this email address already exists. Please sign in instead.",
+        userMessage: "An account with this email already exists. Please sign in instead.",
         canRetry: false
       };
     }
@@ -634,7 +634,7 @@ export class ErrorClassifier {
     if (raw.includes("timeout") || raw.includes("took too long") || raw.includes("abort")) {
       return {
         category: "Timeout",
-        userMessage: "The request took longer than expected to respond. Please try again.",
+        userMessage: "The request took longer than expected. Please try again.",
         canRetry: true
       };
     }
@@ -643,7 +643,7 @@ export class ErrorClassifier {
     if (raw.includes("size") || raw.includes("too large") || raw.includes("5mb")) {
       return {
         category: "File Size Error",
-        userMessage: "Image size must be 5 MB or less. Please select a smaller photo.",
+        userMessage: "Image size must be 5 MB or less. Please select a smaller image.",
         canRetry: true
       };
     }
@@ -651,7 +651,7 @@ export class ErrorClassifier {
     if (raw.includes("format") || raw.includes("type") || raw.includes("unsupported")) {
       return {
         category: "File Type Error",
-        userMessage: "Please upload a valid JPG, PNG, or WebP image.",
+        userMessage: "Please upload a JPG, PNG, or WebP image.",
         canRetry: true
       };
     }
@@ -660,7 +660,7 @@ export class ErrorClassifier {
     if (raw.includes("supabase") || raw.includes("database") || raw.includes("relation") || raw.includes("postgres")) {
       return {
         category: "Database Notice",
-        userMessage: "Salon database is temporarily busy. Your booking is safely captured in local offline mode.",
+        userMessage: "Database connection is temporarily busy. Your appointment has been saved locally.",
         canRetry: true
       };
     }
@@ -668,7 +668,7 @@ export class ErrorClassifier {
     // Default Unknown
     return {
       category: "Unexpected Error",
-      userMessage: "Something went wrong while processing your request. Please try again or contact our front desk.",
+      userMessage: "Something went wrong. Please try again or contact our front desk.",
       canRetry: true
     };
   }
@@ -686,22 +686,23 @@ export class StylePhotoUploader {
   static init(container, options = {}) {
     if (!container) return null;
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    const allowedMime = ["image/jpeg", "image/png", "image/webp"];
+    const allowedExt = /\.(jpe?g|png|webp)$/i;
     const maxSizeBytes = 5 * 1024 * 1024; // 5 MB
 
     container.innerHTML = `
       <div class="style-upload-box">
         <label class="luxury-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-          <span>Attach Hair / Style Inspiration Photo (Optional)</span>
+          <span>Attach Style Inspiration Photo (Optional)</span>
           <span style="font-size: 0.72rem; color: var(--accent-light, #D49A7E); font-weight: 500; text-transform: uppercase;">Max 5 MB • JPG, PNG, WebP</span>
         </label>
 
         <!-- Dropzone -->
         <div class="style-upload-dropzone" tabindex="0" role="button" aria-label="Upload style inspiration photo. Click or drag and drop.">
-          <input type="file" class="style-file-input" accept="image/jpeg,image/png,image/webp" style="display: none;">
+          <input type="file" class="style-file-input" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" style="display: none;">
           <div class="style-upload-icon" aria-hidden="true">📸</div>
           <div class="style-upload-prompt">Click to browse or drop reference photo here</div>
-          <div class="style-upload-hint">Help our master stylists prepare your customized look</div>
+          <div class="style-upload-hint">Help our stylists prepare for your appointment</div>
         </div>
 
         <!-- Processing Skeleton State -->
@@ -713,14 +714,26 @@ export class StylePhotoUploader {
           </div>
         </div>
 
+        <!-- Inline Error Box -->
+        <div class="style-upload-error-box" style="display: none;">
+          <span aria-hidden="true" style="font-size: 1.2rem;">⚠️</span>
+          <div class="style-upload-error-text"></div>
+          <button type="button" class="style-upload-error-retry-btn">Choose File</button>
+        </div>
+
         <!-- Preview State -->
         <div class="style-upload-preview" style="display: none;">
-          <img src="" alt="Style Reference Preview" class="style-upload-thumb">
+          <div class="style-upload-thumb-wrap">
+            <img src="" alt="Style Reference Preview" class="style-upload-thumb">
+          </div>
           <div class="style-upload-meta">
             <div class="style-upload-filename">photo.jpg</div>
-            <div class="style-upload-filesize">1.2 MB • Ready to attach</div>
+            <div class="style-upload-filesize">1.2 MB • Photo attached</div>
           </div>
-          <button type="button" class="style-upload-remove-btn" aria-label="Remove photo">✕ Remove</button>
+          <div class="style-upload-actions">
+            <button type="button" class="style-upload-replace-btn" aria-label="Replace photo">🔄 Replace</button>
+            <button type="button" class="style-upload-remove-btn" aria-label="Remove photo">✕ Remove</button>
+          </div>
         </div>
       </div>
     `;
@@ -728,78 +741,123 @@ export class StylePhotoUploader {
     const dropzone = container.querySelector(".style-upload-dropzone");
     const fileInput = container.querySelector(".style-file-input");
     const processingBox = container.querySelector(".upload-processing-box");
+    const errorBox = container.querySelector(".style-upload-error-box");
+    const errorText = container.querySelector(".style-upload-error-text");
+    const errorRetryBtn = container.querySelector(".style-upload-error-retry-btn");
     const previewBox = container.querySelector(".style-upload-preview");
     const thumbImg = container.querySelector(".style-upload-thumb");
     const filenameEl = container.querySelector(".style-upload-filename");
     const filesizeEl = container.querySelector(".style-upload-filesize");
+    const replaceBtn = container.querySelector(".style-upload-replace-btn");
     const removeBtn = container.querySelector(".style-upload-remove-btn");
 
     let attachedFile = null;
+    let currentObjectUrl = null;
+
+    const revokeCurrentUrl = () => {
+      if (currentObjectUrl) {
+        try {
+          URL.revokeObjectURL(currentObjectUrl);
+        } catch (_) {}
+        currentObjectUrl = null;
+      }
+    };
 
     const resetState = () => {
+      revokeCurrentUrl();
       attachedFile = null;
       fileInput.value = "";
       dropzone.style.display = "flex";
       processingBox.style.display = "none";
+      errorBox.style.display = "none";
       previewBox.style.display = "none";
       thumbImg.src = "";
+      FormValidator.clearFieldError(dropzone);
+      if (options.onChange) options.onChange(null);
+    };
+
+    const showInlineError = (msg) => {
+      revokeCurrentUrl();
+      attachedFile = null;
+      fileInput.value = "";
+      processingBox.style.display = "none";
+      previewBox.style.display = "none";
+      dropzone.style.display = "none";
+      errorBox.style.display = "flex";
+      errorText.textContent = msg;
+      ToastManager.error(msg);
+      FormValidator.setFieldError(dropzone, msg);
       if (options.onChange) options.onChange(null);
     };
 
     const handleFile = (file) => {
       if (!file) return;
 
-      // 1. Validate File Type
-      if (!allowedTypes.includes(file.type)) {
-        ToastManager.error("Please upload a JPG, PNG, or WebP image.");
-        FormValidator.setFieldError(dropzone, "Unsupported format. Only JPG, PNG, and WebP photos are accepted.");
-        return;
-      }
-
-      // 2. Validate File Size
-      if (file.size > maxSizeBytes) {
-        ToastManager.error("Image size must be 5 MB or less.");
-        FormValidator.setFieldError(dropzone, "Photo exceeds 5 MB limit. Please choose a smaller image.");
-        return;
-      }
-
+      errorBox.style.display = "none";
       FormValidator.clearFieldError(dropzone);
 
-      // Show processing skeleton
+      // 1. Validate File Format (MIME or Extension)
+      const isValidType = (file.type && allowedMime.includes(file.type.toLowerCase())) ||
+                          allowedExt.test(file.name);
+
+      if (!isValidType) {
+        showInlineError("Please select a JPG, PNG, or WebP image.");
+        return;
+      }
+
+      // 2. Validate File Size (<= 5 MB)
+      if (file.size > maxSizeBytes) {
+        showInlineError("Image size must be 5 MB or less.");
+        return;
+      }
+
+      // 3. State Flow: Selecting -> Preview/loading state -> Image preview
       dropzone.style.display = "none";
       previewBox.style.display = "none";
       processingBox.style.display = "flex";
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setTimeout(() => {
+      revokeCurrentUrl();
+
+      try {
+        const objectUrl = URL.createObjectURL(file);
+
+        // Verify that browser can decode and preview the image
+        const imgTester = new Image();
+        imgTester.onload = () => {
+          currentObjectUrl = objectUrl;
           attachedFile = {
             name: file.name,
             size: file.size,
-            type: file.type,
-            dataUrl: e.target.result
+            type: file.type || "image/jpeg",
+            url: objectUrl,
+            file: file
           };
 
-          thumbImg.src = e.target.result;
+          thumbImg.src = objectUrl;
           filenameEl.textContent = file.name;
           const sizeKb = (file.size / 1024).toFixed(0);
-          filesizeEl.textContent = `${sizeKb} KB • Reference Photo Attached`;
+          filesizeEl.textContent = file.size < 1024 * 1024
+            ? `${sizeKb} KB • Reference photo attached`
+            : `${(file.size / (1024 * 1024)).toFixed(1)} MB • Reference photo attached`;
 
           processingBox.style.display = "none";
           previewBox.style.display = "flex";
 
           ToastManager.success(`Reference photo "${file.name}" attached successfully.`);
           if (options.onChange) options.onChange(attachedFile);
-        }, 400); // Realistic processing delay with skeleton
-      };
+        };
 
-      reader.onerror = () => {
-        processingBox.style.display = "none";
-        dropzone.style.display = "flex";
-        ToastManager.error("Could not process the selected image. Please try another photo.");
-      };
+        imgTester.onerror = () => {
+          try {
+            URL.revokeObjectURL(objectUrl);
+          } catch (_) {}
+          showInlineError("We couldn't preview this image. Please try another file.");
+        };
 
-      reader.readAsDataURL(file);
+        imgTester.src = objectUrl;
+      } catch (err) {
+        showInlineError("We couldn't preview this image. Please try another file.");
+      }
     };
 
     // Click to browse
@@ -809,6 +867,14 @@ export class StylePhotoUploader {
         e.preventDefault();
         fileInput.click();
       }
+    });
+
+    // Retry / Choose another file from error state
+    errorRetryBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      errorBox.style.display = "none";
+      dropzone.style.display = "flex";
+      fileInput.click();
     });
 
     // File input change
@@ -834,11 +900,17 @@ export class StylePhotoUploader {
       if (file) handleFile(file);
     });
 
+    // Replace photo
+    replaceBtn.addEventListener("click", (e) => {
+      if (e && typeof e.preventDefault === "function") e.preventDefault();
+      fileInput.click();
+    });
+
     // Remove photo
     removeBtn.addEventListener("click", (e) => {
-      e.preventDefault();
+      if (e && typeof e.preventDefault === "function") e.preventDefault();
       resetState();
-      ToastManager.info("Style reference photo removed.");
+      ToastManager.info("Inspiration photo removed.");
     });
 
     return {

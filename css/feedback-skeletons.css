@@ -237,7 +237,7 @@
 .gallery-card-skeleton {
   border-radius: var(--radius-md, 14px);
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  height: 310px;
   position: relative;
   border: 1px solid rgba(184, 107, 73, 0.12);
 }
@@ -252,6 +252,42 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+/* Featured Skeleton alignment with editorial bento grid */
+@media (min-width: 1025px) {
+  .services-grid > .service-card-skeleton:first-child {
+    grid-column: span 2;
+    flex-direction: row;
+  }
+
+  .services-grid > .service-card-skeleton:first-child .skeleton-media {
+    width: 44%;
+    min-height: 100%;
+    aspect-ratio: auto;
+    flex-shrink: 0;
+  }
+
+  .services-grid > .service-card-skeleton:first-child .skeleton-body {
+    width: 56%;
+    padding: 28px 30px;
+  }
+
+  .gallery-grid > .gallery-card-skeleton:first-child,
+  .gallery-grid > .gallery-card-skeleton:last-child {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .services-grid > .service-card-skeleton:first-child {
+    grid-column: span 2;
+  }
+
+  .gallery-grid > .gallery-card-skeleton:first-child,
+  .gallery-grid > .gallery-card-skeleton:last-child {
+    grid-column: span 2;
+  }
 }
 
 /* Appointment Card Skeleton (Concierge Desk & VIP Profile) */
@@ -613,13 +649,26 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
-.style-upload-thumb {
-  width: 54px;
-  height: 54px;
+.style-upload-thumb-wrap {
+  width: 68px;
+  height: 68px;
   border-radius: 8px;
-  object-fit: cover;
+  background: #FAF8F5;
   border: 1px solid rgba(184, 107, 73, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   flex-shrink: 0;
+}
+
+.style-upload-thumb {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .style-upload-meta {
@@ -642,11 +691,37 @@
   margin-top: 2px;
 }
 
+.style-upload-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.style-upload-replace-btn {
+  background: none;
+  border: 1px solid rgba(184, 107, 73, 0.4);
+  color: var(--accent-dark, #8B4A2D);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.style-upload-replace-btn:hover {
+  background: rgba(184, 107, 73, 0.1);
+  border-color: var(--accent-primary, #B86B49);
+}
+
 .style-upload-remove-btn {
   background: none;
   border: 1px solid rgba(220, 38, 38, 0.3);
   color: #DC2626;
   font-size: 0.78rem;
+  font-weight: 600;
   padding: 6px 10px;
   border-radius: 6px;
   cursor: pointer;
@@ -655,6 +730,42 @@
 }
 
 .style-upload-remove-btn:hover {
+  background: #DC2626;
+  color: #FFFFFF;
+}
+
+/* Upload Error State Box */
+.style-upload-error-box {
+  display: none;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #FEF2F2;
+  border: 1px solid rgba(220, 38, 38, 0.28);
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.style-upload-error-text {
+  font-size: 0.84rem;
+  color: #991B1B;
+  flex-grow: 1;
+  line-height: 1.4;
+}
+
+.style-upload-error-retry-btn {
+  background: none;
+  border: 1px solid #DC2626;
+  color: #DC2626;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.style-upload-error-retry-btn:hover {
   background: #DC2626;
   color: #FFFFFF;
 }
@@ -671,8 +782,29 @@
 }
 
 /* --------------------------------------------------------------------------
-   10. Image Card Skeleton for Lightbox & Gallery
+   10. Image Card Skeleton & Placeholders for Lightbox & Gallery
    -------------------------------------------------------------------------- */
+.service-card-media,
+.gallery-card,
+.modal-banner-wrap,
+.insta-tile {
+  background: linear-gradient(135deg, #F3ECE6 0%, #FAF8F5 50%, #F3ECE6 100%);
+  background-size: 200% 200%;
+}
+
+.service-card-img,
+.gallery-img,
+.about-main-img {
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.6s ease;
+}
+
+.service-card-img.is-loaded,
+.gallery-img.is-loaded,
+.about-main-img.is-loaded {
+  opacity: 1;
+}
+
 .lightbox-loading-overlay {
   position: absolute;
   inset: 0;
@@ -681,14 +813,27 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background: rgba(13, 16, 23, 0.7);
-  z-index: 2;
+  background: rgba(13, 16, 23, 0.85);
+  z-index: 5;
   transition: opacity 0.3s ease;
 }
 
 .lightbox-loading-overlay.loaded {
   opacity: 0;
   pointer-events: none;
+}
+
+/* Lightbox Error Box */
+.lightbox-error-box {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  min-height: 320px;
+  text-align: center;
+  background: rgba(15, 17, 23, 0.95);
+  border-radius: 8px;
 }
 
 /* Mobile Adjustments */
@@ -703,5 +848,26 @@
 
   .metrics-strip-skeleton {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .style-upload-preview {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .style-upload-actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .style-upload-replace-btn,
+  .style-upload-remove-btn {
+    flex: 1;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }
