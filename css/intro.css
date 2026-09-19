@@ -1,7 +1,30 @@
 /* ==========================================================================
-   MAGIC SCISSORS - THEATRICAL INTRO & ENTRANCE ANIMATION SYSTEM
+   MAGIC SCISSORS - THEATRICAL INTRO & CINEMATIC SEQUENCE SYSTEM
+   
+   PHASE 1: Theatrical Stage Opening
+   - Heavy luxury velvet curtains closed
+   - Spotlight breathe effect & crown banner
+   - "MAGIC SCISSORS" character-by-character fade-up with terracotta-gold gradient
+   - Subtitle & mechanical animated snipping scissors
+   - Luxury "Enter Salon" CTA button with pulsing aura ring
+
+   PHASE 2: When "Enter Salon" is tapped
+   0.0s — Stage text cleanly fades out; rolling salon chair shoots across from right to left
+   1.5s — Chair completely exits composition
+   1.6s — Cinematic pause (0.2s pause, still atmosphere)
+   1.8s — Velvet curtains begin opening smoothly from center (1.4s duration)
+   2.5s — Warm golden light bloom swells from behind curtains
+   3.2s — Curtains fully open, luxury salon interior revealed
+   3.3s — Cinematic camera push-in toward salon interior
+   3.8s — Magic Scissors logo blur-to-sharp reveal (scale 96% -> 100%)
+   4.8s — Clean hold on the razor-sharp logo & salon setting
+   5.0s — Slower cinematic fade dissolve begins (gracefully cross-fades into website over 1.3s)
+   6.3s — Main website revealed seamlessly & interactive
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   Overlay Container
+   -------------------------------------------------------------------------- */
 .theatrical-intro-overlay {
   position: fixed;
   top: 0;
@@ -14,19 +37,32 @@
   justify-content: center;
   overflow: hidden;
   pointer-events: all;
-  background-color: #050507;
-  transition: opacity 0.8s ease 0.8s, visibility 0.8s ease 0.8s;
+  background-color: #060508;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
 }
 
-.theatrical-intro-overlay.intro-completed {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+/* 5.0s: Slower, luxury fade dissolve animation revealing the website */
+.theatrical-intro-overlay.fade-dissolve-active {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
+.theatrical-intro-overlay.fade-dissolve-active .intro-backdrop-scene {
+  transform: scale(1.035);
+  filter: blur(1.5px);
+  transition: transform 1.3s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Completed / Bypassed State */
+.theatrical-intro-overlay.intro-completed,
+.theatrical-intro-overlay.intro-bypassed,
 html.intro-already-entered #theatricalIntroOverlay,
-html.intro-already-entered #salonChairTrack,
-.theatrical-intro-overlay.intro-bypassed {
+html.intro-already-entered #salonChairTrack {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
@@ -38,64 +74,62 @@ html.intro-already-entered body {
   overflow: auto !important;
 }
 
-/* ==========================================================================
-   1. Heavy Luxury Velvet Curtains (Left & Right)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   1. Heavy Velvet Stage Curtains (Left & Right)
+   -------------------------------------------------------------------------- */
 .curtain-panel {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 50.5%;
   height: 100%;
-  z-index: 2;
-  transition: transform 1.25s cubic-bezier(0.77, 0, 0.175, 1);
+  z-index: 20;
+  transition: transform 1.4s cubic-bezier(0.65, 0.05, 0.36, 1);
   will-change: transform;
   overflow: hidden;
 }
 
 .curtain-left {
   left: 0;
-  background: 
-    radial-gradient(ellipse at 80% 50%, rgba(20, 16, 22, 0.95), #09080b 80%),
-    repeating-linear-gradient(90deg, 
-      #080709 0px, 
-      #131018 25px, 
-      #050406 50px, 
-      #18141f 75px, 
+  background:
+    radial-gradient(ellipse at 80% 50%, rgba(22, 17, 24, 0.95), #09080b 80%),
+    repeating-linear-gradient(90deg,
+      #080709 0px,
+      #141119 25px,
+      #050406 50px,
+      #191520 75px,
       #070608 100px);
-  box-shadow: inset -25px 0 50px rgba(0, 0, 0, 0.9), 10px 0 40px rgba(0, 0, 0, 0.9);
+  box-shadow: inset -25px 0 50px rgba(0, 0, 0, 0.92), 12px 0 45px rgba(0, 0, 0, 0.9);
 }
 
 .curtain-right {
   right: 0;
-  background: 
-    radial-gradient(ellipse at 20% 50%, rgba(20, 16, 22, 0.95), #09080b 80%),
-    repeating-linear-gradient(90deg, 
-      #070608 0px, 
-      #18141f 25px, 
-      #050406 50px, 
-      #131018 75px, 
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(22, 17, 24, 0.95), #09080b 80%),
+    repeating-linear-gradient(90deg,
+      #070608 0px,
+      #191520 25px,
+      #050406 50px,
+      #141119 75px,
       #080709 100px);
-  box-shadow: inset 25px 0 50px rgba(0, 0, 0, 0.9), -10px 0 40px rgba(0, 0, 0, 0.9);
+  box-shadow: inset 25px 0 50px rgba(0, 0, 0, 0.92), -12px 0 45px rgba(0, 0, 0, 0.9);
 }
 
-
-
-/* Curtain Parting Action */
-.curtain-open .curtain-left {
-  transform: translateX(-102%) skewX(-1.5deg);
+/* 1.8s: Curtains begin opening smoothly from center */
+.theatrical-intro-overlay.curtain-opening .curtain-left {
+  transform: translateX(-102%) skewX(-1.2deg);
 }
 
-.curtain-open .curtain-right {
-  transform: translateX(102%) skewX(1.5deg);
+.theatrical-intro-overlay.curtain-opening .curtain-right {
+  transform: translateX(102%) skewX(1.2deg);
 }
 
-/* ==========================================================================
-   2. Theatrical Stage Content (Text, Scissor, Get Started Button)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   2. Theatrical Stage Content (Character Fade-up, Scissor, Enter Button)
+   -------------------------------------------------------------------------- */
 .intro-stage {
   position: relative;
-  z-index: 10;
+  z-index: 25;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,13 +137,16 @@ html.intro-already-entered body {
   text-align: center;
   padding: 40px 20px;
   max-width: 900px;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: auto;
 }
 
-.curtain-open .intro-stage {
-  opacity: 0;
+/* When user taps "Enter Salon", stage content cleanly fades out */
+.theatrical-intro-overlay.stage-exited .intro-stage,
+.theatrical-intro-overlay.curtain-opening .intro-stage {
+  opacity: 0 !important;
   transform: scale(0.96);
-  transition: all 0.4s ease;
+  pointer-events: none !important;
 }
 
 /* Spotlight Background Glow */
@@ -118,7 +155,7 @@ html.intro-already-entered body {
   width: 500px;
   height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200, 109, 74, 0.16) 0%, rgba(200, 109, 74, 0.02) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(200, 109, 74, 0.18) 0%, rgba(200, 109, 74, 0.03) 50%, transparent 70%);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -172,7 +209,7 @@ html.intro-already-entered body {
   justify-content: center;
   margin-bottom: 24px;
   line-height: 1.1;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
 }
 
 .intro-title .word {
@@ -231,9 +268,7 @@ html.intro-already-entered body {
   to { opacity: 0.85; transform: translateY(0); }
 }
 
-/* ==========================================================================
-   3. Animated Scissor with Snipping Open-Close Action
-   ========================================================================== */
+/* Mechanical Animated Scissors with Snipping Action */
 .scissors-animation-container {
   position: relative;
   width: 90px;
@@ -340,9 +375,7 @@ html.intro-already-entered body {
   }
 }
 
-/* ==========================================================================
-   4. The "Get Started" Luxury Entrance CTA
-   ========================================================================== */
+/* Luxury "Enter Salon" CTA Button */
 .btn-get-started {
   opacity: 0;
   transform: translateY(20px);
@@ -396,9 +429,142 @@ html.intro-already-entered body {
   transform: scale(0.98);
 }
 
-/* ==========================================================================
-   5. Rolling Salon Chair at High Speed (From Right to Left)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   3. Salon Backdrop Scene (Revealed Behind Curtains)
+   -------------------------------------------------------------------------- */
+.intro-backdrop-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+  transform: scale(1.0);
+  filter: blur(0px);
+  transition: transform 0.5s ease, filter 0.5s ease;
+  will-change: transform, filter;
+}
+
+/* 3.2s: Real Salon Interior Environment */
+.intro-salon-environment {
+  position: absolute;
+  inset: -25px;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(18, 14, 22, 0.25) 0%, rgba(6, 5, 8, 0.75) 100%),
+    url('../assets/images/salon_interior.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: brightness(0.88) contrast(1.08) saturate(1.1);
+  transform: scale(1.0);
+  transition: transform 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+/* 3.3s: Cinematic Camera Push-In toward Salon Interior */
+.theatrical-intro-overlay.camera-push-active .intro-salon-environment {
+  transform: scale(1.055);
+}
+
+/* 2.5s: Warm Ambient Light Bloom Swells Behind Parting Curtains */
+.intro-warm-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(240, 150, 110, 0.40) 0%,
+    rgba(215, 120, 85, 0.22) 38%,
+    rgba(20, 16, 25, 0.45) 75%,
+    rgba(5, 4, 7, 0.8) 100%
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.theatrical-intro-overlay.warm-light-active .intro-warm-glow {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   4. Magic Scissors Logo Reveal Stage
+   -------------------------------------------------------------------------- */
+.intro-logo-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.intro-logo-lockup {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 44px;
+}
+
+/* Soft luminous warm light aura backing the logo for pristine contrast */
+.intro-logo-glow {
+  position: absolute;
+  width: clamp(290px, 52vw, 580px);
+  height: clamp(140px, 28vw, 250px);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 252, 248, 0.97) 0%,
+    rgba(252, 242, 232, 0.92) 36%,
+    rgba(224, 133, 100, 0.48) 66%,
+    rgba(200, 109, 74, 0.12) 82%,
+    transparent 100%
+  );
+  filter: blur(22px);
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.theatrical-intro-overlay.logo-reveal-active .intro-logo-glow {
+  opacity: 1;
+  transform: scale(1.0);
+}
+
+/* 3.8s: Exact Magic Scissors Logo Asset (Blur -> Crisp, 96% -> 100%) */
+.intro-logo-asset {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: clamp(240px, 38vw, 480px);
+  height: auto;
+  max-width: 86vw;
+  user-select: none;
+  -webkit-user-drag: none;
+  opacity: 0;
+  transform: scale(0.96);
+  filter: blur(8px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.theatrical-intro-overlay.logo-reveal-active .intro-logo-asset {
+  opacity: 1;
+  transform: scale(1.0);
+  filter: blur(0px) drop-shadow(0 4px 14px rgba(0, 0, 0, 0.22));
+}
+
+/* --------------------------------------------------------------------------
+   5. Rolling Salon Chair (0.0s to 1.5s after Enter Salon tap)
+   -------------------------------------------------------------------------- */
 .salon-chair-track {
   position: fixed;
   bottom: 12%;
@@ -407,7 +573,7 @@ html.intro-already-entered body {
   height: 220px;
   pointer-events: none;
   z-index: 999999;
-  display: none; /* activated during roll */
+  display: none;
 }
 
 .salon-chair-track.active-roll {
@@ -416,7 +582,7 @@ html.intro-already-entered body {
 
 .rolling-salon-chair {
   position: absolute;
-  right: -250px; /* Start completely offscreen right */
+  right: -250px;
   bottom: 0;
   width: 170px;
   height: 210px;
@@ -424,31 +590,30 @@ html.intro-already-entered body {
   will-change: transform;
 }
 
-/* Speed Motion Animation: Shoots from Right (+120vw) to Left (-120vw) */
+/* Smooth realistic roll across screen from right to left in 1.5s */
 .salon-chair-track.active-roll .rolling-salon-chair {
-  animation: chairHighSpeedRoll 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: chairHighSpeedRoll 1.5s cubic-bezier(0.25, 1, 0.35, 1) forwards;
 }
 
 @keyframes chairHighSpeedRoll {
   0% {
-    transform: translateX(0) rotate(5deg) scale(0.95);
+    transform: translateX(0) rotate(4deg) scale(0.95);
     opacity: 1;
   }
-  30% {
-    transform: translateX(calc(-0.6 * (100vw + 350px))) rotate(-3deg) scale(1.05);
+  25% {
+    transform: translateX(calc(-0.5 * (100vw + 400px))) rotate(-2deg) scale(1.02);
     opacity: 1;
   }
-  70% {
-    transform: translateX(calc(-1.1 * (100vw + 350px))) rotate(-6deg) scale(1);
+  65% {
+    transform: translateX(calc(-1.0 * (100vw + 400px))) rotate(-5deg) scale(0.98);
     opacity: 1;
   }
   100% {
-    transform: translateX(calc(-1.35 * (100vw + 350px))) rotate(-8deg) scale(0.95);
+    transform: translateX(calc(-1.35 * (100vw + 400px))) rotate(-6deg) scale(0.92);
     opacity: 0;
   }
 }
 
-/* Speed streaks behind the chair */
 .chair-speed-streaks {
   position: absolute;
   top: 50%;
@@ -462,10 +627,9 @@ html.intro-already-entered body {
   filter: blur(4px);
 }
 
-/* Chair Wheels Spinning Effect */
 .chair-wheel {
   transform-origin: center;
-  animation: wheelSpin 0.3s linear infinite;
+  animation: wheelSpin 0.35s linear infinite;
 }
 
 @keyframes wheelSpin {
@@ -473,32 +637,35 @@ html.intro-already-entered body {
   to { transform: rotate(-360deg); }
 }
 
-
-
-/* Reduced Motion Override for Theatrical Entrance */
+/* --------------------------------------------------------------------------
+   6. Reduced Motion Preference
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .curtain-panel,
   .theatrical-intro-overlay,
-  .char,
-  .scissor-blade-top,
-  .scissor-blade-bottom,
+  .intro-stage,
+  .intro-salon-environment,
+  .intro-warm-glow,
+  .intro-logo-glow,
+  .intro-logo-asset,
   .chair-wheel,
   .rolling-salon-chair {
-    transition: opacity 0.2s ease !important;
+    transition: none !important;
     animation: none !important;
     transform: none !important;
   }
-  .theatrical-intro-overlay.curtain-open,
-  .theatrical-intro-overlay.intro-completed {
+
+  .theatrical-intro-overlay {
+    display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
   }
 }
 
-/* ==========================================================================
-   Mobile View Specific Rules (Phone view only, zero change to laptop)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   7. Mobile View Specific Rules (Phone & Small Screens)
+   -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .intro-stage {
     padding: 24px 16px;
@@ -523,227 +690,43 @@ html.intro-already-entered body {
     line-height: 1.15;
   }
 
-  .intro-subtitle {
-    font-size: 0.88rem;
-    line-height: 1.55;
-    margin-bottom: 20px;
-    max-width: 95%;
+  .intro-tagline {
+    font-size: 0.84rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 22px;
   }
 
-  .intro-scissor-anim {
-    width: 58px;
-    height: 58px;
-    margin-bottom: 18px;
+  .scissors-animation-container {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 22px;
   }
 
-  .intro-scissor-svg {
-    width: 42px;
-    height: 42px;
+  .btn-get-started {
+    padding: 13px 32px;
+    font-size: 0.95rem;
   }
 
-  .intro-btn-wrap {
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    max-width: 290px;
+  .intro-logo-lockup {
+    padding: 18px 24px;
   }
 
-  .intro-enter-btn,
-  .intro-skip-btn {
-    width: 100%;
-    padding: 11px 18px;
-    font-size: 0.82rem;
-    justify-content: center;
+  .intro-logo-glow {
+    width: clamp(240px, 80vw, 360px);
+    height: clamp(120px, 40vw, 180px);
   }
 
-  .rolling-salon-chair {
-    width: 95px;
-    height: 125px;
+  .intro-logo-asset {
+    width: clamp(210px, 76vw, 360px);
   }
 
   .salon-chair-track {
     bottom: 6%;
-  }
-}
-
-
-/* ==========================================================================
-   6. LOGO REVEAL STAGE — Post-Curtain Cinematic Sequence
-   Triggered by intro.js: .logo-reveal-active → .logo-shimmer-active → .logo-tagline-active
-   ========================================================================== */
-
-/* The reveal container — sits centered in the overlay, above curtain panels */
-.logo-reveal-stage {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 28px;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.logo-reveal-stage.logo-reveal-active {
-  opacity: 1;
-}
-
-/* Warm ambient radial glow behind logo */
-.logo-reveal-glow {
-  position: absolute;
-  width: 700px;
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(200, 109, 74, 0.13) 0%,
-    rgba(200, 109, 74, 0.04) 50%,
-    transparent 72%
-  );
-  filter: blur(52px);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.65s ease;
-}
-
-.logo-reveal-stage.logo-reveal-active .logo-reveal-glow {
-  opacity: 1;
-}
-
-/* Logo lockup wrapper — clips shimmer sweep to logo bounds */
-.logo-reveal-lockup {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 2px;
-}
-
-/* The Magic Scissor logo — invert so black logo reads white on dark bg */
-.logo-reveal-img {
-  display: block;
-  width: clamp(240px, 40vw, 500px);
-  height: auto;
-  max-width: 88vw;
-  user-select: none;
-  -webkit-user-drag: none;
-  opacity: 0;
-  transform: scale(0.96);
-  will-change: opacity, transform, filter;
-}
-
-.logo-reveal-stage.logo-reveal-active .logo-reveal-img {
-  animation: logoBlurReveal 1.05s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s forwards;
-}
-
-@keyframes logoBlurReveal {
-  0%   { opacity: 0.90; transform: scale(0.96); filter: invert(1) brightness(1.12) blur(7px); }
-  55%  { opacity: 0.97; transform: scale(0.988); filter: invert(1) brightness(1.05) blur(1.5px); }
-  100% { opacity: 1;    transform: scale(1);    filter: invert(1) brightness(1.0) blur(0px); }
-}
-
-/* Shimmer — single horizontal sweep, left → right */
-.logo-shimmer-sweep {
-  position: absolute;
-  top: -5%;
-  left: -80%;
-  width: 60%;
-  height: 110%;
-  background: linear-gradient(
-    108deg,
-    transparent 20%,
-    rgba(255, 255, 255, 0.0)  36%,
-    rgba(255, 255, 255, 0.52) 50%,
-    rgba(255, 255, 255, 0.0)  64%,
-    transparent 80%
-  );
-  filter: blur(1.8px);
-  pointer-events: none;
-  opacity: 0;
-}
-
-.logo-reveal-stage.logo-shimmer-active .logo-shimmer-sweep {
-  animation: shimmerSweep 0.62s cubic-bezier(0.4, 0, 0.2, 1) 0s forwards;
-}
-
-@keyframes shimmerSweep {
-  0%   { left: -80%; opacity: 0; }
-  6%   { opacity: 1; }
-  94%  { opacity: 1; }
-  100% { left: 120%; opacity: 0; }
-}
-
-/* Tagline — Cormorant Garamond italic, appears below logo */
-.logo-reveal-tagline {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(1.0rem, 2.1vw, 1.35rem);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0.20em;
-  color: rgba(250, 248, 245, 0.88);
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  opacity: 0;
-  transform: translateY(11px);
-  will-change: opacity, transform;
-  white-space: nowrap;
-}
-
-.logo-reveal-stage.logo-tagline-active .logo-reveal-tagline {
-  animation: taglineFadeUp 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0s forwards;
-}
-
-@keyframes taglineFadeUp {
-  0%   { opacity: 0;    transform: translateY(11px); }
-  100% { opacity: 0.88; transform: translateY(0); }
-}
-
-/* Final exit fade — the entire overlay fades cleanly to reveal the site */
-.theatrical-intro-overlay.curtain-reveal-exit {
-  opacity: 0 !important;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  pointer-events: none !important;
-}
-
-/* Reduced motion: skip logo reveal animations entirely */
-@media (prefers-reduced-motion: reduce) {
-  .logo-reveal-stage,
-  .logo-reveal-stage.logo-reveal-active,
-  .logo-reveal-stage.logo-shimmer-active,
-  .logo-reveal-stage.logo-tagline-active {
-    opacity: 0 !important;
-    animation: none !important;
-    transition: none !important;
-  }
-  .logo-reveal-img,
-  .logo-shimmer-sweep,
-  .logo-reveal-tagline {
-    animation: none !important;
-    filter: none !important;
-    transform: none !important;
-  }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .logo-reveal-stage { gap: 18px; }
-
-  .logo-reveal-tagline {
-    font-size: clamp(0.85rem, 3.8vw, 1.05rem);
-    letter-spacing: 0.14em;
-    white-space: normal;
-    max-width: 82vw;
+    height: 160px;
   }
 
-  .logo-reveal-glow {
-    width: 320px;
-    height: 220px;
+  .rolling-salon-chair {
+    width: 110px;
+    height: 140px;
   }
 }

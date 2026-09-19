@@ -52,15 +52,39 @@
   <a href="#mainContent" class="skip-to-content">Skip to main content</a>
 
   <!-- ========================================================================
-       1. THEATRICAL INTRO ENTRANCE (Opening Animation)
-       Fade-up Characters -> Snipping Scissor -> Get Started Tap -> Rolling Chair & Curtain Reveal
+       1. THEATRICAL INTRO ENTRANCE (Cinematic Intro Sequence)
+       Chair Roll -> Pause -> Curtain Part -> Warm Light -> Salon Reveal -> Camera Push-in -> Logo Reveal -> Scissor Wipe
        ======================================================================== -->
-  <aside id="theatricalIntroOverlay" class="theatrical-intro-overlay" aria-label="Welcome Introduction">
+  <aside id="theatricalIntroOverlay" class="theatrical-intro-overlay" aria-label="Magic Scissors Luxury Salon Introduction">
+    <!-- Behind the Curtains: Salon Backdrop Scene -->
+    <div class="intro-backdrop-scene" aria-hidden="true">
+      <!-- High-Resolution Salon Interior Environment -->
+      <div class="intro-salon-environment"></div>
+
+      <!-- Warm Ambient Light Bloom -->
+      <div class="intro-warm-glow"></div>
+
+      <!-- Centered Magic Scissors Logo Stage -->
+      <div class="intro-logo-stage">
+        <div class="intro-logo-lockup">
+          <div class="intro-logo-glow"></div>
+          <img
+            src="assets/images/magic_scissors_logo.png"
+            alt="Magic Scissors"
+            class="intro-logo-asset"
+            draggable="false"
+            width="480"
+            height="160"
+          >
+        </div>
+      </div>
+    </div>
+
     <!-- Left Heavy Velvet Curtain -->
     <div class="curtain-panel curtain-left"></div>
 
-    <!-- Theatrical Stage Content -->
-    <div class="intro-stage">
+    <!-- Theatrical Stage Content (Initial Character Fade-up & Enter Salon Button) -->
+    <div id="introStage" class="intro-stage">
       <div class="intro-spotlight"></div>
 
       <div class="intro-crown">
@@ -69,7 +93,6 @@
 
       <!-- Character-by-Character Fade Up Container -->
       <div role="heading" aria-level="2" id="introTitleText" class="intro-title" aria-label="Magic Scissors">
-        <!-- Injected via intro.js with individual span chars -->
         MAGIC SCISSORS
       </div>
 
@@ -81,38 +104,10 @@
         <!-- Injected via intro.js -->
       </div>
 
-      <!-- Luxury "Get Started" CTA -->
+      <!-- Luxury "Enter Salon" CTA Button -->
       <button id="btnGetStarted" class="btn-get-started" type="button">
         Enter Salon
       </button>
-
-
-    </div>
-
-    <!-- ================================================================
-         LOGO REVEAL STAGE
-         Appears AFTER curtains fully open. Animated via intro.js class toggle.
-         ================================================================ -->
-    <div id="logoRevealStage" class="logo-reveal-stage" aria-hidden="true">
-      <!-- Warm ambient backdrop glow -->
-      <div class="logo-reveal-glow"></div>
-
-      <!-- The exact Magic Scissor logo — DO NOT modify -->
-      <div class="logo-reveal-lockup">
-        <img
-          src="assets/images/magic_scissors_logo.png"
-          alt="Magic Scissor"
-          class="logo-reveal-img"
-          draggable="false"
-          width="540"
-          height="148"
-        >
-        <!-- Shimmer sweep element -->
-        <div class="logo-shimmer-sweep" aria-hidden="true"></div>
-      </div>
-
-      <!-- Tagline underneath -->
-      <p class="logo-reveal-tagline">Where Style Meets Art.</p>
     </div>
 
     <!-- Right Heavy Velvet Curtain -->
@@ -120,7 +115,7 @@
   </aside>
 
   <!-- Rolling Salon Chair High Speed Motion Track -->
-  <div id="salonChairTrack" class="salon-chair-track">
+  <div id="salonChairTrack" class="salon-chair-track" aria-hidden="true">
     <!-- Injected via intro.js -->
   </div>
 
@@ -189,495 +184,514 @@
          3. HERO SHOWCASE SECTION
          ======================================================================== -->
     <section id="hero" class="hero-section">
-    <div class="hero-background-media" id="heroDynamicBg">
-      <!-- Dynamic Salon Views Slides -->
-      <div class="hero-bg-slide active" data-index="0" data-title="Main Styling Floor"
-        data-category="Styling Floor">
-        <img src="assets/images/salon_styling_arena.jpg" alt="Main Styling Floor - Magic Scissors"
-          class="hero-bg-img" fetchpriority="high" decoding="async">
-      </div>
-      <div class="hero-bg-slide" data-index="1" data-title="Reception & Waiting Lounge" data-category="Reception Lounge">
-        <img src="assets/images/salon_reception_foyer.jpg" alt="Reception & Waiting Lounge - Magic Scissors"
-          class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
-      </div>
-      <div class="hero-bg-slide" data-index="2" data-title="Pedicure & Spa Area"
-        data-category="Pedicure Area">
-        <img src="assets/images/salon_pedicure_spa.jpg" alt="Pedicure & Spa Area - Magic Scissors"
-          class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
-      </div>
-      <div class="hero-bg-slide" data-index="3" data-title="Hair Wash & Treatment Suite" data-category="Wash Suite">
-        <img src="assets/images/salon_wash_suite.jpg" alt="Hair Wash & Treatment Suite - Magic Scissors"
-          class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
-      </div>
-      <div class="hero-bg-slide" data-index="4" data-title="Private Bridal & Styling Suite"
-        data-category="Bridal Suite">
-        <img src="assets/images/salon_vip_bridal.jpg" alt="Private Bridal & Styling Suite - Magic Scissors"
-          class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
-      </div>
-
-      <!-- Vignette Overlay -->
-      <div class="hero-overlay-gradient"></div>
-
-    </div>
-
-    <div class="container hero-content">
-      <div class="hero-badge-pill">
-        <span class="pulse-dot"></span>
-        <span style="font-size: 0.82rem; font-weight: 700; color: var(--accent-dark); letter-spacing: 0.05em;">NOW
-          WELCOMING APPOINTMENTS & WALK-INS</span>
-      </div>
-
-      <h1 class="hero-headline">
-        <span class="hero-line-nowrap">Refined <span class="accent-text">Hair Craft</span></span><br>
-        and Aesthetic Care.
-      </h1>
-
-      <p class="hero-description">
-        A modern luxury salon in Nashik dedicated to precision hair styling, skin therapies, and bridal care.
-        Experienced stylists, quiet private suites, and attentive service tailored to you.
-      </p>
-
-      <div class="hero-cta-group">
-        <a href="services.html" class="btn btn-gold">
-          Explore Services
-        </a>
-        <a href="https://wa.me/919960135849?text=Hello%20Magic%20Scissors!%20I%20would%20like%20to%20inquire%20about%20booking%20an%20appointment."
-          target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.18-.553-1.631-.676-2.731-2.316-2.812-2.424-.082-.108-.66-8.79-.66-1.682 0-.802.417-1.196.565-1.356.148-.16.324-.2.433-.2.11 0 .219.002.312.008.102.006.236-.041.368.277.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.087.187-.174.289-.088.102-.185.228-.264.306-.09.088-.184.184-.079.364.105.18.468.772.998 1.246.684.61 1.258.8 1.439.89.18.089.286.076.393-.047.108-.124.465-.544.59-.73.125-.187.25-.156.417-.094.167.062 1.059.5 1.241.59.182.09.303.136.348.212.046.078.046.452-.098.857z" />
-          </svg>
-          Book via WhatsApp
-        </a>
-        <a href="tel:+919960135849" class="btn btn-call">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path
-              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-          </svg>
-          +91 99601 35849
-        </a>
-      </div>
-
-      <!-- Trust & Scale Metrics Strip -->
-      <div class="hero-stats-strip">
-        <div class="stat-item">
-          <span class="stat-value">4.9★</span>
-          <span class="stat-label">Google Rating</span>
-          <span class="stat-sub">1,400+ Verified Reviews</span>
+      <div class="hero-background-media" id="heroDynamicBg">
+        <!-- Dynamic Salon Views Slides -->
+        <div class="hero-bg-slide active" data-index="0" data-title="Main Styling Floor" data-category="Styling Floor">
+          <img src="assets/images/salon_styling_arena.jpg" alt="Main Styling Floor - Magic Scissors" class="hero-bg-img"
+            fetchpriority="high" decoding="async">
         </div>
-        <div class="stat-item">
-          <span class="stat-value">15+</span>
-          <span class="stat-label">Senior Stylists</span>
-          <span class="stat-sub">Colorists & Skin Specialists</span>
+        <div class="hero-bg-slide" data-index="1" data-title="Reception & Waiting Lounge"
+          data-category="Reception Lounge">
+          <img src="assets/images/salon_reception_foyer.jpg" alt="Reception & Waiting Lounge - Magic Scissors"
+            class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
         </div>
-        <div class="stat-item">
-          <span class="stat-value">25,000+</span>
-          <span class="stat-label">Happy Guests</span>
-          <span class="stat-sub">Appointments Completed</span>
+        <div class="hero-bg-slide" data-index="2" data-title="Pedicure & Spa Area" data-category="Pedicure Area">
+          <img src="assets/images/salon_pedicure_spa.jpg" alt="Pedicure & Spa Area - Magic Scissors" class="hero-bg-img"
+            fetchpriority="low" loading="lazy" decoding="async">
         </div>
-        <div class="stat-item">
-          <span class="stat-value">100%</span>
-          <span class="stat-label">Hygiene Standard</span>
-          <span class="stat-sub">Sterilized Tools & Fresh Linens</span>
+        <div class="hero-bg-slide" data-index="3" data-title="Hair Wash & Treatment Suite" data-category="Wash Suite">
+          <img src="assets/images/salon_wash_suite.jpg" alt="Hair Wash & Treatment Suite - Magic Scissors"
+            class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
+        </div>
+        <div class="hero-bg-slide" data-index="4" data-title="Private Bridal & Styling Suite"
+          data-category="Bridal Suite">
+          <img src="assets/images/salon_vip_bridal.jpg" alt="Private Bridal & Styling Suite - Magic Scissors"
+            class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
+        </div>
+
+        <!-- Vignette Overlay -->
+        <div class="hero-overlay-gradient"></div>
+
       </div>
-    </div>
-  </section>
+
+      <div class="container hero-content">
+        <div class="hero-badge-pill">
+          <span class="pulse-dot"></span>
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--accent-dark); letter-spacing: 0.05em;">NOW
+            WELCOMING APPOINTMENTS & WALK-INS</span>
+        </div>
+
+        <h1 class="hero-headline">
+          <span class="hero-line-nowrap">Refined <span class="accent-text">Hair Craft</span></span><br>
+          and Aesthetic Care.
+        </h1>
+
+        <p class="hero-description">
+          A modern luxury salon in Nashik dedicated to precision hair styling, skin therapies, and bridal care.
+          Experienced stylists, quiet private suites, and attentive service tailored to you.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="services.html" class="btn btn-gold">
+            Explore Services
+          </a>
+          <a href="https://wa.me/919960135849?text=Hello%20Magic%20Scissors!%20I%20would%20like%20to%20inquire%20about%20booking%20an%20appointment."
+            target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.18-.553-1.631-.676-2.731-2.316-2.812-2.424-.082-.108-.66-8.79-.66-1.682 0-.802.417-1.196.565-1.356.148-.16.324-.2.433-.2.11 0 .219.002.312.008.102.006.236-.041.368.277.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.087.187-.174.289-.088.102-.185.228-.264.306-.09.088-.184.184-.079.364.105.18.468.772.998 1.246.684.61 1.258.8 1.439.89.18.089.286.076.393-.047.108-.124.465-.544.59-.73.125-.187.25-.156.417-.094.167.062 1.059.5 1.241.59.182.09.303.136.348.212.046.078.046.452-.098.857z" />
+            </svg>
+            Book via WhatsApp
+          </a>
+          <a href="tel:+919960135849" class="btn btn-call">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+            +91 99601 35849
+          </a>
+        </div>
+
+        <!-- Trust & Scale Metrics Strip -->
+        <div class="hero-stats-strip">
+          <div class="stat-item">
+            <span class="stat-value">4.9★</span>
+            <span class="stat-label">Google Rating</span>
+            <span class="stat-sub">1,400+ Verified Reviews</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">15+</span>
+            <span class="stat-label">Senior Stylists</span>
+            <span class="stat-sub">Colorists & Skin Specialists</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">25,000+</span>
+            <span class="stat-label">Happy Guests</span>
+            <span class="stat-sub">Appointments Completed</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">100%</span>
+            <span class="stat-label">Hygiene Standard</span>
+            <span class="stat-sub">Sterilized Tools & Fresh Linens</span>
+          </div>
+        </div>
+    </section>
 
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        4. ABOUT US / BRAND STORY SECTION
        ======================================================================== -->
-  <section id="about" class="section-padding">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-image-composition">
-          <img src="assets/images/salon_hair_styling.jpg" alt="Stylist precision haircut at Magic Scissors"
-            class="about-main-img" width="580" height="520" loading="lazy" decoding="async"
-            onload="this.classList.add('is-loaded')"
-            onerror="this.onerror=null;this.src='assets/images/salon_styling_arena.jpg';this.classList.add('is-loaded');">
-          <div class="about-float-badge">
-            <div class="badge-icon">✂</div>
-            <h4>Precision Shears</h4>
-            <p>Handcrafted shears designed for clean, precise lines that grow out naturally and keep hair healthy.</p>
-          </div>
-        </div>
-
-        <div class="about-content">
-          <h2 class="section-title">Designed for Effortless Style and <span class="accent-text">Healthy Hair</span></h2>
-          <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 20px;">
-            Magic Scissors is a modern luxury salon in Nashik for clients who appreciate thoughtful hair styling,
-            restorative skin treatments, and unhurried consultations.
-          </p>
-          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
-            Every appointment begins with a one-on-one conversation about your routine, texture, and personal style.
-            Our space features comfortable styling chairs, warm natural lighting, and private suites for specialized treatments.
-          </p>
-
-          <div class="about-feature-list">
-            <div class="about-feature-box">
-              <div class="feat-icon">👑</div>
-              <h5>Private Styling Suites</h5>
-              <p>Dedicated private suites for bridal preparation, specialized therapies, and quiet comfort.</p>
-            </div>
-            <div class="about-feature-box">
-              <div class="feat-icon">🌿</div>
-              <h5>Professional Products</h5>
-              <p>We work exclusively with trusted brands including Olaplex, Kérastase, and L'Oréal Professionnel.</p>
-            </div>
-            <div class="about-feature-box">
-              <div class="feat-icon">✨</div>
-              <h5>Sterilized Tools</h5>
-              <p>All instruments undergo medical-grade autoclave sterilization before every service.</p>
-            </div>
-            <div class="about-feature-box">
-              <div class="feat-icon">☕</div>
-              <h5>Refreshments & Lounge</h5>
-              <p>Fresh espresso, herbal teas, and a quiet space to unwind during your appointment.</p>
+    <section id="about" class="section-padding">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-image-composition">
+            <img src="assets/images/salon_hair_styling.jpg" alt="Stylist precision haircut at Magic Scissors"
+              class="about-main-img" width="580" height="520" loading="lazy" decoding="async"
+              onload="this.classList.add('is-loaded')"
+              onerror="this.onerror=null;this.src='assets/images/salon_styling_arena.jpg';this.classList.add('is-loaded');">
+            <div class="about-float-badge">
+              <div class="badge-icon">✂</div>
+              <h4>Precision Shears</h4>
+              <p>Handcrafted shears designed for clean, precise lines that grow out naturally and keep hair healthy.</p>
             </div>
           </div>
 
-          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
-            <a href="about.html" class="btn btn-outline-gold">
-              About Our Studio
-            </a>
-            <a href="services.html" class="btn btn-gold">
-              View Services
-            </a>
+          <div class="about-content">
+            <h2 class="section-title">Designed for Effortless Style and <span class="accent-text">Healthy Hair</span>
+            </h2>
+            <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 20px;">
+              Magic Scissors is a modern luxury salon in Nashik for clients who appreciate thoughtful hair styling,
+              restorative skin treatments, and unhurried consultations.
+            </p>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+              Every appointment begins with a one-on-one conversation about your routine, texture, and personal style.
+              Our space features comfortable styling chairs, warm natural lighting, and private suites for specialized
+              treatments.
+            </p>
+
+            <div class="about-feature-list">
+              <div class="about-feature-box">
+                <div class="feat-icon">👑</div>
+                <h5>Private Styling Suites</h5>
+                <p>Dedicated private suites for bridal preparation, specialized therapies, and quiet comfort.</p>
+              </div>
+              <div class="about-feature-box">
+                <div class="feat-icon">🌿</div>
+                <h5>Professional Products</h5>
+                <p>We work exclusively with trusted brands including Olaplex, Kérastase, and L'Oréal Professionnel.</p>
+              </div>
+              <div class="about-feature-box">
+                <div class="feat-icon">✨</div>
+                <h5>Sterilized Tools</h5>
+                <p>All instruments undergo medical-grade autoclave sterilization before every service.</p>
+              </div>
+              <div class="about-feature-box">
+                <div class="feat-icon">☕</div>
+                <h5>Refreshments & Lounge</h5>
+                <p>Fresh espresso, herbal teas, and a quiet space to unwind during your appointment.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+              <a href="about.html" class="btn btn-outline-gold">
+                About Our Studio
+              </a>
+              <a href="services.html" class="btn btn-gold">
+                View Services
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        5. OUR PROFESSIONAL SERVICES (Interactive Tabs & Popup Modals)
        ======================================================================== -->
-  <section id="services" class="section-padding" style="background: var(--bg-secondary);">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Our Salon <span class="accent-text">Services</span></h2>
-        <p class="section-subtitle">
-          Explore our services below. Select any service to view the steps, products used, and reserve your appointment.
-        </p>
+    <section id="services" class="section-padding" style="background: var(--bg-secondary);">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Our Salon <span class="accent-text">Services</span></h2>
+          <p class="section-subtitle">
+            Explore our services below. Select any service to view the steps, products used, and reserve your
+            appointment.
+          </p>
+        </div>
+
+        <!-- Filterable Service Category Tabs -->
+        <div id="servicesTabs" class="services-tabs">
+          <!-- Rendered via services.js -->
+        </div>
+
+        <!-- Service Cards Grid -->
+        <div id="servicesGrid" class="services-grid">
+          <!-- Rendered via services.js with popup animation triggers -->
+        </div>
       </div>
-
-      <!-- Filterable Service Category Tabs -->
-      <div id="servicesTabs" class="services-tabs">
-        <!-- Rendered via services.js -->
-      </div>
-
-      <!-- Service Cards Grid -->
-      <div id="servicesGrid" class="services-grid">
-        <!-- Rendered via services.js with popup animation triggers -->
-      </div>
-    </div>
-  </section>
+    </section>
 
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        6. INTERACTIVE SERVICE DETAIL MODAL (The Popup Animation)
        ======================================================================== -->
-  <div id="serviceModalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-container">
-      <!-- Injected dynamically via services.js -->
+    <div id="serviceModalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-container">
+        <!-- Injected dynamically via services.js -->
+      </div>
     </div>
-  </div>
 
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        7. SALON VIEWS & VIRTUAL AMBIENCE TOUR GALLERY
        ======================================================================== -->
-  <section id="gallery" class="section-padding">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Inside Our <span class="accent-text">Studio</span></h2>
-        <p class="section-subtitle">
-          A look inside our styling floor, private suites, and wash areas.
-        </p>
-      </div>
+    <section id="gallery" class="section-padding">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Inside Our <span class="accent-text">Studio</span></h2>
+          <p class="section-subtitle">
+            A look inside our styling floor, private suites, and wash areas.
+          </p>
+        </div>
 
-      <!-- Gallery Filter Tabs -->
-      <div id="galleryTabs" class="services-tabs">
-        <!-- Injected via main.js -->
-      </div>
+        <!-- Gallery Filter Tabs -->
+        <div id="galleryTabs" class="services-tabs">
+          <!-- Injected via main.js -->
+        </div>
 
-      <!-- Gallery Grid -->
-      <div id="galleryGrid" class="gallery-grid">
-        <!-- Injected via main.js -->
+        <!-- Gallery Grid -->
+        <div id="galleryGrid" class="gallery-grid">
+          <!-- Injected via main.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Fullscreen Lightbox Modal -->
+    <div id="galleryLightbox" class="modal-overlay" role="dialog">
+      <div class="modal-container" style="max-width: 850px; background: rgba(10, 10, 14, 0.95); padding: 0;">
+        <button class="modal-close-btn lightbox-close" aria-label="Close Lightbox">✕</button>
+        <img src="" alt="" class="lightbox-img"
+          style="width: 100%; max-height: 70vh; object-fit: contain; background: #000;">
+        <div style="padding: 24px;">
+          <h3 class="lightbox-title font-serif accent-text" style="font-size: 1.5rem; margin-bottom: 6px;"></h3>
+          <p class="lightbox-desc" style="color: var(--text-muted); font-size: 0.92rem;"></p>
+        </div>
       </div>
     </div>
-  </section>
-
-  <!-- Fullscreen Lightbox Modal -->
-  <div id="galleryLightbox" class="modal-overlay" role="dialog">
-    <div class="modal-container" style="max-width: 850px; background: rgba(10, 10, 14, 0.95); padding: 0;">
-      <button class="modal-close-btn lightbox-close" aria-label="Close Lightbox">✕</button>
-      <img src="" alt="" class="lightbox-img"
-        style="width: 100%; max-height: 70vh; object-fit: contain; background: #000;">
-      <div style="padding: 24px;">
-        <h3 class="lightbox-title font-serif accent-text" style="font-size: 1.5rem; margin-bottom: 6px;"></h3>
-        <p class="lightbox-desc" style="color: var(--text-muted); font-size: 0.92rem;"></p>
-      </div>
-    </div>
-  </div>
 
 
-  <!-- ========================================================================
+    <!-- ========================================================================
        8. SALON VIDEO SHOWCASE SECTION
        (Dedicated spot for client's incoming video)
        ======================================================================== -->
-  <section id="video-tour" class="section-padding" style="background: var(--bg-secondary);">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">A Walk Through <span class="accent-text">Magic Scissors</span></h2>
-        <p class="section-subtitle">
-          Experience the welcoming atmosphere and clean aesthetic of our salon.
-        </p>
-      </div>
-
-      <div class="video-showcase-wrapper">
-        <div class="video-container">
-          <!-- Ambient Video with Smooth Controls and Fallback Poster -->
-          <video id="salonVideo" class="salon-video-player" loop muted playsinline
-            poster="assets/images/salon_styling_arena.jpg">
-            <!-- Source will play once video file is dropped, fallbacks seamlessly -->
-            <source src="assets/videos/salon_walkthrough.mp4" type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video>
-
-          <button id="videoPlayToggle" class="video-ctrl-btn video-ctrl-play" type="button" aria-label="Play video tour" title="Play">
-            <svg class="video-ctrl-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </button>
-          <button id="videoMuteToggle" class="video-ctrl-btn video-ctrl-mute" type="button" aria-label="Unmute audio" title="Unmute">
-            <svg class="video-ctrl-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- ========================================================================
-       10. CLIENT TESTIMONIALS & GOOGLE REVIEWS
-       ======================================================================== -->
-  <section id="reviews" class="section-padding">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Client <span class="accent-text">Reviews</span></h2>
-        <p class="section-subtitle">
-          Read feedback from regular clients and wedding parties in Nashik.
-        </p>
-      </div>
-
-      <div id="testimonialsGrid" class="testimonials-grid">
-        <!-- Rendered via main.js -->
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ========================================================================
-       11. INSTAGRAM FEED & SOCIAL REDIRECT STRIP
-       ======================================================================== -->
-  <section class="instagram-strip-section">
-    <div class="container">
-      <div class="instagram-banner-box">
-        <div class="insta-banner-info">
-          <span class="insta-banner-eyebrow">Follow Our Transformations</span>
-          <h3 class="font-serif insta-banner-title">Join Us on Instagram</h3>
-          <span class="insta-banner-handle">@magicscissorsunisexsalon</span>
-        </div>
-        <a href="https://www.instagram.com/magicscissorsunisexsalon?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw=="
-          target="_blank" rel="noopener noreferrer" class="insta-cta-btn" aria-label="Open Magic Scissors Instagram Profile">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="insta-cta-icon" aria-hidden="true">
-            <path
-              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-          </svg>
-          <span class="insta-cta-text">
-            <span class="insta-cta-action">Open</span>
-            <span class="insta-cta-handle">@magicscissorsunisexsalon</span>
-          </span>
-        </a>
-      </div>
-
-      <div class="instagram-grid">
-        <button type="button" class="insta-tile" data-img="assets/images/salon_styling_arena.jpg"
-          data-title="Main Styling Floor"
-          data-desc="Spacious styling floor with arched backlit mirrors and comfortable leather styling chairs."
-          aria-label="Open photo: Main Styling Floor" title="Click to view photo">
-          <img src="assets/images/salon_styling_arena.jpg" alt="Main Styling Floor" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')" onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
-          <div class="insta-overlay">
-            <span class="insta-overlay-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                <line x1="11" y1="8" x2="11" y2="14"></line>
-                <line x1="8" y1="11" x2="14" y2="11"></line>
-              </svg>
-            </span>
-            <span class="insta-overlay-label">View Photo</span>
-          </div>
-        </button>
-        <button type="button" class="insta-tile" data-img="assets/images/salon_reception_foyer.jpg"
-          data-title="Reception & Waiting Lounge"
-          data-desc="Welcoming reception desk and comfortable lounge for arriving guests."
-          aria-label="Open photo: Reception & Waiting Lounge" title="Click to view photo">
-          <img src="assets/images/salon_reception_foyer.jpg" alt="Reception & Waiting Lounge" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')" onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
-          <div class="insta-overlay">
-            <span class="insta-overlay-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                <line x1="11" y1="8" x2="11" y2="14"></line>
-                <line x1="8" y1="11" x2="14" y2="11"></line>
-              </svg>
-            </span>
-            <span class="insta-overlay-label">View Photo</span>
-          </div>
-        </button>
-        <button type="button" class="insta-tile" data-img="assets/images/salon_pedicure_spa.jpg"
-          data-title="Pedicure & Foot Care"
-          data-desc="Quiet foot reflexology and pedicure stations designed for comfort."
-          aria-label="Open photo: Pedicure & Foot Care" title="Click to view photo">
-          <img src="assets/images/salon_pedicure_spa.jpg" alt="Pedicure & Foot Care" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')" onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
-          <div class="insta-overlay">
-            <span class="insta-overlay-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                <line x1="11" y1="8" x2="11" y2="14"></line>
-                <line x1="8" y1="11" x2="14" y2="11"></line>
-              </svg>
-            </span>
-            <span class="insta-overlay-label">View Photo</span>
-          </div>
-        </button>
-        <button type="button" class="insta-tile" data-img="assets/images/salon_wash_suite.jpg"
-          data-title="Hair Wash Suite"
-          data-desc="Ergonomic wash basins designed for deep scalp care and restorative treatments."
-          aria-label="Open photo: Hair Wash Suite" title="Click to view photo">
-          <img src="assets/images/salon_wash_suite.jpg" alt="Hair Wash Suite" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')" onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
-          <div class="insta-overlay">
-            <span class="insta-overlay-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                <line x1="11" y1="8" x2="11" y2="14"></line>
-                <line x1="8" y1="11" x2="14" y2="11"></line>
-              </svg>
-            </span>
-            <span class="insta-overlay-label">View Photo</span>
-          </div>
-        </button>
-        <button type="button" class="insta-tile" data-img="assets/images/salon_vip_bridal.jpg"
-          data-title="Private Bridal Suite"
-          data-desc="Dedicated dressing and makeup suite for brides and private appointments."
-          aria-label="Open photo: Private Bridal Suite" title="Click to view photo">
-          <img src="assets/images/salon_vip_bridal.jpg" alt="Private Bridal Suite" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')" onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
-          <div class="insta-overlay">
-            <span class="insta-overlay-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                <line x1="11" y1="8" x2="11" y2="14"></line>
-                <line x1="8" y1="11" x2="14" y2="11"></line>
-              </svg>
-            </span>
-            <span class="insta-overlay-label">View Photo</span>
-          </div>
-        </button>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ========================================================================
-       12. APPOINTMENT BOOKING SECTION (Syncs Directly with WhatsApp)
-       ======================================================================== -->
-  <section id="booking" class="section-padding">
-    <div class="container" id="bookingSection">
-      <div class="luxury-form-card" style="max-width: 920px; margin: 0 auto;">
-        <div class="text-center" style="margin-bottom: 36px;">
-          <h2 class="section-title">Book an <span class="accent-text">Appointment</span></h2>
-          <p
-            style="color: var(--text-secondary); font-size: 0.98rem; max-width: 600px; margin: 10px auto 0; line-height: 1.6;">
-            Choose your service and preferred time. We'll confirm your slot via WhatsApp or phone.
+    <section id="video-tour" class="section-padding" style="background: var(--bg-secondary);">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">A Walk Through <span class="accent-text">Magic Scissors</span></h2>
+          <p class="section-subtitle">
+            Experience the welcoming atmosphere and clean aesthetic of our salon.
           </p>
         </div>
 
-        <form id="appointmentForm" class="luxury-form-grid">
-          <div class="luxury-form-group">
-            <label for="clientName" class="luxury-label">Your Full Name *</label>
-            <input type="text" id="clientName" name="clientName" class="luxury-input" required
-              placeholder="e.g. Priya Sharma">
-          </div>
+        <div class="video-showcase-wrapper">
+          <div class="video-container">
+            <!-- Ambient Video with Smooth Controls and Fallback Poster -->
+            <video id="salonVideo" class="salon-video-player" loop muted playsinline
+              poster="assets/images/salon_styling_arena.jpg">
+              <!-- Source will play once video file is dropped, fallbacks seamlessly -->
+              <source src="assets/videos/salon_walkthrough.mp4" type="video/mp4">
+              Your browser does not support HTML5 video.
+            </video>
 
-          <div class="luxury-form-group">
-            <label for="clientPhone" class="luxury-label">Mobile Number *</label>
-            <input type="tel" id="clientPhone" name="clientPhone" class="luxury-input" required
-              placeholder="e.g. +91 98765 43210">
-          </div>
-
-          <div class="luxury-form-group full-width">
-            <label for="bookingServiceSelect" class="luxury-label">Select Desired Service *</label>
-            <select id="bookingServiceSelect" name="bookingServiceSelect" class="luxury-select" required>
-              <!-- Populated via main.js -->
-            </select>
-          </div>
-
-          <div class="luxury-form-group">
-            <label for="bookingDate" class="luxury-label">Preferred Date *</label>
-            <input type="date" id="bookingDate" name="bookingDate" class="luxury-input" required>
-          </div>
-
-          <div class="luxury-form-group">
-            <label for="bookingTime" class="luxury-label">Preferred Time Slot *</label>
-            <select id="bookingTime" name="bookingTime" class="luxury-select" required>
-              <option value="Morning (10:00 AM - 1:00 PM)">Morning (10:00 AM - 1:00 PM)</option>
-              <option value="Afternoon (1:00 PM - 5:00 PM)">Afternoon (1:00 PM - 5:00 PM)</option>
-              <option value="Evening (5:00 PM - 9:00 PM)">Evening (5:00 PM - 9:00 PM)</option>
-            </select>
-          </div>
-
-          <div class="luxury-form-group full-width">
-            <label for="bookingNotes" class="luxury-label">Special Preferences or Stylist Choice (Optional)</label>
-            <textarea id="bookingNotes" name="bookingNotes" class="luxury-textarea" rows="3"
-              placeholder="Tell us if you have any hair concerns, allergies, or a preferred stylist..."></textarea>
-          </div>
-
-          <!-- Optional Hair / Style Inspiration Photo Upload Dropzone -->
-          <div class="luxury-form-group full-width">
-            <div id="styleInspirationDropzone"></div>
-          </div>
-
-          <div class="luxury-actions-row">
-            <button type="submit" class="btn btn-whatsapp" style="flex: 1.5; font-size: 1rem; padding: 14px 24px;">
-              Book via WhatsApp
+            <button id="videoPlayToggle" class="video-ctrl-btn video-ctrl-play" type="button"
+              aria-label="Play video tour" title="Play">
+              <svg class="video-ctrl-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
             </button>
-            <a href="tel:+919960135849" class="btn btn-outline-gold"
-              style="flex: 1; font-size: 0.95rem; padding: 14px 20px;">
-              Call +91 99601 35849
-            </a>
+            <button id="videoMuteToggle" class="video-ctrl-btn video-ctrl-mute" type="button" aria-label="Unmute audio"
+              title="Unmute">
+              <svg class="video-ctrl-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                aria-hidden="true">
+                <path
+                  d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- ========================================================================
+       10. CLIENT TESTIMONIALS & GOOGLE REVIEWS
+       ======================================================================== -->
+    <section id="reviews" class="section-padding">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Client <span class="accent-text">Reviews</span></h2>
+          <p class="section-subtitle">
+            Read feedback from regular clients and wedding parties in Nashik.
+          </p>
+        </div>
+
+        <div id="testimonialsGrid" class="testimonials-grid">
+          <!-- Rendered via main.js -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
+       11. INSTAGRAM FEED & SOCIAL REDIRECT STRIP
+       ======================================================================== -->
+    <section class="instagram-strip-section">
+      <div class="container">
+        <div class="instagram-banner-box">
+          <div class="insta-banner-info">
+            <span class="insta-banner-eyebrow">Follow Our Transformations</span>
+            <h3 class="font-serif insta-banner-title">Join Us on Instagram</h3>
+            <span class="insta-banner-handle">@magicscissorsunisexsalon</span>
+          </div>
+          <a href="https://www.instagram.com/magicscissorsunisexsalon?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw=="
+            target="_blank" rel="noopener noreferrer" class="insta-cta-btn"
+            aria-label="Open Magic Scissors Instagram Profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="insta-cta-icon"
+              aria-hidden="true">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+            </svg>
+            <span class="insta-cta-text">
+              <span class="insta-cta-action">Open</span>
+              <span class="insta-cta-handle">@magicscissorsunisexsalon</span>
+            </span>
+          </a>
+        </div>
+
+        <div class="instagram-grid">
+          <button type="button" class="insta-tile" data-img="assets/images/salon_styling_arena.jpg"
+            data-title="Main Styling Floor"
+            data-desc="Spacious styling floor with arched backlit mirrors and comfortable leather styling chairs."
+            aria-label="Open photo: Main Styling Floor" title="Click to view photo">
+            <img src="assets/images/salon_styling_arena.jpg" alt="Main Styling Floor" loading="lazy" decoding="async"
+              onload="this.classList.add('is-loaded')"
+              onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
+            <div class="insta-overlay">
+              <span class="insta-overlay-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </span>
+              <span class="insta-overlay-label">View Photo</span>
+            </div>
+          </button>
+          <button type="button" class="insta-tile" data-img="assets/images/salon_reception_foyer.jpg"
+            data-title="Reception & Waiting Lounge"
+            data-desc="Welcoming reception desk and comfortable lounge for arriving guests."
+            aria-label="Open photo: Reception & Waiting Lounge" title="Click to view photo">
+            <img src="assets/images/salon_reception_foyer.jpg" alt="Reception & Waiting Lounge" loading="lazy"
+              decoding="async" onload="this.classList.add('is-loaded')"
+              onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
+            <div class="insta-overlay">
+              <span class="insta-overlay-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </span>
+              <span class="insta-overlay-label">View Photo</span>
+            </div>
+          </button>
+          <button type="button" class="insta-tile" data-img="assets/images/salon_pedicure_spa.jpg"
+            data-title="Pedicure & Foot Care"
+            data-desc="Quiet foot reflexology and pedicure stations designed for comfort."
+            aria-label="Open photo: Pedicure & Foot Care" title="Click to view photo">
+            <img src="assets/images/salon_pedicure_spa.jpg" alt="Pedicure & Foot Care" loading="lazy" decoding="async"
+              onload="this.classList.add('is-loaded')"
+              onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
+            <div class="insta-overlay">
+              <span class="insta-overlay-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </span>
+              <span class="insta-overlay-label">View Photo</span>
+            </div>
+          </button>
+          <button type="button" class="insta-tile" data-img="assets/images/salon_wash_suite.jpg"
+            data-title="Hair Wash Suite"
+            data-desc="Ergonomic wash basins designed for deep scalp care and restorative treatments."
+            aria-label="Open photo: Hair Wash Suite" title="Click to view photo">
+            <img src="assets/images/salon_wash_suite.jpg" alt="Hair Wash Suite" loading="lazy" decoding="async"
+              onload="this.classList.add('is-loaded')"
+              onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
+            <div class="insta-overlay">
+              <span class="insta-overlay-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </span>
+              <span class="insta-overlay-label">View Photo</span>
+            </div>
+          </button>
+          <button type="button" class="insta-tile" data-img="assets/images/salon_vip_bridal.jpg"
+            data-title="Private Bridal Suite"
+            data-desc="Dedicated dressing and makeup suite for brides and private appointments."
+            aria-label="Open photo: Private Bridal Suite" title="Click to view photo">
+            <img src="assets/images/salon_vip_bridal.jpg" alt="Private Bridal Suite" loading="lazy" decoding="async"
+              onload="this.classList.add('is-loaded')"
+              onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
+            <div class="insta-overlay">
+              <span class="insta-overlay-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </span>
+              <span class="insta-overlay-label">View Photo</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================================
+       12. APPOINTMENT BOOKING SECTION (Syncs Directly with WhatsApp)
+       ======================================================================== -->
+    <section id="booking" class="section-padding">
+      <div class="container" id="bookingSection">
+        <div class="luxury-form-card" style="max-width: 920px; margin: 0 auto;">
+          <div class="text-center" style="margin-bottom: 36px;">
+            <h2 class="section-title">Book an <span class="accent-text">Appointment</span></h2>
+            <p
+              style="color: var(--text-secondary); font-size: 0.98rem; max-width: 600px; margin: 10px auto 0; line-height: 1.6;">
+              Choose your service and preferred time. We'll confirm your slot via WhatsApp or phone.
+            </p>
           </div>
 
-          <div id="bookingConfirmationMsg" class="booking-success-banner">
-            ✓ Booking details sent to WhatsApp. We'll confirm your slot shortly.
-          </div>
-        </form>
+          <form id="appointmentForm" class="luxury-form-grid">
+            <div class="luxury-form-group">
+              <label for="clientName" class="luxury-label">Your Full Name *</label>
+              <input type="text" id="clientName" name="clientName" class="luxury-input" required
+                placeholder="e.g. Priya Sharma">
+            </div>
+
+            <div class="luxury-form-group">
+              <label for="clientPhone" class="luxury-label">Mobile Number *</label>
+              <input type="tel" id="clientPhone" name="clientPhone" class="luxury-input" required
+                placeholder="e.g. +91 98765 43210">
+            </div>
+
+            <div class="luxury-form-group full-width">
+              <label for="bookingServiceSelect" class="luxury-label">Select Desired Service *</label>
+              <select id="bookingServiceSelect" name="bookingServiceSelect" class="luxury-select" required>
+                <!-- Populated via main.js -->
+              </select>
+            </div>
+
+            <div class="luxury-form-group">
+              <label for="bookingDate" class="luxury-label">Preferred Date *</label>
+              <input type="date" id="bookingDate" name="bookingDate" class="luxury-input" required>
+            </div>
+
+            <div class="luxury-form-group">
+              <label for="bookingTime" class="luxury-label">Preferred Time Slot *</label>
+              <select id="bookingTime" name="bookingTime" class="luxury-select" required>
+                <option value="Morning (10:00 AM - 1:00 PM)">Morning (10:00 AM - 1:00 PM)</option>
+                <option value="Afternoon (1:00 PM - 5:00 PM)">Afternoon (1:00 PM - 5:00 PM)</option>
+                <option value="Evening (5:00 PM - 9:00 PM)">Evening (5:00 PM - 9:00 PM)</option>
+              </select>
+            </div>
+
+            <div class="luxury-form-group full-width">
+              <label for="bookingNotes" class="luxury-label">Special Preferences or Stylist Choice (Optional)</label>
+              <textarea id="bookingNotes" name="bookingNotes" class="luxury-textarea" rows="3"
+                placeholder="Tell us if you have any hair concerns, allergies, or a preferred stylist..."></textarea>
+            </div>
+
+            <!-- Optional Hair / Style Inspiration Photo Upload Dropzone -->
+            <div class="luxury-form-group full-width">
+              <div id="styleInspirationDropzone"></div>
+            </div>
+
+            <div class="luxury-actions-row">
+              <button type="submit" class="btn btn-whatsapp" style="flex: 1.5; font-size: 1rem; padding: 14px 24px;">
+                Book via WhatsApp
+              </button>
+              <a href="tel:+919960135849" class="btn btn-outline-gold"
+                style="flex: 1; font-size: 0.95rem; padding: 14px 20px;">
+                Call +91 99601 35849
+              </a>
+            </div>
+
+            <div id="bookingConfirmationMsg" class="booking-success-banner">
+              ✓ Booking details sent to WhatsApp. We'll confirm your slot shortly.
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   </main>
 
 
@@ -694,7 +708,8 @@
           <span class="drawer-brand-sub">STUDIO SALONS</span>
         </div>
       </div>
-      <button id="navDrawerCloseBtn" class="nav-drawer-close" type="button" aria-label="Close navigation menu">✕</button>
+      <button id="navDrawerCloseBtn" class="nav-drawer-close" type="button"
+        aria-label="Close navigation menu">✕</button>
     </div>
 
     <div class="nav-drawer-content">
@@ -702,12 +717,18 @@
       <div class="drawer-section">
         <span class="drawer-section-label">MAIN NAVIGATION</span>
         <ul class="drawer-nav-list">
-          <li><a href="index.html" class="drawer-nav-link active"><span class="drawer-nav-icon">✦</span><span>Home</span></a></li>
-          <li><a href="about.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>About Us</span></a></li>
-          <li><a href="services.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Services</span></a></li>
-          <li><a href="gallery.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Salon Views</span></a></li>
-          <li><a href="franchise.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Franchise</span></a></li>
-          <li><a href="contact.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Contact & Book</span></a></li>
+          <li><a href="index.html" class="drawer-nav-link active"><span
+                class="drawer-nav-icon">✦</span><span>Home</span></a></li>
+          <li><a href="about.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>About
+                Us</span></a></li>
+          <li><a href="services.html" class="drawer-nav-link"><span
+                class="drawer-nav-icon">✦</span><span>Services</span></a></li>
+          <li><a href="gallery.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Salon
+                Views</span></a></li>
+          <li><a href="franchise.html" class="drawer-nav-link"><span
+                class="drawer-nav-icon">✦</span><span>Franchise</span></a></li>
+          <li><a href="contact.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Contact &
+                Book</span></a></li>
         </ul>
       </div>
 
@@ -722,20 +743,23 @@
           <a href="https://wa.me/919960135849?text=Hello%20Magic%20Scissors!%20I%20would%20like%20to%20inquire%20about%20booking%20an%20appointment."
             target="_blank" rel="noopener noreferrer" class="drawer-btn drawer-btn-whatsapp">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.18-.553-1.631-.676-2.731-2.316-2.812-2.424-.082-.108-.66-8.79-.66-1.682 0-.802.417-1.196.565-1.356.148-.16.324-.2.433-.2.11 0 .219.002.312.008.102.006.236-.041.368.277.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.087.187-.174.289-.088.102-.185.228-.264.306-.09.088-.184.184-.079.364.105.18.468.772.998 1.246.684.61 1.258.8 1.439.89.18.089.286.076.393-.047.108-.124.465-.544.59-.73.125-.187.25-.156.417-.094.167.062 1.059.5 1.241.59.182.09.303.136.348.212.046.078.046.452-.098.857z"/>
+              <path
+                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.062-2.18-.553-1.631-.676-2.731-2.316-2.812-2.424-.082-.108-.66-8.79-.66-1.682 0-.802.417-1.196.565-1.356.148-.16.324-.2.433-.2.11 0 .219.002.312.008.102.006.236-.041.368.277.144.348.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.087.187-.174.289-.088.102-.185.228-.264.306-.09.088-.184.184-.079.364.105.18.468.772.998 1.246.684.61 1.258.8 1.439.89.18.089.286.076.393-.047.108-.124.465-.544.59-.73.125-.187.25-.156.417-.094.167.062 1.059.5 1.241.59.182.09.303.136.348.212.046.078.046.452-.098.857z" />
             </svg>
             <span>Chat on WhatsApp</span>
           </a>
           <a href="tel:+919960135849" class="drawer-btn drawer-btn-call">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
             </svg>
             <span>Call Us: +91 99601 35849</span>
           </a>
-          <a href="https://maps.app.goo.gl/1QjD95K5ZFHfRRDe9" target="_blank" rel="noopener noreferrer" class="drawer-btn drawer-btn-directions">
+          <a href="https://maps.app.goo.gl/1QjD95K5ZFHfRRDe9" target="_blank" rel="noopener noreferrer"
+            class="drawer-btn drawer-btn-directions">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-              <circle cx="12" cy="9" r="2.5"/>
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+              <circle cx="12" cy="9" r="2.5" />
             </svg>
             <span>Get Directions</span>
           </a>
@@ -749,7 +773,8 @@
           target="_blank" rel="noopener noreferrer" class="drawer-instagram-card">
           <div class="drawer-ig-icon-wrap">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
             </svg>
           </div>
           <div class="drawer-ig-text">
@@ -787,7 +812,8 @@
             </div>
           </a>
           <p class="footer-about-text">
-            Magic Scissors is a luxury unisex salon in Nashik providing precision haircuts, hair color, skin treatments, and bridal styling in an attentive, hygienic environment.
+            Magic Scissors is a luxury unisex salon in Nashik providing precision haircuts, hair color, skin treatments,
+            and bridal styling in an attentive, hygienic environment.
           </p>
           <div class="footer-social-row">
             <a href="https://maps.app.goo.gl/1QjD95K5ZFHfRRDe9" target="_blank" rel="noopener noreferrer"
@@ -863,9 +889,11 @@
         <div class="footer-col footer-col-concierge">
           <h4 class="footer-col-title">Salon Concierge</h4>
           <div class="footer-concierge-card">
-            <a href="https://maps.app.goo.gl/1QjD95K5ZFHfRRDe9" target="_blank" rel="noopener noreferrer" class="footer-contact-item">
+            <a href="https://maps.app.goo.gl/1QjD95K5ZFHfRRDe9" target="_blank" rel="noopener noreferrer"
+              class="footer-contact-item">
               <span class="footer-contact-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
                   <circle cx="12" cy="10" r="3"></circle>
                 </svg>
@@ -878,8 +906,11 @@
 
             <a href="tel:+919960135849" class="footer-contact-item">
               <span class="footer-contact-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                  </path>
                 </svg>
               </span>
               <div class="footer-contact-info">
@@ -891,7 +922,9 @@
             <a href="https://wa.me/919960135849" target="_blank" rel="noopener noreferrer" class="footer-contact-item">
               <span class="footer-contact-icon footer-wa-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                  <path
+                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                  </path>
                 </svg>
               </span>
               <div class="footer-contact-info">
