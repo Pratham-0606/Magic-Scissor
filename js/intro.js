@@ -10,6 +10,7 @@ class TheatricalIntro {
     this.scissorsContainer = document.getElementById("introScissorsContainer");
     this.getStartedBtn = document.getElementById("btnGetStarted");
     this.chairTrack = document.getElementById("salonChairTrack");
+    this.logoRevealStage = document.getElementById("logoRevealStage");
 
     this.audioContext = null;
     this.hasInteracted = false;
@@ -363,27 +364,63 @@ class TheatricalIntro {
       }
     }, 380);
 
-    // 4. Complete transition and unlock site
+    // --- LOGO REVEAL SEQUENCE (fires after curtains are fully open) ---
+    // Curtain transition: starts at 380ms, duration 1250ms → fully open at ~1630ms
+    // Settle pause: 200ms → logo sequence begins at ~1830ms
+
+    const CURTAIN_DONE = 380 + 1250; // 1630ms
+    const SETTLE       = 200;         // 200ms pause
+    const LOGO_START   = CURTAIN_DONE + SETTLE; // 1830ms
+
+    // Step A: Show the logo stage & begin blur→sharp reveal
+    setTimeout(() => {
+      if (this.logoRevealStage) {
+        this.logoRevealStage.classList.add("logo-reveal-active");
+      }
+    }, LOGO_START);
+
+    // Step B: After logo sharpens (1050ms), trigger shimmer sweep
+    setTimeout(() => {
+      if (this.logoRevealStage) {
+        this.logoRevealStage.classList.add("logo-shimmer-active");
+      }
+    }, LOGO_START + 1050);
+
+    // Step C: 350ms after shimmer begins, reveal the tagline
+    setTimeout(() => {
+      if (this.logoRevealStage) {
+        this.logoRevealStage.classList.add("logo-tagline-active");
+      }
+    }, LOGO_START + 1050 + 350);
+
+    // Step D: Hold for 1050ms after tagline appears, then begin exit fade
+    const EXIT_START = LOGO_START + 1050 + 350 + 700 + 1050; // ~4980ms
     setTimeout(() => {
       if (this.overlay) {
-        this.overlay.classList.add("intro-completed", "intro-bypassed");
-        this.overlay.style.display = "none";
+        this.overlay.classList.add("curtain-reveal-exit");
       }
       if (this.chairTrack) {
         this.chairTrack.classList.remove("active-roll");
         this.chairTrack.style.display = "none";
+      }
+    }, EXIT_START);
+
+    // Step E: After fade completes (800ms), fully hide the overlay and unlock site
+    setTimeout(() => {
+      if (this.overlay) {
+        this.overlay.classList.add("intro-completed", "intro-bypassed");
+        this.overlay.style.display = "none";
       }
       document.body.style.overflow = "auto";
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
       try {
         sessionStorage.setItem("magic_scissors_intro_entered", "true");
       } catch (e) { }
-      // Keep scroll position strictly at top=0; do not auto-scroll down to buttons
       const brandLogo = document.querySelector(".site-logo") || document.querySelector(".brand-logo");
       if (brandLogo && typeof brandLogo.focus === "function") {
         brandLogo.focus({ preventScroll: true });
       }
-    }, 1550);
+    }, EXIT_START + 820);
   }
 
   instantEnter() {

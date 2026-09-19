@@ -461,32 +461,68 @@
   margin-bottom: 28px;
 }
 
-.hero-cta-group .btn-call,
-.btn-call {
-  background: #181512 !important;
-  color: #FFFFFF !important;
-  border: 1.5px solid rgba(184, 107, 73, 0.45) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+/* ── Hero CTA buttons: unified outlined style (homepage only) ── */
+.hero-cta-group .btn-gold,
+.hero-cta-group .btn-whatsapp,
+.hero-cta-group .btn-call {
+  background: transparent !important;
+  border: 1.5px solid var(--accent-primary) !important;
+  color: var(--accent-dark) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
 }
 
-.hero-cta-group .btn-call:hover,
-.btn-call:hover {
-  background: #2B2520 !important;
-  border-color: rgba(184, 107, 73, 0.8) !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
+.hero-cta-group .btn-gold svg,
+.hero-cta-group .btn-whatsapp svg,
+.hero-cta-group .btn-call svg {
+  color: var(--accent-primary);
+  fill: var(--accent-primary);
+  stroke: var(--accent-primary);
+  transition: color 0.22s ease, fill 0.22s ease, stroke 0.22s ease, transform 0.22s ease;
 }
 
-.hero-cta-group .btn-call svg,
-.btn-call svg {
-  color: #D49A7E !important;
-  stroke: #D49A7E !important;
+/* Explore Services → terracotta/gold on hover */
+.hero-cta-group .btn-gold:hover {
+  transform: translateY(-3px) scale(1.08) !important;
+  background: var(--accent-gradient) !important;
+  border-color: var(--accent-primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(184, 107, 73, 0.45) !important;
 }
+
+/* Book via WhatsApp → green on hover */
+.hero-cta-group .btn-whatsapp:hover {
+  transform: translateY(-3px) scale(1.08) !important;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+  border-color: #25D366 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45) !important;
+}
+.hero-cta-group .btn-whatsapp:hover svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Call button → dark/charcoal on hover */
+.hero-cta-group .btn-call:hover {
+  transform: translateY(-3px) scale(1.08) !important;
+  background: linear-gradient(135deg, #C86D4A 0%, #A95333 100%) !important;
+  border-color: #C86D4A !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(200, 109, 74, 0.45) !important;
+}
+.hero-cta-group .btn-call:hover svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 
 .hero-cta-group .btn-glass {
   background: rgba(255, 255, 255, 0.15) !important;

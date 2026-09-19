@@ -566,3 +566,184 @@ html.intro-already-entered body {
   }
 }
 
+
+/* ==========================================================================
+   6. LOGO REVEAL STAGE — Post-Curtain Cinematic Sequence
+   Triggered by intro.js: .logo-reveal-active → .logo-shimmer-active → .logo-tagline-active
+   ========================================================================== */
+
+/* The reveal container — sits centered in the overlay, above curtain panels */
+.logo-reveal-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.logo-reveal-stage.logo-reveal-active {
+  opacity: 1;
+}
+
+/* Warm ambient radial glow behind logo */
+.logo-reveal-glow {
+  position: absolute;
+  width: 700px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(200, 109, 74, 0.13) 0%,
+    rgba(200, 109, 74, 0.04) 50%,
+    transparent 72%
+  );
+  filter: blur(52px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.65s ease;
+}
+
+.logo-reveal-stage.logo-reveal-active .logo-reveal-glow {
+  opacity: 1;
+}
+
+/* Logo lockup wrapper — clips shimmer sweep to logo bounds */
+.logo-reveal-lockup {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+/* The Magic Scissor logo — invert so black logo reads white on dark bg */
+.logo-reveal-img {
+  display: block;
+  width: clamp(240px, 40vw, 500px);
+  height: auto;
+  max-width: 88vw;
+  user-select: none;
+  -webkit-user-drag: none;
+  opacity: 0;
+  transform: scale(0.96);
+  will-change: opacity, transform, filter;
+}
+
+.logo-reveal-stage.logo-reveal-active .logo-reveal-img {
+  animation: logoBlurReveal 1.05s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s forwards;
+}
+
+@keyframes logoBlurReveal {
+  0%   { opacity: 0.90; transform: scale(0.96); filter: invert(1) brightness(1.12) blur(7px); }
+  55%  { opacity: 0.97; transform: scale(0.988); filter: invert(1) brightness(1.05) blur(1.5px); }
+  100% { opacity: 1;    transform: scale(1);    filter: invert(1) brightness(1.0) blur(0px); }
+}
+
+/* Shimmer — single horizontal sweep, left → right */
+.logo-shimmer-sweep {
+  position: absolute;
+  top: -5%;
+  left: -80%;
+  width: 60%;
+  height: 110%;
+  background: linear-gradient(
+    108deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.0)  36%,
+    rgba(255, 255, 255, 0.52) 50%,
+    rgba(255, 255, 255, 0.0)  64%,
+    transparent 80%
+  );
+  filter: blur(1.8px);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.logo-reveal-stage.logo-shimmer-active .logo-shimmer-sweep {
+  animation: shimmerSweep 0.62s cubic-bezier(0.4, 0, 0.2, 1) 0s forwards;
+}
+
+@keyframes shimmerSweep {
+  0%   { left: -80%; opacity: 0; }
+  6%   { opacity: 1; }
+  94%  { opacity: 1; }
+  100% { left: 120%; opacity: 0; }
+}
+
+/* Tagline — Cormorant Garamond italic, appears below logo */
+.logo-reveal-tagline {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.0rem, 2.1vw, 1.35rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.20em;
+  color: rgba(250, 248, 245, 0.88);
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(11px);
+  will-change: opacity, transform;
+  white-space: nowrap;
+}
+
+.logo-reveal-stage.logo-tagline-active .logo-reveal-tagline {
+  animation: taglineFadeUp 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0s forwards;
+}
+
+@keyframes taglineFadeUp {
+  0%   { opacity: 0;    transform: translateY(11px); }
+  100% { opacity: 0.88; transform: translateY(0); }
+}
+
+/* Final exit fade — the entire overlay fades cleanly to reveal the site */
+.theatrical-intro-overlay.curtain-reveal-exit {
+  opacity: 0 !important;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  pointer-events: none !important;
+}
+
+/* Reduced motion: skip logo reveal animations entirely */
+@media (prefers-reduced-motion: reduce) {
+  .logo-reveal-stage,
+  .logo-reveal-stage.logo-reveal-active,
+  .logo-reveal-stage.logo-shimmer-active,
+  .logo-reveal-stage.logo-tagline-active {
+    opacity: 0 !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .logo-reveal-img,
+  .logo-shimmer-sweep,
+  .logo-reveal-tagline {
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .logo-reveal-stage { gap: 18px; }
+
+  .logo-reveal-tagline {
+    font-size: clamp(0.85rem, 3.8vw, 1.05rem);
+    letter-spacing: 0.14em;
+    white-space: normal;
+    max-width: 82vw;
+  }
+
+  .logo-reveal-glow {
+    width: 320px;
+    height: 220px;
+  }
+}

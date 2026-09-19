@@ -15,13 +15,13 @@ export const SALON_DATA = {
     whatsappClean: "919960135849",
     email: "concierge@magicscissors.com",
     address: {
-      line1: "Shop No 1, near Gayatri Medical, Trimurti Chowk",
-      line2: "Cidco, Durganagar",
+      line1: "Durga Mata Mandir, Near Ambad-Trimurti Chowk Link Road Signal",
+      line2: "Cidco",
       city: "Nashik",
       state: "Maharashtra",
-      pincode: "422008",
-      full: "Shop No 1, near Gayatri Medical, Trimurti Chowk, Cidco, Durganagar, Nashik, Maharashtra 422008",
-      mapsLink: "https://maps.app.goo.gl/sFZADh6X1vKPpQgZ9"
+      pincode: "422001",
+      full: "Durga Mata Mandir, Near Ambad-Trimurti Chowk Link Road Signal, Cidco, Nashik, Maharashtra 422001",
+      mapsLink: "https://maps.app.goo.gl/1QjD95K5ZFHfRRDe9"
     },
     instagram: {
       handle: "@magicscissorsunisexsalon",
