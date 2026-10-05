@@ -169,9 +169,9 @@ void main() {
   // Base parameters
   float N = float(u_count);
   float angleStep = 0.48;
-  float ringRadius = mix(2.65, 1.95, isMobile);
+  float ringRadius = mix(2.65, 1.80, isMobile);
   vec2 ringCenter = vec2(0.0, 0.0);
-  float activeY = mix(0.08, 0.10, isMobile);
+  float activeY = mix(0.08, 0.28, isMobile);
   
   // Optical Glass Band near top and bottom
   float opticalDistort = sin(p.y * 3.5 + u_time * 0.4) * 0.008 * (1.0 - u_reduced_motion);
@@ -189,9 +189,9 @@ void main() {
   float cardSDFs[8];
   vec2 cardLocalUVs[8];
 
-  float baseW = mix(0.88, 0.98, isMobile);
-  float baseH = mix(1.22, 1.34, isMobile);
-  float cornerR = mix(0.125, 0.145, isMobile);
+  float baseW = mix(0.88, 0.80, isMobile);
+  float baseH = mix(1.22, 1.05, isMobile);
+  float cornerR = mix(0.125, 0.135, isMobile);
   float kBlend = mix(0.14, 0.07, u_reduced_motion); // liquid fusion viscosity
 
   // Calculate geometry for each card along the molten ring
@@ -875,36 +875,33 @@ export const MoltenGallery: React.FC<MoltenGalleryProps> = ({
                     <span>Reserve Studio Ritual</span>
                     <span aria-hidden="true">→</span>
                   </a>
-                </div>
-              </div>
 
-              {/* Floating Controls & Interaction Cues */}
-              <div className="molten-hud-controls">
-                <div className="molten-nav-buttons">
-                  <button
-                    type="button"
-                    className="molten-nav-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      prevItem();
-                    }}
-                    aria-label="Previous salon artwork"
-                    title="Previous"
-                  >
-                    ←
-                  </button>
-                  <button
-                    type="button"
-                    className="molten-nav-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      nextItem();
-                    }}
-                    aria-label="Next salon artwork"
-                    title="Next"
-                  >
-                    →
-                  </button>
+                  <div className="molten-nav-buttons">
+                    <button
+                      type="button"
+                      className="molten-nav-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        prevItem();
+                      }}
+                      aria-label="Previous salon artwork"
+                      title="Previous"
+                    >
+                      ←
+                    </button>
+                    <button
+                      type="button"
+                      className="molten-nav-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        nextItem();
+                      }}
+                      aria-label="Next salon artwork"
+                      title="Next"
+                    >
+                      →
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

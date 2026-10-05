@@ -350,7 +350,8 @@
 .molten-active-cta-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .molten-active-link-btn {
@@ -568,83 +569,128 @@
 
 @media (max-width: 768px) {
   .molten-gallery-section {
-    padding: 40px 0 60px 0;
+    padding: 30px 0 45px 0;
     border-radius: 24px;
-    margin: 15px 10px 30px 10px;
+    margin: 15px 8px 30px 8px;
+  }
+
+  .molten-gallery-header {
+    margin-bottom: 16px;
+    padding: 0 14px;
+  }
+
+  .molten-gallery-title {
+    font-size: 1.7rem;
+    margin-bottom: 6px;
+  }
+
+  .molten-gallery-subtitle {
+    font-size: 0.84rem;
+    line-height: 1.45;
   }
 
   .molten-gallery-viewport {
-    height: 560px;
+    height: 600px;
   }
 
   .molten-hud-overlay {
-    padding: 16px 18px;
+    padding: 14px 16px;
   }
 
   .molten-hud-bottom {
-    flex-direction: column-reverse;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .molten-hud-controls {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
   }
 
   .molten-active-info-panel {
     max-width: 100%;
-    padding: 16px 18px;
-    border-radius: 14px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background: rgba(14, 15, 20, 0.92);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
   }
 
   .molten-active-title {
-    font-size: 1.15rem;
-    margin-bottom: 6px;
+    font-size: 1.05rem;
+    margin-bottom: 3px;
   }
 
   .molten-active-desc {
-    font-size: 0.82rem;
-    line-height: 1.45;
-    margin-bottom: 12px;
+    font-size: 0.76rem;
+    line-height: 1.35;
+    margin-bottom: 8px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
+  .molten-active-cta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .molten-active-link-btn {
+    padding: 6px 14px;
+    font-size: 0.72rem;
+  }
+
+  .molten-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
   .molten-nav-btn {
-    width: 42px;
-    height: 42px;
-    font-size: 1rem;
+    width: 36px;
+    height: 36px;
+    font-size: 0.88rem;
   }
 
   .molten-progress-strip {
-    margin-top: 16px;
+    margin-top: 12px;
   }
 
   .molten-progress-dot {
-    width: 18px;
+    width: 16px;
   }
 
   .molten-progress-dot.active {
-    width: 36px;
+    width: 32px;
   }
 }
 
 @media (max-width: 480px) {
   .molten-gallery-viewport {
-    height: 520px;
+    height: 560px;
+  }
+
+  .molten-active-info-panel {
+    padding: 10px 14px;
+  }
+
+  .molten-active-title {
+    font-size: 0.96rem;
+  }
+
+  .molten-active-link-btn {
+    padding: 5px 10px;
+    font-size: 0.68rem;
+  }
+
+  .molten-nav-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
   }
 
   .molten-hud-brand-name {
-    font-size: 0.76rem;
+    font-size: 0.74rem;
   }
 
   .molten-hud-curr-num {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
 }
 
