@@ -1893,21 +1893,38 @@
 }
 
 /* Structured Operating Hours Card */
+.footer-col-hours .footer-col-title {
+  margin-bottom: 14px;
+}
+
 .footer-hours-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(184, 107, 73, 0.2);
+  border-radius: var(--radius-md, 14px);
+  padding: 18px 20px;
+  box-sizing: border-box;
+  width: 100%;
+  transition: all var(--transition-fast);
+}
+
+.footer-hours-card:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: rgba(212, 154, 126, 0.35);
 }
 
 .footer-hours-status {
-  color: #d49a7e;
+  color: var(--accent-light, #d49a7e);
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  margin-bottom: 2px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .footer-hours-status::before {
@@ -1917,6 +1934,7 @@
   border-radius: 50%;
   background: #22c55e;
   box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+  flex-shrink: 0;
 }
 
 .footer-hours-row {
@@ -1926,20 +1944,26 @@
 }
 
 .footer-hours-day {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   font-weight: 600;
   color: #f3f4f6;
+  line-height: 1.35;
 }
 
 .footer-hours-time {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--text-muted, #7A808C);
+  line-height: 1.35;
 }
 
 .footer-walkin-badge {
-  margin-top: 6px;
+  margin-top: 4px;
   width: fit-content;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
+  padding: 4px 12px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 /* Structured Salon Concierge Card */

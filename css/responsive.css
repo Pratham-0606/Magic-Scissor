@@ -669,7 +669,7 @@
     justify-content: center;
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: 580px) {
     .footer-grid,
     .footer-top-grid {
       grid-template-columns: 1fr;
