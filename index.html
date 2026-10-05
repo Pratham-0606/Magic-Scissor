@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="css/intro.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/3d-experience.css">
 
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
@@ -55,7 +56,8 @@
        1. THEATRICAL INTRO ENTRANCE (Cinematic Intro Sequence)
        Chair Roll -> Pause -> Curtain Part -> Warm Light -> Salon Reveal -> Camera Push-in -> Logo Reveal -> Scissor Wipe
        ======================================================================== -->
-  <aside id="theatricalIntroOverlay" class="theatrical-intro-overlay" aria-label="Magic Scissors Luxury Salon Introduction">
+  <aside id="theatricalIntroOverlay" class="theatrical-intro-overlay"
+    aria-label="Magic Scissors Luxury Salon Introduction">
     <!-- Behind the Curtains: Salon Backdrop Scene -->
     <div class="intro-backdrop-scene" aria-hidden="true">
       <!-- High-Resolution Salon Interior Environment -->
@@ -68,14 +70,8 @@
       <div class="intro-logo-stage">
         <div class="intro-logo-lockup">
           <div class="intro-logo-glow"></div>
-          <img
-            src="assets/images/magic_scissors_logo.png"
-            alt="Magic Scissors"
-            class="intro-logo-asset"
-            draggable="false"
-            width="480"
-            height="160"
-          >
+          <img src="assets/images/magic_scissors_logo.png" alt="Magic Scissors" class="intro-logo-asset"
+            draggable="false" width="480" height="160">
         </div>
       </div>
     </div>
@@ -141,7 +137,6 @@
           <li><a href="about.html" class="nav-link">About Us</a></li>
           <li><a href="services.html" class="nav-link">Services</a></li>
           <li><a href="gallery.html" class="nav-link">Salon Views</a></li>
-          <li><a href="franchise.html" class="nav-link">Franchise</a></li>
           <li><a href="contact.html" class="nav-link">Contact & Book</a></li>
         </ul>
       </nav>
@@ -165,8 +160,14 @@
         </button>
 
         <!-- Book Appointment CTA -->
-        <a href="contact.html" class="btn btn-gold">
-          Book Appointment
+        <a href="contact.html" class="pearl-button pearl-button--header" aria-label="Book Appointment">
+          <div class="wrap">
+            <p>
+              <span class="pearl-sparkle-default" aria-hidden="true">✧</span>
+              <span class="pearl-sparkle-hover" aria-hidden="true">✦</span>
+              <span class="pearl-label-text">Book Appointment</span>
+            </p>
+          </div>
         </a>
 
         <!-- Mobile Drawer Toggle -->
@@ -232,8 +233,14 @@
         </p>
 
         <div class="hero-cta-group">
-          <a href="services.html" class="btn btn-gold">
-            Explore Services
+          <a href="services.html" class="pearl-button pearl-button--hero" aria-label="Explore Services">
+            <div class="wrap">
+              <p>
+                <span class="pearl-sparkle-default" aria-hidden="true">✧</span>
+                <span class="pearl-sparkle-hover" aria-hidden="true">✦</span>
+                <span class="pearl-label-text">Explore Services</span>
+              </p>
+            </div>
           </a>
           <a href="https://wa.me/919960135849?text=Hello%20Magic%20Scissors!%20I%20would%20like%20to%20inquire%20about%20booking%20an%20appointment."
             target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
@@ -332,12 +339,18 @@
               </div>
             </div>
 
-            <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <div class="about-cta-group">
               <a href="about.html" class="btn btn-outline-gold">
                 About Our Studio
               </a>
-              <a href="services.html" class="btn btn-gold">
-                View Services
+              <a href="services.html" class="pearl-button" aria-label="View Services">
+                <div class="wrap">
+                  <p>
+                    <span class="pearl-sparkle-default" aria-hidden="true">✧</span>
+                    <span class="pearl-sparkle-hover" aria-hidden="true">✦</span>
+                    <span class="pearl-label-text">View Services</span>
+                  </p>
+                </div>
               </a>
             </div>
           </div>
@@ -394,14 +407,13 @@
           </p>
         </div>
 
-        <!-- Gallery Filter Tabs -->
-        <div id="galleryTabs" class="services-tabs">
-          <!-- Injected via main.js -->
-        </div>
+        <!-- Molten Interactive Exhibition Showcase -->
+        <div id="moltenGalleryHomeRoot"></div>
 
-        <!-- Gallery Grid -->
-        <div id="galleryGrid" class="gallery-grid">
-          <!-- Injected via main.js -->
+        <div style="text-align: center; margin-top: 32px;">
+          <a href="gallery.html" class="btn btn-outline-gold" style="padding: 12px 28px; font-size: 0.9rem; letter-spacing: 0.08em;">
+            View Complete Gallery &amp; Suites →
+          </a>
         </div>
       </div>
     </section>
@@ -725,8 +737,6 @@
                 class="drawer-nav-icon">✦</span><span>Services</span></a></li>
           <li><a href="gallery.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Salon
                 Views</span></a></li>
-          <li><a href="franchise.html" class="drawer-nav-link"><span
-                class="drawer-nav-icon">✦</span><span>Franchise</span></a></li>
           <li><a href="contact.html" class="drawer-nav-link"><span class="drawer-nav-icon">✦</span><span>Contact &
                 Book</span></a></li>
         </ul>
@@ -863,7 +873,6 @@
             <li><a href="about.html" class="footer-link">About Us</a></li>
             <li><a href="services.html" class="footer-link">Services</a></li>
             <li><a href="gallery.html" class="footer-link">Salon Views</a></li>
-            <li><a href="franchise.html" class="footer-link">Franchise</a></li>
             <li><a href="contact.html" class="footer-link">Contact & Book</a></li>
           </ul>
         </div>

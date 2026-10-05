@@ -2,6 +2,8 @@
    MAGIC SCISSORS - LUXURY DESIGN SYSTEM & CORE STYLES
    ========================================================================== */
 @import './feedback-skeletons.css';
+@import './pearl-button.css';
+@import './molten-gallery.css';
 
 :root {
   /* Warm Luxury Aesthetic Palette: Warm Alabaster Silk, Champagne Terracotta Bronze, Deep Noir Charcoal */
@@ -18,7 +20,7 @@
   --accent-cream: #FAF8F5;
   --accent-linen: #EFE8E1;
   --accent-sage: #3D6B58;
-  --accent-gradient: linear-gradient(135deg, #D49A7E 0%, #B86B49 55%, #8F4A2B 100%);
+  --accent-gradient: linear-gradient(135deg, #B86B49 0%, #9E5232 50%, #753418 100%);
   --accent-gradient-soft: linear-gradient(135deg, rgba(184, 107, 73, 0.12) 0%, rgba(212, 154, 126, 0.04) 100%);
   --accent-border: rgba(184, 107, 73, 0.22);
   --accent-border-glow: rgba(184, 107, 73, 0.45);
@@ -706,7 +708,7 @@ h4 {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--accent-primary);
+  color: #D49A7E;
   margin-bottom: 2px;
 }
 
@@ -727,23 +729,23 @@ h4 {
   border-radius: var(--radius-full);
   font-size: 0.92rem;
   font-weight: 500;
-  color: var(--text-primary);
+  color: #FFFFFF;
   text-decoration: none;
-  background: rgba(15, 17, 23, 0.02);
-  border: 1px solid rgba(15, 17, 23, 0.07);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   transition: all var(--transition-fast);
 }
 
 .drawer-nav-link .drawer-nav-icon {
   font-size: 0.72rem;
-  color: var(--accent-primary);
-  opacity: 0.75;
+  color: #E8BCA6;
+  opacity: 0.95;
 }
 
 .drawer-nav-link:hover {
-  background: rgba(184, 107, 73, 0.09);
-  border-color: rgba(184, 107, 73, 0.25);
-  color: var(--accent-dark);
+  background: rgba(184, 107, 73, 0.24);
+  border-color: rgba(212, 154, 126, 0.5);
+  color: #ffffff;
   transform: translateX(4px);
 }
 
@@ -752,7 +754,7 @@ h4 {
   border-color: transparent;
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(184, 107, 73, 0.28);
+  box-shadow: 0 4px 14px rgba(184, 107, 73, 0.35);
 }
 
 .drawer-nav-link.active .drawer-nav-icon {
@@ -852,17 +854,17 @@ h4 {
   gap: 12px;
   padding: 12px 16px;
   border-radius: var(--radius-md);
-  background: rgba(15, 17, 23, 0.02);
-  border: 1px solid rgba(184, 107, 73, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 154, 126, 0.22);
   text-decoration: none;
   transition: all var(--transition-fast);
 }
 
 .drawer-instagram-card:hover {
-  background: rgba(184, 107, 73, 0.08);
-  border-color: var(--accent-primary);
+  background: rgba(184, 107, 73, 0.16);
+  border-color: var(--accent-light);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(184, 107, 73, 0.12);
+  box-shadow: 0 6px 16px rgba(184, 107, 73, 0.2);
 }
 
 .drawer-ig-icon-wrap {
@@ -887,19 +889,19 @@ h4 {
 .drawer-ig-title {
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #FFFFFF;
 }
 
 .drawer-ig-handle {
   font-size: 0.72rem;
-  color: var(--accent-primary);
+  color: #D49A7E;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .drawer-ig-arrow {
-  color: var(--accent-primary);
+  color: #D49A7E;
   font-size: 1.1rem;
   font-weight: 700;
   transition: transform var(--transition-fast);
@@ -1014,69 +1016,6 @@ h4 {
   line-height: 1.76;
   font-weight: 400;
   letter-spacing: 0.01em;
-}
-
-/* Franchise Specific Layouts */
-.franchise-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: start;
-}
-
-.franchise-model-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin-top: 30px;
-}
-
-.model-card {
-  background: #FFFFFF;
-  border: 1px solid rgba(184, 107, 73, 0.18);
-  border-radius: var(--radius-lg);
-  padding: 32px 28px;
-  transition: all var(--transition-smooth);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-}
-
-.model-card:hover {
-  border-color: var(--accent-primary);
-  transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(184, 107, 73, 0.14);
-}
-
-.model-card.featured {
-  border-color: var(--accent-primary);
-  background: #FFFFFF;
-  position: relative;
-}
-
-.model-badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent-dark);
-  background: rgba(184, 107, 73, 0.12);
-  padding: 4px 12px;
-  border-radius: 20px;
-  margin-bottom: 12px;
-}
-
-.inquiry-card {
-  background: #FFFFFF;
-  border: 1px solid rgba(184, 107, 73, 0.18);
-  border-radius: var(--radius-lg);
-  padding: clamp(28px, 4vw, 44px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-}
-
-@media (max-width: 991px) {
-  .franchise-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* Ensure consistent horizontal logo across all pages and footers */

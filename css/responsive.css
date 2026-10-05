@@ -100,11 +100,7 @@
     grid-template-columns: repeat(3, 1fr);
   }
 
-  /* Franchise & Booking grids: collapse at tablet */
-  .franchise-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
+  /* Booking grids: collapse at tablet */
 
   .booking-layout-grid {
     grid-template-columns: 1fr;
@@ -515,7 +511,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     5. Packages, Testimonials & Franchise Models
+     5. Packages & Testimonials
      -------------------------------------------------------------------------- */
   .packages-grid {
     grid-template-columns: 1fr;
@@ -555,15 +551,7 @@
     margin-bottom: 18px;
   }
 
-  .franchise-model-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
 
-  .franchise-steps-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
 
   /* --------------------------------------------------------------------------
      6. Video Tour, Instagram Strip & Footer
@@ -700,7 +688,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     7. Forms (Booking, Contact, Franchise): iOS Auto-Zoom Prevention & Stacking
+     7. Forms (Booking, Contact): iOS Auto-Zoom Prevention & Stacking
      -------------------------------------------------------------------------- */
   .booking-layout-grid {
     display: flex;

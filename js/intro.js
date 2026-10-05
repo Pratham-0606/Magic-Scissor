@@ -326,6 +326,9 @@ class TheatricalIntro {
       if (this.overlay) {
         this.overlay.classList.add("curtain-opening");
       }
+      if (window.__hero3d && typeof window.__hero3d.playCurtainPushIn === 'function') {
+        window.__hero3d.playCurtainPushIn();
+      }
     }, 1800);
 
     // 2.5s — WARM LIGHT APPEARS: soft warm light gradually increases behind curtains

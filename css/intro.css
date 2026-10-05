@@ -38,6 +38,8 @@
   overflow: hidden;
   pointer-events: all;
   background-color: #060508;
+  perspective: 1200px;
+  transform-style: preserve-3d;
   opacity: 1;
   visibility: visible;
   transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -115,13 +117,13 @@ html.intro-already-entered body {
   box-shadow: inset 25px 0 50px rgba(0, 0, 0, 0.92), -12px 0 45px rgba(0, 0, 0, 0.9);
 }
 
-/* 1.8s: Curtains begin opening smoothly from center */
+/* 1.8s: Curtains begin opening smoothly from center with 3D physical depth */
 .theatrical-intro-overlay.curtain-opening .curtain-left {
-  transform: translateX(-102%) skewX(-1.2deg);
+  transform: translateX(-102%) rotateY(-6deg) skewX(-1.2deg);
 }
 
 .theatrical-intro-overlay.curtain-opening .curtain-right {
-  transform: translateX(102%) skewX(1.2deg);
+  transform: translateX(102%) rotateY(6deg) skewX(1.2deg);
 }
 
 /* --------------------------------------------------------------------------

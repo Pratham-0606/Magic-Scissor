@@ -8,6 +8,11 @@ import { supabaseService } from './supabase-client.js';
 import { AuthManager } from './auth.js';
 import { ConciergeDashboard } from './admin-dashboard.js';
 import { ButtonLoader, FormValidator, ToastManager, Skeleton, EmptyState, ErrorClassifier, StylePhotoUploader } from './ui-feedback.js';
+import { ThreeDimensionalCards } from './ui/3d-cards.js';
+import { ThreeDimensionalGallery } from './ui/3d-gallery.js';
+import { ThreeDimensionalSidebar } from './ui/3d-sidebar.js';
+import { ThreeDimensionalTypography } from './ui/3d-typography.js';
+import { initMoltenGallery, DEFAULT_MAGIC_SCISSORS_GALLERY_ITEMS } from '../components/ui/molten-gallery.tsx';
 
 class MagicScissorsApp {
   constructor() {
@@ -17,6 +22,11 @@ class MagicScissorsApp {
     this.currentGalleryFilter = "all";
     this.stylePhotoUploader = null;
     this.galleryTimeout = null;
+    this.hero3d = null;
+    this.cards3d = null;
+    this.gallery3d = null;
+    this.sidebar3d = null;
+    this.typography3d = null;
     this.init();
   }
 
@@ -46,9 +56,52 @@ class MagicScissorsApp {
     this.setupButtonEffects();
     this.setupVideoPlayer();
     this.setupBookingForm();
-    this.setupFranchiseForm();
     this.setupLightbox();
     this.setupAnalyticsTracking();
+
+    // 7. Initialize 3D Experience & Visual Storyteller
+    this.setup3DExperience();
+
+    // 8. Initialize Molten Liquid Glass Gallery Exhibition
+    this.setupMoltenGallery();
+  }
+
+  setupMoltenGallery() {
+    try {
+      const root = document.getElementById('moltenGalleryRoot');
+      if (root) {
+        initMoltenGallery(root, {
+          items: DEFAULT_MAGIC_SCISSORS_GALLERY_ITEMS,
+          title: "The Molten Ambience Atelier",
+          subtitle: "An interactive liquid glass exhibition of Magic Scissors hair craft, private suites, and architectural elegance.",
+          badgeText: "LUXURY SALON EXHIBITION · LIQUID GLASS RING"
+        });
+      }
+
+      const homeRoot = document.getElementById('moltenGalleryHomeRoot');
+      if (homeRoot) {
+        initMoltenGallery(homeRoot, {
+          items: DEFAULT_MAGIC_SCISSORS_GALLERY_ITEMS,
+          title: "The Molten Ambience Atelier",
+          subtitle: "Explore our living liquid glass gallery of salon views, couture cuts, and restorative spa suites.",
+          badgeText: "INTERACTIVE MOLTEN ATELIER"
+        });
+      }
+    } catch (err) {
+      console.warn("Molten gallery initialization caught error:", err);
+    }
+  }
+
+  setup3DExperience() {
+    try {
+      // Initialize 3D physical cards, gallery exhibition, sidebar, and typography
+      this.cards3d = new ThreeDimensionalCards();
+      this.gallery3d = new ThreeDimensionalGallery();
+      this.sidebar3d = new ThreeDimensionalSidebar();
+      this.typography3d = new ThreeDimensionalTypography();
+    } catch (err) {
+      console.warn("3D experience initialization caught error, continuing in graceful 2D fallback:", err);
+    }
   }
 
   // Active Nav Detection
@@ -705,7 +758,7 @@ class MagicScissorsApp {
       playBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         if (video.paused) {
-          video.play().catch(() => {});
+          video.play().catch(() => { });
         } else {
           video.pause();
         }
@@ -721,7 +774,7 @@ class MagicScissorsApp {
 
     video.addEventListener("click", () => {
       if (video.paused) {
-        video.play().catch(() => {});
+        video.play().catch(() => { });
       } else {
         video.pause();
       }
@@ -866,57 +919,6 @@ class MagicScissorsApp {
         });
       } finally {
         ButtonLoader.stop(submitBtn);
-      }
-    });
-  }
-
-  // Franchise Form Handler with Validation & Duplicate Prevention
-  setupFranchiseForm() {
-    const fForm = document.getElementById("franchiseForm");
-    if (!fForm) return;
-
-    fForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const validation = FormValidator.validateFranchiseForm(fForm);
-      if (!validation.isValid) {
-        ToastManager.warning("Please verify your franchise inquiry details.");
-        return;
-      }
-
-      const { name, phone, city, model, notes } = validation.data;
-      const submitBtn = fForm.querySelector('button[type="submit"]');
-
-      ButtonLoader.start(submitBtn, "Preparing Inquiry...");
-
-      try {
-        const msg = `*Magic Scissors - Franchise Partnership Inquiry*%0A%0A` +
-          `• *Partner Name:* ${encodeURIComponent(name)}%0A` +
-          `• *Mobile:* ${encodeURIComponent(phone)}%0A` +
-          `• *Target City:* ${encodeURIComponent(city)}%0A` +
-          `• *Preferred Model:* ${encodeURIComponent(model)}%0A` +
-          (notes ? `• *Notes:* ${encodeURIComponent(notes)}%0A` : "") +
-          `%0APlease share the franchise disclosure and investment prospectus!`;
-
-        window.open(`https://wa.me/${SALON_DATA.brand.whatsappClean}?text=${msg}`, "_blank");
-
-        ToastManager.success("Franchise inquiry prepared. Opening WhatsApp.");
-
-        const msgBox = document.getElementById("franchiseConfirmMsg");
-        if (msgBox) {
-          msgBox.style.display = "block";
-          fForm.reset();
-          setTimeout(() => {
-            msgBox.style.display = "none";
-          }, 9000);
-        }
-      } catch (err) {
-        const classified = ErrorClassifier.classify(err);
-        ToastManager.error(classified.userMessage);
-      } finally {
-        setTimeout(() => {
-          ButtonLoader.stop(submitBtn);
-        }, 600);
       }
     });
   }

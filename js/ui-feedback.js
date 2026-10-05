@@ -368,63 +368,6 @@ export class FormValidator {
       }
     };
   }
-
-  /**
-   * Validate franchise inquiry form
-   * @param {HTMLFormElement} form
-   * @returns {{ isValid: boolean, errors: Object, data: Object }}
-   */
-  static validateFranchiseForm(form) {
-    this.clearAllErrors(form);
-
-    let isValid = true;
-    let firstInvalidField = null;
-    const errors = {};
-
-    const nameInput = form.fName;
-    const name = nameInput?.value?.trim() || "";
-    if (!name || name.length < 2) {
-      this.setFieldError(nameInput, "Please enter your full name.");
-      errors.name = "Name required";
-      isValid = false;
-      if (!firstInvalidField) firstInvalidField = nameInput;
-    }
-
-    const phoneInput = form.fPhone;
-    const rawPhone = phoneInput?.value?.trim() || "";
-    const cleanPhone = rawPhone.replace(/[^0-9]/g, "");
-    if (!rawPhone || cleanPhone.length < 10) {
-      this.setFieldError(phoneInput, "Please enter a valid 10-digit mobile number.");
-      errors.phone = "Invalid mobile number";
-      isValid = false;
-      if (!firstInvalidField) firstInvalidField = phoneInput;
-    }
-
-    const cityInput = form.fCity;
-    const city = cityInput?.value?.trim() || "";
-    if (!city) {
-      this.setFieldError(cityInput, "Please specify your target city or location.");
-      errors.city = "City required";
-      isValid = false;
-      if (!firstInvalidField) firstInvalidField = cityInput;
-    }
-
-    if (!isValid && firstInvalidField) {
-      firstInvalidField.focus();
-    }
-
-    return {
-      isValid,
-      errors,
-      data: {
-        name,
-        phone: rawPhone,
-        city,
-        model: form.fModel?.value || "Studio Boutique",
-        notes: form.fNotes?.value?.trim() || ""
-      }
-    };
-  }
 }
 
 // --------------------------------------------------------------------------

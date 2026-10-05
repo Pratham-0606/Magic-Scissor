@@ -3,6 +3,11 @@ import { resolve } from 'path';
 import fs from 'fs';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './')
+    }
+  },
   publicDir: 'public',
   server: {
     port: 3000,
@@ -16,7 +21,6 @@ export default defineConfig({
         about: resolve(__dirname, 'about.html'),
         services: resolve(__dirname, 'services.html'),
         gallery: resolve(__dirname, 'gallery.html'),
-        franchise: resolve(__dirname, 'franchise.html'),
         contact: resolve(__dirname, 'contact.html')
       }
     }

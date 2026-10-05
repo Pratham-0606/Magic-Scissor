@@ -72,16 +72,16 @@
 }
 
 .logo-scissor-mark {
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: var(--gold-gradient);
+  background: linear-gradient(135deg, #B86B49 0%, #8F4A2B 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(200, 109, 74, 0.35);
-  color: #08080a;
-  font-size: 14px;
+  box-shadow: 0 3px 12px rgba(143, 74, 43, 0.35);
+  color: #FAF8F5;
+  font-size: 15px;
   transition: transform var(--transition-fast);
   flex-shrink: 0;
 }
@@ -99,25 +99,49 @@
 
 .logo-title {
   font-family: var(--font-display, var(--font-serif));
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  line-height: 1.1;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #15171C !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: #15171C !important;
+  text-shadow: none !important;
+  line-height: 1.15;
   white-space: nowrap;
 }
 
 .logo-sub {
   font-family: var(--font-sans);
-  font-size: 0.54rem;
+  font-size: 0.56rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 600;
+  color: #8F4A2B !important;
+  font-weight: 700;
   white-space: nowrap;
+}
+
+/* Footer Brand Logo Light Typography for Dark Background */
+.site-footer .site-logo,
+.site-footer .brand-logo {
+  color: #FAF8F5 !important;
+}
+
+.site-footer .logo-title,
+.site-footer .site-logo .logo-title,
+.site-footer .brand-logo .logo-title {
+  color: #FAF8F5 !important;
+  -webkit-text-fill-color: #FAF8F5 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+}
+
+.site-footer .logo-sub,
+.site-footer .site-logo .logo-sub,
+.site-footer .brand-logo .logo-sub {
+  color: #D49A7E !important;
+  -webkit-text-fill-color: #D49A7E !important;
+  letter-spacing: 0.22em;
 }
 
 /* Nav Menu - Structured Button Pill Segmented Control */
@@ -233,7 +257,8 @@
   box-shadow: 0 3px 14px rgba(200, 109, 74, 0.28);
 }
 
-.btn-outline-gold, .btn-outline {
+.btn-outline-gold,
+.btn-outline {
   background: transparent;
   color: var(--accent-dark);
   border-color: var(--accent-primary);
@@ -292,7 +317,7 @@
   right: 22px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--text-primary);
+  color: #FFFFFF;
   font-size: 18px;
   width: 38px;
   height: 38px;
@@ -378,15 +403,15 @@
   width: 100%;
   height: 100%;
   z-index: 1;
-  background: 
-    linear-gradient(90deg, 
-      rgba(250, 248, 245, 0.92) 0%, 
-      rgba(250, 248, 245, 0.80) 45%, 
-      rgba(250, 248, 245, 0.25) 75%, 
+  background:
+    linear-gradient(90deg,
+      rgba(250, 248, 245, 0.92) 0%,
+      rgba(250, 248, 245, 0.80) 45%,
+      rgba(250, 248, 245, 0.25) 75%,
       rgba(250, 248, 245, 0.10) 100%),
-    linear-gradient(180deg, 
-      rgba(250, 248, 245, 0.50) 0%, 
-      transparent 30%, 
+    linear-gradient(180deg,
+      rgba(250, 248, 245, 0.50) 0%,
+      transparent 30%,
       rgba(250, 248, 245, 0.70) 100%);
   pointer-events: none;
 }
@@ -427,9 +452,20 @@
 }
 
 @keyframes pulseDot {
-  0% { transform: scale(0.9); opacity: 0.7; }
-  50% { transform: scale(1.3); opacity: 1; }
-  100% { transform: scale(0.9); opacity: 0.7; }
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
 }
 
 .hero-headline {
@@ -503,6 +539,7 @@
   color: #ffffff !important;
   box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45) !important;
 }
+
 .hero-cta-group .btn-whatsapp:hover svg {
   color: #ffffff !important;
   fill: #ffffff !important;
@@ -517,6 +554,7 @@
   color: #ffffff !important;
   box-shadow: 0 6px 18px rgba(200, 109, 74, 0.45) !important;
 }
+
 .hero-cta-group .btn-call:hover svg {
   color: #ffffff !important;
   fill: #ffffff !important;
@@ -679,6 +717,16 @@
   font-size: 0.8rem;
   color: var(--text-secondary);
   line-height: 1.5;
+}
+
+.about-cta-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  width: 100%;
 }
 
 /* --------------------------------------------------------------------------
@@ -873,7 +921,9 @@
   font-size: 0.94rem;
   line-height: 1.68;
   margin-bottom: 20px;
+  display: -webkit-box;
   -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .service-meta-row {
@@ -1162,13 +1212,11 @@
   right: 0;
   bottom: 0;
   top: auto;
-  background: linear-gradient(
-    to top,
-    rgba(8, 9, 12, 0.96) 0%,
-    rgba(8, 9, 12, 0.82) 42%,
-    rgba(8, 9, 12, 0.35) 75%,
-    transparent 100%
-  );
+  background: linear-gradient(to top,
+      rgba(8, 9, 12, 0.96) 0%,
+      rgba(8, 9, 12, 0.82) 42%,
+      rgba(8, 9, 12, 0.35) 75%,
+      transparent 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -1180,13 +1228,11 @@
 }
 
 .gallery-card:hover .gallery-overlay {
-  background: linear-gradient(
-    to top,
-    rgba(8, 9, 12, 0.98) 0%,
-    rgba(8, 9, 12, 0.88) 50%,
-    rgba(8, 9, 12, 0.45) 85%,
-    transparent 100%
-  );
+  background: linear-gradient(to top,
+      rgba(8, 9, 12, 0.98) 0%,
+      rgba(8, 9, 12, 0.88) 50%,
+      rgba(8, 9, 12, 0.45) 85%,
+      transparent 100%);
 }
 
 /* Category pill badge with dark frosted backing for flawless contrast */
@@ -1331,7 +1377,7 @@
   align-items: stretch;
 }
 
-.standards-grid > .glass-card {
+.standards-grid>.glass-card {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -1569,6 +1615,7 @@
   color: var(--accent-light, #D49A7E);
   background: var(--accent-gradient, linear-gradient(135deg, #D49A7E 0%, #B86B49 100%));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   max-width: 100%;
   overflow-wrap: anywhere;
@@ -2072,11 +2119,6 @@
   gap: 28px;
 }
 
-.franchise-steps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-}
 
 .luxury-form-grid {
   display: grid;
@@ -2431,5 +2473,3 @@
   font-size: 0.95rem;
   text-align: center;
 }
-
-

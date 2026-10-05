@@ -1,0 +1,398 @@
+/* ==========================================================================
+   MAGIC SCISSORS - 3D EXPERIENCE DESIGN SYSTEM
+   Luxury editorial depth, physical card elevation, specular sheen,
+   art exhibition framing, and 3D typography.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 3D Experience Viewport Layer (Positioned inside Hero section)
+   -------------------------------------------------------------------------- */
+.three-3d-experience-layer,
+#three3dExperienceLayer,
+.three-hero-canvas {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* --------------------------------------------------------------------------
+   Hero Section Hierarchy: Background Media (1) < 3D Shears (2) < Hero Content (5)
+   -------------------------------------------------------------------------- */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-background-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1 !important;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 5 !important;
+}
+
+/* Sections after hero establish solid luxury backgrounds so the 3D animation never overlays text or data */
+#about,
+#services,
+#gallery,
+#video-tour,
+#testimonials,
+#contact,
+.section-padding,
+.page-hero-banner {
+  position: relative;
+  z-index: 10;
+  background: var(--bg-primary);
+}
+
+#video-tour {
+  background: var(--bg-secondary) !important;
+}
+
+.site-footer {
+  position: relative;
+  z-index: 10;
+  background: #0F1117 !important;
+}
+
+/* Header, navigation, and modal layers */
+.site-header {
+  position: fixed;
+  z-index: 900 !important;
+}
+
+.modal-overlay,
+.nav-drawer {
+  z-index: 1000 !important;
+}
+
+/* Ensure ALL text, titles, subtitles, tabs, buttons, grids, cards, and data sit above 3D elements */
+.hero-content,
+.container,
+.section-header,
+.section-title,
+.section-subtitle,
+.services-tabs,
+.service-tab-btn,
+.services-grid,
+.service-card,
+.gallery-grid,
+.gallery-card,
+.gallery-art-exhibition-card,
+.about-content,
+.about-image-composition,
+.bento-grid,
+.bento-card,
+.testimonials-grid,
+.testimonial-card,
+.video-showcase-wrapper,
+.instagram-banner-box,
+.instagram-grid,
+.luxury-form-card,
+.contact-grid,
+.contact-card,
+.breadcrumb-nav,
+.page-hero-title,
+.page-hero-subtitle {
+  position: relative;
+  z-index: 15 !important;
+}
+
+/* Subpage Dedicated Hero Banner glassmorphism */
+.page-hero-banner {
+  background: linear-gradient(160deg, rgba(250, 248, 245, 0.88) 0%, rgba(250, 248, 245, 0.76) 100%) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  position: relative;
+  z-index: 10;
+}
+
+/* --------------------------------------------------------------------------
+   2. 3D Physical Cards (Bento, Services, Features, Testimonials)
+   -------------------------------------------------------------------------- */
+.card-3d-interactive {
+  transform-style: preserve-3d;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-3d-interactive img {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Specular Glare Sheen following cursor */
+.card-specular-sheen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 12;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle 260px at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(212, 154, 126, 0.12) 40%,
+    transparent 80%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: overlay;
+}
+
+.card-3d-interactive:hover .card-specular-sheen,
+.card-3d-interactive.card-hovered .card-specular-sheen {
+  opacity: 1;
+}
+
+/* Premium Multi-layer Hover Shadows */
+.card-3d-interactive:hover,
+.card-3d-interactive.card-hovered {
+  box-shadow:
+    0 22px 50px -10px rgba(18, 16, 24, 0.14),
+    0 12px 24px -6px rgba(184, 107, 73, 0.16),
+    0 0 0 1px rgba(212, 154, 126, 0.35) !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. 3D Gallery Art Exhibition Framing
+   -------------------------------------------------------------------------- */
+.gallery-art-exhibition-card {
+  transform-style: preserve-3d;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.32s ease;
+  border: 1px solid rgba(184, 107, 73, 0.28);
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.09),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+  will-change: transform, box-shadow;
+  position: relative;
+}
+
+.gallery-art-exhibition-card:hover {
+  border-color: rgba(184, 107, 73, 0.55);
+  box-shadow:
+    0 24px 55px rgba(18, 16, 24, 0.18),
+    0 8px 20px rgba(184, 107, 73, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+}
+
+.gallery-art-exhibition-card .gallery-img {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.3s ease;
+  will-change: transform;
+}
+
+/* Smooth push-in zoom when focused/clicked */
+.gallery-art-exhibition-card.gallery-focus-active {
+  transform: perspective(1000px) scale3d(1.04, 1.04, 1.04) translateZ(22px) !important;
+  box-shadow:
+    0 32px 70px rgba(0, 0, 0, 0.3),
+    0 0 28px rgba(184, 107, 73, 0.35) !important;
+  z-index: 35 !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. 3D Major Headings Dimensionality
+   -------------------------------------------------------------------------- */
+.heading-3d-dimensional {
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.85),
+    0 2px 4px rgba(184, 107, 73, 0.18),
+    0 6px 18px rgba(20, 20, 28, 0.08);
+  will-change: transform;
+  transition: transform 0.18s ease-out;
+}
+
+/* Explicitly protect gradient text and header logo from text-shadow corruption */
+.heading-3d-dimensional .accent-text,
+.heading-3d-dimensional .gold-text,
+.site-header .site-logo .logo-title,
+.site-header .brand-logo .logo-title,
+.site-header .logo-title {
+  text-shadow: none !important;
+  color: #15171C !important;
+  -webkit-text-fill-color: #15171C !important;
+}
+
+.site-header .site-logo .logo-sub,
+.site-header .brand-logo .logo-sub,
+.site-header .logo-sub {
+  text-shadow: none !important;
+  color: #8F4A2B !important;
+}
+
+/* Footer Brand Logo Light Typography on Dark Background */
+.site-footer .site-logo .logo-title,
+.site-footer .brand-logo .logo-title,
+.site-footer .logo-title {
+  text-shadow: none !important;
+  color: #FAF8F5 !important;
+  -webkit-text-fill-color: #FAF8F5 !important;
+}
+
+.site-footer .site-logo .logo-sub,
+.site-footer .brand-logo .logo-sub,
+.site-footer .logo-sub {
+  text-shadow: none !important;
+  color: #D49A7E !important;
+  -webkit-text-fill-color: #D49A7E !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. 3D Luxury Sidebar Navigation Depth & High-Contrast Typography
+   -------------------------------------------------------------------------- */
+.nav-drawer.nav-drawer-3d {
+  background: rgba(18, 17, 24, 0.95) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border-left: 1px solid rgba(212, 154, 126, 0.28) !important;
+  box-shadow:
+    -25px 0 70px rgba(0, 0, 0, 0.72),
+    inset 1px 0 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+.nav-drawer.nav-drawer-3d .nav-drawer-header {
+  background: rgba(24, 22, 32, 0.94) !important;
+  border-bottom: 1px solid rgba(212, 154, 126, 0.22) !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-brand-title {
+  color: #FFFFFF !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-brand-sub {
+  color: #D49A7E !important;
+}
+
+.nav-drawer.nav-drawer-3d .nav-drawer-close {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(212, 154, 126, 0.3) !important;
+  color: #FFFFFF !important;
+}
+
+.nav-drawer.nav-drawer-3d .nav-drawer-close:hover {
+  background: rgba(184, 107, 73, 0.3) !important;
+  border-color: #D49A7E !important;
+  color: #FFFFFF !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-section-label {
+  color: #D49A7E !important;
+  letter-spacing: 0.16em !important;
+  opacity: 0.95 !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-nav-link {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-nav-link .drawer-nav-icon {
+  color: #E8BCA6 !important;
+  opacity: 0.95 !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-nav-link:hover {
+  background: rgba(184, 107, 73, 0.24) !important;
+  border-color: rgba(212, 154, 126, 0.5) !important;
+  color: #FFFFFF !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-nav-link.active {
+  background: var(--accent-gradient) !important;
+  border-color: transparent !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 18px rgba(184, 107, 73, 0.42) !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-nav-link.active .drawer-nav-icon {
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-instagram-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(212, 154, 126, 0.22) !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-instagram-card:hover {
+  background: rgba(184, 107, 73, 0.18) !important;
+  border-color: #D49A7E !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-ig-title {
+  color: #FFFFFF !important;
+}
+
+.nav-drawer.nav-drawer-3d .drawer-ig-handle {
+  color: #D49A7E !important;
+}
+
+.drawer-3d-item {
+  transform-style: preserve-3d;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.22s ease,
+              box-shadow 0.22s ease !important;
+  will-change: transform;
+}
+
+.drawer-3d-item:hover {
+  transform: translateZ(8px) translateX(6px) !important;
+  box-shadow: 0 4px 20px rgba(184, 107, 73, 0.22) !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. Touch / Mobile Optimization
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .three-3d-experience-layer {
+    opacity: 0.85;
+  }
+
+  .card-3d-interactive:hover,
+  .card-3d-interactive.card-hovered {
+    transform: translateY(-4px) !important;
+  }
+
+  .card-specular-sheen {
+    display: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Accessibility: Reduced Motion Support
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .three-3d-experience-layer {
+    display: none !important;
+  }
+
+  .card-3d-interactive {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .gallery-art-exhibition-card {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .heading-3d-dimensional {
+    transform: none !important;
+    text-shadow: none !important;
+  }
+}
