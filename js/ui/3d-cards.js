@@ -39,7 +39,6 @@ export class ThreeDimensionalCards {
       '.about-feature-box',
       '.stat-item',
       '.testimonial-card',
-      '.luxury-form-card',
       '.instagram-banner-box',
       '.insta-tile',
       '.footer-hours-card',
@@ -73,6 +72,11 @@ export class ThreeDimensionalCards {
     let currentX = 0;
     let currentY = 0;
 
+    // Review cards and instagram tiles use ultra-subtle tilt
+    const isSubtleTilt = card.classList.contains('testimonial-card') || card.classList.contains('insta-tile');
+    const tiltMultiplier = isSubtleTilt ? 3.8 : 6.0;
+    const transZ = isSubtleTilt ? 6 : 10;
+
     const onMouseEnter = () => {
       bounds = card.getBoundingClientRect();
       isHovering = true;
@@ -103,10 +107,9 @@ export class ThreeDimensionalCards {
       currentX += (targetX - currentX) * 0.12;
       currentY += (targetY - currentY) * 0.12;
 
-      // Subtle rotations (max ~5 degrees for luxury feel)
-      const rotX = (-currentY * 7.5).toFixed(2);
-      const rotY = (currentX * 7.5).toFixed(2);
-      const transZ = 12;
+      // Subtle rotations (max ~3.8 degrees for subtle luxury feel)
+      const rotX = (-currentY * tiltMultiplier).toFixed(2);
+      const rotY = (currentX * tiltMultiplier).toFixed(2);
 
       card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${transZ}px)`;
 

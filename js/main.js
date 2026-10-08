@@ -13,6 +13,16 @@ import { ThreeDimensionalGallery } from './ui/3d-gallery.js';
 import { ThreeDimensionalSidebar } from './ui/3d-sidebar.js';
 import { ThreeDimensionalTypography } from './ui/3d-typography.js';
 import { initMoltenGallery, DEFAULT_MAGIC_SCISSORS_GALLERY_ITEMS } from '../components/ui/molten-gallery.tsx';
+import { Hero3DExperience } from './3d/hero-3d.js';
+import { deviceCapability } from './3d/device-detection.js';
+import { ServicesDrumShowcase } from './ui/services-drum.js';
+import Lenis from 'lenis';
+
+// Progressive enhancement: mark JS readiness & reduced motion preference
+document.documentElement.classList.add('js-ready');
+if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.documentElement.classList.add('reduced-motion');
+}
 
 class MagicScissorsApp {
   constructor() {
@@ -23,6 +33,7 @@ class MagicScissorsApp {
     this.stylePhotoUploader = null;
     this.galleryTimeout = null;
     this.hero3d = null;
+    this.lenis = null;
     this.cards3d = null;
     this.gallery3d = null;
     this.sidebar3d = null;
@@ -64,6 +75,9 @@ class MagicScissorsApp {
 
     // 8. Initialize Molten Liquid Glass Gallery Exhibition
     this.setupMoltenGallery();
+
+    // 9. Initialize Lenis Smooth Inertia Scroll
+    this.setupSmoothScroll();
   }
 
   setupMoltenGallery() {
@@ -99,8 +113,192 @@ class MagicScissorsApp {
       this.gallery3d = new ThreeDimensionalGallery();
       this.sidebar3d = new ThreeDimensionalSidebar();
       this.typography3d = new ThreeDimensionalTypography();
+
+      // Instantiate Hero 3D Experience (Three.js viewport)
+      if (deviceCapability.isWebGLAvailable && !deviceCapability.prefersReducedMotion) {
+        this.hero3d = new Hero3DExperience();
+        window.__hero3d = this.hero3d;
+      }
+
+      // Initialize 3D Atelier Services Drum on homepage (keeping standard grid on services.html)
+      const path = (window.location && window.location.pathname) ? window.location.pathname.toLowerCase() : '';
+      const isHomepage = !path.includes('services.html') && !path.includes('about.html') && !path.includes('gallery.html') && !path.includes('contact.html');
+      if (isHomepage && document.getElementById('services')) {
+        this.servicesDrum = new ServicesDrumShowcase({
+          container: document.getElementById('services'),
+          servicesManager: this.servicesMgr
+        });
+      }
+
+      // Orchestrate post-intro triggers & hero background depth parallax
+      this.setupPostIntroOrchestration();
+      this.setupHeroParallax();
     } catch (err) {
       console.warn("3D experience initialization caught error, continuing in graceful 2D fallback:", err);
+    }
+  }
+
+  // Orchestrates 3D scene & headline entrance only after intro completes
+  setupPostIntroOrchestration() {
+    const heroEl = document.getElementById('hero');
+    const overlay = document.getElementById('theatricalIntroOverlay');
+
+    const triggerHeroStart = () => {
+      if (heroEl) {
+        heroEl.classList.add('hero-reveal-active');
+      }
+      if (this.hero3d) {
+        this.hero3d.start();
+      }
+    };
+
+    // Click anywhere on hero background to trigger scissors snip
+    if (heroEl) {
+      heroEl.addEventListener('click', (e) => {
+        if (!e.target || !e.target.closest('a, button, input, select, textarea, [role="button"], .hero-content')) {
+          if (this.hero3d && typeof this.hero3d.triggerSnip === 'function') {
+            this.hero3d.triggerSnip();
+          }
+        }
+      });
+    }
+
+    // Check if intro has already been entered or bypassed in this session
+    const isAlreadyEntered =
+      document.documentElement.classList.contains('intro-already-entered') ||
+      sessionStorage.getItem('magic_scissors_intro_entered') === 'true' ||
+      !overlay;
+
+    if (isAlreadyEntered) {
+      triggerHeroStart();
+      return;
+    }
+
+    // Observe overlay until completion
+    let hasTriggered = false;
+    const observer = new MutationObserver(() => {
+      const isCompleted =
+        overlay.classList.contains('intro-completed') ||
+        overlay.classList.contains('intro-bypassed') ||
+        overlay.style.display === 'none';
+
+      if (isCompleted && !hasTriggered) {
+        hasTriggered = true;
+        observer.disconnect();
+        triggerHeroStart();
+      }
+    });
+
+    observer.observe(overlay, {
+      attributes: true,
+      attributeFilter: ['class', 'style']
+    });
+  }
+
+  // Smooth depth parallax for hero background slides
+  setupHeroParallax() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let isTicking = false;
+
+    const isMobile = window.innerWidth < 768;
+
+    if (!isMobile) {
+      window.addEventListener('mousemove', (e) => {
+        const normX = (e.clientX / window.innerWidth) - 0.5;
+        const normY = (e.clientY / window.innerHeight) - 0.5;
+        targetX = normX * -18;
+        targetY = normY * -14;
+
+        if (!isTicking) {
+          isTicking = true;
+          requestAnimationFrame(updateParallax);
+        }
+      }, { passive: true });
+
+      const updateParallax = () => {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+
+        const activeImg = hero.querySelector('.hero-bg-slide.active .hero-bg-img');
+        if (activeImg) {
+          activeImg.style.setProperty('--parallax-x', `${currentX.toFixed(2)}px`);
+          activeImg.style.setProperty('--parallax-y', `${currentY.toFixed(2)}px`);
+        }
+
+        if (Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
+          requestAnimationFrame(updateParallax);
+        } else {
+          isTicking = false;
+        }
+      };
+    } else {
+      // Gentle orientation tilt on supported mobile devices
+      if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission !== 'function') {
+        window.addEventListener('deviceorientation', (e) => {
+          if (e.gamma !== null && e.beta !== null) {
+            const tiltX = Math.max(-10, Math.min(10, (e.gamma / 45) * 8));
+            const tiltY = Math.max(-8, Math.min(8, ((e.beta - 45) / 45) * 6));
+            const activeImg = hero.querySelector('.hero-bg-slide.active .hero-bg-img');
+            if (activeImg) {
+              activeImg.style.setProperty('--parallax-x', `${tiltX.toFixed(1)}px`);
+              activeImg.style.setProperty('--parallax-y', `${tiltY.toFixed(1)}px`);
+            }
+          }
+        }, { passive: true });
+      }
+    }
+  }
+
+  // Smooth inertia scrolling with Lenis & anchor link routing
+  setupSmoothScroll() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    try {
+      this.lenis = new Lenis({
+        duration: 1.15,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 0.95,
+        touchMultiplier: 1.2,
+        infinite: false,
+      });
+
+      const raf = (time) => {
+        if (this.lenis) {
+          this.lenis.raf(time);
+        }
+        requestAnimationFrame(raf);
+      };
+      requestAnimationFrame(raf);
+
+      // Route all in-page anchor links through lenis.scrollTo()
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', (e) => {
+          const targetId = anchor.getAttribute('href');
+          if (!targetId || targetId === '#' || targetId.startsWith('#!')) return;
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) {
+            e.preventDefault();
+            this.lenis.scrollTo(targetEl, { offset: -70, duration: 1.2 });
+          }
+        });
+      });
+    } catch (err) {
+      console.warn("Lenis smooth scroll initialization skipped:", err);
+      this.lenis = null;
     }
   }
 
@@ -384,6 +582,7 @@ class MagicScissorsApp {
 
     lightbox.classList.add("active");
     document.body.style.overflow = "hidden";
+    if (this.lenis) this.lenis.stop();
 
     const closeBtn = lightbox.querySelector(".lightbox-close");
     if (closeBtn) setTimeout(() => closeBtn.focus(), 50);
@@ -394,6 +593,7 @@ class MagicScissorsApp {
     if (!lightbox) return;
     lightbox.classList.remove("active");
     document.body.style.overflow = "auto";
+    if (this.lenis) this.lenis.start();
     if (this.lastLightboxTrigger && typeof this.lastLightboxTrigger.focus === "function") {
       this.lastLightboxTrigger.focus();
     }
@@ -635,6 +835,7 @@ class MagicScissorsApp {
       menuBtn.setAttribute("aria-expanded", "true");
       menuBtn.setAttribute("aria-label", "Close navigation");
       document.body.style.overflow = "hidden";
+      if (this.lenis) this.lenis.stop();
       const firstLink = drawer.querySelector(".drawer-nav-link, .nav-link");
       if (firstLink) firstLink.focus();
     };
@@ -645,6 +846,7 @@ class MagicScissorsApp {
       menuBtn.setAttribute("aria-expanded", "false");
       menuBtn.setAttribute("aria-label", "Open navigation");
       document.body.style.overflow = "";
+      if (this.lenis) this.lenis.start();
       menuBtn.focus();
     };
 

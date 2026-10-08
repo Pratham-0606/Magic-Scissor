@@ -45,7 +45,7 @@ export class StorytellerDirector {
     if (this.currentPage === 'about.html') initialStage = this.stages.about;
     else if (this.currentPage === 'services.html') initialStage = this.stages.services;
     else if (this.currentPage === 'gallery.html') initialStage = this.stages.gallery;
-    else if (this.currentPage === 'contact.html') initialStage = this.stages.contact;
+    else if (this.currentPage === 'contact.html') initialStage = this.stages.contactHero;
 
     this.targetTransform.pos.copy(initialStage.pos);
     this.targetTransform.rot.copy(initialStage.rot);
@@ -68,9 +68,9 @@ export class StorytellerDirector {
       // Mobile-tailored coordinates: deeply recessed in background to never collide with text
       this.stages = {
         hero: {
-          pos: new THREE.Vector3(0.0, 1.4, -2.2),
+          pos: new THREE.Vector3(1.1, 1.8, -2.6),
           rot: new THREE.Euler(0.15, -0.1, 0.35),
-          scale: 0.52,
+          scale: 0.36,
           cameraZ: 9.0
         },
         about: {
@@ -91,10 +91,17 @@ export class StorytellerDirector {
           scale: 0.36,
           cameraZ: 9.5
         },
+        contactHero: {
+          pos: new THREE.Vector3(1.2, 1.4, -2.4),
+          rot: new THREE.Euler(0.15, -0.15, 0.28),
+          scale: 0.34,
+          cameraZ: 9.0
+        },
         contact: {
-          pos: new THREE.Vector3(1.8, 0.8, -2.8),
+          // Tucked away below / offscreen for flat calm booking section
+          pos: new THREE.Vector3(2.5, -3.0, -3.5),
           rot: new THREE.Euler(0.05, -0.1, 0.12),
-          scale: 0.44,
+          scale: 0.001,
           cameraZ: 9.0
         }
       };
@@ -128,11 +135,18 @@ export class StorytellerDirector {
           scale: 0.55,
           cameraZ: 8.5
         },
+        contactHero: {
+          // Active in top hero banner of contact.html
+          pos: new THREE.Vector3(2.4, 0.25, -0.6),
+          rot: new THREE.Euler(0.12, -0.25, 0.38),
+          scale: 0.72,
+          cameraZ: 7.8
+        },
         contact: {
-          // Off to the right margin gutter
-          pos: new THREE.Vector3(3.5, -0.3, -1.2),
+          // Tucked away below / offscreen for flat calm booking section (zero 3D behind form)
+          pos: new THREE.Vector3(3.5, -4.0, -2.5),
           rot: new THREE.Euler(0.06, -0.18, 0.15),
-          scale: 0.70,
+          scale: 0.001,
           cameraZ: 8.0
         }
       };
@@ -142,12 +156,26 @@ export class StorytellerDirector {
   // Update based on total scroll progress [0.0 -> 1.0]
   updateScrollProgress(scrollFraction) {
     if (this.currentPage !== 'index.html') {
-      // Subpage dedicated subtle scroll motion
+      // Special flat form handling for contact.html: scissors fade out as user scrolls toward form
+      if (this.currentPage === 'contact.html') {
+        const heroStage = this.stages.contactHero;
+        const formProgress = Math.min(1.0, scrollFraction / 0.22);
+        this.targetTransform.pos.set(
+          heroStage.pos.x + formProgress * 0.6,
+          heroStage.pos.y - formProgress * 3.5,
+          heroStage.pos.z - formProgress * 1.5
+        );
+        this.targetTransform.rot.copy(heroStage.rot);
+        this.targetTransform.scale = THREE.MathUtils.lerp(heroStage.scale, 0.001, formProgress);
+        this.targetTransform.cameraZ = heroStage.cameraZ;
+        return;
+      }
+
+      // Subpage dedicated subtle scroll motion for about, services, gallery
       let baseStage = this.stages.hero;
       if (this.currentPage === 'about.html') baseStage = this.stages.about;
       else if (this.currentPage === 'services.html') baseStage = this.stages.services;
       else if (this.currentPage === 'gallery.html') baseStage = this.stages.gallery;
-      else if (this.currentPage === 'contact.html') baseStage = this.stages.contact;
 
       const deltaY = scrollFraction * 1.2;
       this.targetTransform.pos.set(

@@ -32,9 +32,9 @@ export class DeviceCapability {
 
   getPixelRatio() {
     const rawRatio = window.devicePixelRatio || 1;
-    if (this.tier === 'mobile') return Math.min(rawRatio, 1.25);
-    if (this.tier === 'tablet') return Math.min(rawRatio, 1.5);
-    return Math.min(rawRatio, 2.0);
+    if (this.tier === 'mobile') return Math.min(rawRatio, 1.2);
+    if (this.tier === 'tablet') return Math.min(rawRatio, 1.3);
+    return Math.min(rawRatio, 1.5);
   }
 
   shouldEnableShadows() {

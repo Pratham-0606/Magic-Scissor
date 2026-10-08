@@ -37,13 +37,17 @@
       }
     }, { passive: true });
 
+    const spotlightEl = document.getElementById('cinemaSpotlightLayer') || spotlight;
+
     function updateSpotlight() {
       // Smooth cinematic camera dampening (interpolation)
       currentX += (mouseX - currentX) * 0.08;
       currentY += (mouseY - currentY) * 0.08;
 
-      document.documentElement.style.setProperty('--mouse-x', `${currentX.toFixed(2)}%`);
-      document.documentElement.style.setProperty('--mouse-y', `${currentY.toFixed(2)}%`);
+      if (spotlightEl) {
+        spotlightEl.style.setProperty('--mouse-x', `${currentX.toFixed(2)}%`);
+        spotlightEl.style.setProperty('--mouse-y', `${currentY.toFixed(2)}%`);
+      }
 
       if (Math.abs(mouseX - currentX) > 0.05 || Math.abs(mouseY - currentY) > 0.05) {
         requestAnimationFrame(updateSpotlight);
@@ -63,6 +67,7 @@
       '.model-card',
       '.about-feature-box',
       '.section-header',
+      '.cinema-scene-tag',
       '.hero-view-pill',
       '.hero-stats-strip',
       '.inquiry-card'

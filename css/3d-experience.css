@@ -8,11 +8,26 @@
    1. 3D Experience Viewport Layer (Positioned inside Hero section)
    -------------------------------------------------------------------------- */
 .three-3d-experience-layer,
-#three3dExperienceLayer,
-.three-hero-canvas {
-  display: none !important;
+#three3dExperienceLayer {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 2 !important;
   pointer-events: none !important;
-  visibility: hidden !important;
+  overflow: hidden;
+  display: block;
+}
+
+.three-hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  pointer-events: none !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -37,27 +52,53 @@
   z-index: 5 !important;
 }
 
-/* Sections after hero establish solid luxury backgrounds so the 3D animation never overlays text or data */
+/* Sections with 3D background atmosphere: semi-translucent warm tint allows 3D tools in peripheral gutters to shine through without lag */
 #about,
-#services,
 #gallery,
-#video-tour,
-#testimonials,
-#contact,
-.section-padding,
-.page-hero-banner {
+#reviews,
+.section-padding {
   position: relative;
   z-index: 10;
-  background: var(--bg-primary);
+  background: rgba(250, 248, 245, 0.94);
+}
+
+#services {
+  position: relative;
+  z-index: 10;
+  background: rgba(244, 240, 234, 0.94) !important;
 }
 
 #video-tour {
-  background: var(--bg-secondary) !important;
+  position: relative;
+  z-index: 10;
+  background: rgba(245, 242, 237, 0.94) !important;
+}
+
+/* Booking section (homepage #booking & contact.html #bookingSection) and Footer are 100% flat, calm, and solid (no 3D behind form) */
+#booking,
+#bookingSection,
+.booking-layout-grid,
+.booking-form-col,
+.booking-info-col {
+  position: relative;
+  z-index: 30 !important;
+}
+
+#booking,
+#bookingSection {
+  background: var(--bg-primary) !important;
+  opacity: 1 !important;
+}
+
+.booking-form-col,
+.studio-info-card,
+.studio-assurances-card {
+  background: #FFFFFF !important;
 }
 
 .site-footer {
   position: relative;
-  z-index: 10;
+  z-index: 30 !important;
   background: #0F1117 !important;
 }
 
@@ -170,6 +211,7 @@
    -------------------------------------------------------------------------- */
 .gallery-art-exhibition-card {
   transform-style: preserve-3d;
+  transform: translateZ(var(--gallery-float-z, 0px)) translateY(var(--gallery-float-y, 0px));
   transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.32s ease;
@@ -396,3 +438,325 @@
     text-shadow: none !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   8. 3D Services Atelier Drum Showcase (Homepage)
+   -------------------------------------------------------------------------- */
+.services-drum-showcase {
+  position: relative;
+  z-index: 15;
+  width: 100%;
+  margin-top: -12px;
+  margin-bottom: 24px;
+}
+
+.services-drum-stage {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+  height: 560px;
+  perspective: 1250px;
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+  margin: 8px 0 24px;
+  outline: none;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.services-drum-stage.is-dragging {
+  cursor: grabbing;
+}
+
+.services-drum-cylinder {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.drum-facet {
+  position: absolute;
+  top: 25px;
+  left: -190px;
+  width: 380px;
+  height: 495px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: opacity 0.35s ease, filter 0.35s ease, transform 0.2s ease;
+  opacity: 0.52;
+  filter: blur(1.5px);
+}
+
+.drum-facet.is-front {
+  opacity: 1 !important;
+  filter: none !important;
+  z-index: 10;
+}
+
+.drum-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 22px;
+  border: 1.5px solid rgba(184, 107, 73, 0.22);
+  box-shadow: 0 16px 40px rgba(45, 26, 17, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow 0.24s ease, border-color 0.24s ease;
+}
+
+.drum-facet.is-front .drum-card {
+  box-shadow: 0 24px 54px rgba(45, 26, 17, 0.20), 0 6px 16px rgba(184, 107, 73, 0.18);
+  border-color: rgba(184, 107, 73, 0.55);
+}
+
+.drum-card-media {
+  position: relative;
+  height: 185px;
+  width: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.drum-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.drum-facet.is-front:hover .drum-card-img {
+  transform: scale(1.04);
+}
+
+.drum-card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(15, 17, 23, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 5px 12px;
+  border-radius: 30px;
+  border: 1px solid rgba(212, 154, 126, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #FAF8F5;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.drum-service-count {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.94);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+}
+
+/* ── Drum Card Body: beautifully proportioned & uncluttered ── */
+.drum-card-body,
+.drum-card-content {
+  padding: 20px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background: #FFFFFF;
+}
+
+.drum-card-title,
+.drum-service-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.44rem;
+  font-weight: 700;
+  color: #15171C;
+  line-height: 1.25;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  margin-bottom: 8px;
+}
+
+.drum-card-desc,
+.drum-service-desc {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: #555A64;
+  line-height: 1.52;
+  margin-bottom: 14px;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.drum-card-meta,
+.drum-service-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(184, 107, 73, 0.12);
+  margin-bottom: 16px;
+}
+
+.drum-meta-duration,
+.drum-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #7A808C;
+}
+
+.drum-meta-price,
+.drum-price-tag {
+  display: none !important; /* Price removed per user instruction */
+}
+
+.drum-card-actions {
+  display: flex;
+  margin-top: auto;
+}
+
+.drum-card-actions .drum-book-btn,
+.drum-card-actions .btn {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  padding: 12px 16px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #B86B49 0%, #8F4A2B 100%);
+  color: #FFFFFF;
+  border: none;
+  box-shadow: 0 4px 14px rgba(184, 107, 73, 0.3);
+  transition: all 0.22s ease;
+  cursor: pointer;
+}
+
+.drum-card-actions .drum-book-btn:hover,
+.drum-card-actions .btn:hover {
+  background: linear-gradient(135deg, #C87854 0%, #A65A39 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(184, 107, 73, 0.45);
+}
+
+@media (max-width: 1024px) {
+  .services-drum-stage {
+    height: 540px;
+  }
+  .drum-facet {
+    width: 340px;
+    height: 475px;
+    left: -170px;
+  }
+}
+
+@media (max-width: 768px) {
+  .services-drum-stage {
+    height: 520px;
+  }
+  .drum-facet {
+    width: 300px;
+    height: 460px;
+    left: -150px;
+  }
+  .drum-card-media {
+    height: 165px;
+  }
+  .drum-card-body,
+  .drum-card-content {
+    padding: 16px 18px 18px;
+  }
+  .drum-card-title,
+  .drum-service-title {
+    font-size: 1.30rem;
+  }
+}
+
+.drum-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(184, 107, 73, 0.32);
+  color: var(--accent-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 20;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drum-nav-btn:hover {
+  background: var(--accent-dark);
+  color: #FAF8F5;
+  border-color: var(--accent-dark);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.drum-nav-prev {
+  left: 12px;
+}
+
+.drum-nav-next {
+  right: 12px;
+}
+
+.drum-swipe-hint {
+  text-align: center;
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .services-drum-stage {
+    height: 480px;
+  }
+  .drum-facet {
+    top: 20px;
+    left: -135px;
+    width: 270px;
+    height: 430px;
+  }
+  .drum-card-media {
+    height: 160px;
+  }
+  .drum-nav-btn {
+    width: 38px;
+    height: 38px;
+  }
+}
+

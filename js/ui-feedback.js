@@ -368,6 +368,59 @@ export class FormValidator {
       }
     };
   }
+
+  /**
+   * Validate franchise inquiry form
+   * @param {HTMLFormElement} form
+   * @returns {{ isValid: boolean, errors: Object, data: Object }}
+   */
+  static validateFranchiseForm(form) {
+    this.clearAllErrors(form);
+
+    let isValid = true;
+    let firstInvalidField = null;
+    const errors = {};
+
+    const nameInput = form.fName;
+    const name = nameInput?.value?.trim() || "";
+    if (!name) {
+      this.setFieldError(nameInput, "Please enter your name.");
+      errors.name = "Name required";
+      isValid = false;
+      if (!firstInvalidField) firstInvalidField = nameInput;
+    }
+
+    const phoneInput = form.fPhone;
+    const phone = phoneInput?.value?.trim() || "";
+    const cleanPhone = phone.replace(/[^0-9]/g, "");
+    if (!phone || cleanPhone.length < 10) {
+      this.setFieldError(phoneInput, "Please enter a valid phone number.");
+      errors.phone = "Phone required";
+      isValid = false;
+      if (!firstInvalidField) firstInvalidField = phoneInput;
+    }
+
+    const cityInput = form.fCity;
+    const city = cityInput?.value?.trim() || "";
+    if (!city) {
+      this.setFieldError(cityInput, "Please specify your target city.");
+      errors.city = "City required";
+      isValid = false;
+      if (!firstInvalidField) firstInvalidField = cityInput;
+    }
+
+    return {
+      isValid,
+      errors,
+      data: {
+        name,
+        phone,
+        city,
+        model: form.fModel?.value || "",
+        notes: form.fNotes?.value || ""
+      }
+    };
+  }
 }
 
 // --------------------------------------------------------------------------

@@ -873,7 +873,6 @@ export const MoltenGallery: React.FC<MoltenGalleryProps> = ({
                     className="molten-active-link-btn"
                   >
                     <span>Reserve Studio Ritual</span>
-                    <span aria-hidden="true">→</span>
                   </a>
 
                   <div className="molten-nav-buttons">

@@ -5,10 +5,13 @@
  */
 
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { deviceCapability } from './device-detection.js';
 import { SceneLighting } from './scene-lighting.js';
 import { ScissorsModel } from './scissors-model.js';
 import { SalonEnvironment } from './salon-environment.js';
+import { SalonTools } from './salon-tools.js';
+import { Gallery3DPanels } from './gallery-panels.js';
 import { StorytellerDirector } from './storyteller.js';
 import { disposeScene } from './dispose-scene.js';
 
@@ -40,27 +43,28 @@ export class Hero3DExperience {
     this.handleScroll = this.onScroll.bind(this);
     this.handleClick = this.onClick.bind(this);
 
-    if (deviceCapability.isWebGLAvailable) {
-      this.init();
+    if (deviceCapability.isWebGLAvailable && !deviceCapability.prefersReducedMotion) {
+      try {
+        this.init();
+      } catch (err) {
+        console.warn("Hero3DExperience init failed, falling back to 2D:", err);
+      }
     } else {
-      console.warn("WebGL not supported; continuing in 2D fallback mode.");
+      console.warn("WebGL not supported or reduced motion preferred; continuing in 2D fallback mode.");
     }
   }
 
   init() {
-    // 3D background scissors and arch disabled as requested
-    return;
     if (!this.container) {
-      const heroHost = document.getElementById('hero') || document.querySelector('.page-hero-banner');
       this.container = document.createElement('div');
       this.container.id = 'three3dExperienceLayer';
       this.container.className = 'three-3d-experience-layer';
       this.container.setAttribute('aria-hidden', 'true');
-      if (heroHost) {
-        heroHost.appendChild(this.container);
-      } else {
-        document.body.prepend(this.container);
-      }
+      this.container.setAttribute('role', 'presentation');
+      document.body.prepend(this.container);
+    } else {
+      this.container.setAttribute('aria-hidden', 'true');
+      this.container.setAttribute('role', 'presentation');
     }
 
     // 1. Scene with clean transparent background
@@ -94,7 +98,21 @@ export class Hero3DExperience {
     this.canvas = this.renderer.domElement;
     this.canvas.id = 'threeHeroCanvas';
     this.canvas.className = 'three-hero-canvas';
+    this.canvas.setAttribute('aria-hidden', 'true');
+    this.canvas.setAttribute('tabindex', '-1');
+    this.canvas.setAttribute('role', 'presentation');
     this.container.appendChild(this.canvas);
+
+    // 3.5. RoomEnvironment & PMREM for metallic reflection highlights
+    try {
+      this.pmremGenerator = new THREE.PMREMGenerator(this.renderer);
+      this.pmremGenerator.compileEquirectangularShader();
+      this.roomEnv = new RoomEnvironment();
+      this.envTexture = this.pmremGenerator.fromScene(this.roomEnv, 0.04).texture;
+      this.scene.environment = this.envTexture;
+    } catch (err) {
+      console.warn("Could not setup RoomEnvironment PMREM:", err);
+    }
 
     // 4. Studio Lighting
     this.lighting = new SceneLighting(this.scene, {
@@ -113,6 +131,12 @@ export class Hero3DExperience {
     });
     this.scene.add(this.scissors.group);
 
+    // 6.5. Procedural Salon Tools (Comb & Brush for Scene 02 About)
+    this.salonTools = new SalonTools(this.scene);
+
+    // 6.8. Floating 3D Salon Gallery Photo Panels (Scene 04 Gallery)
+    this.galleryPanels = new Gallery3DPanels(this.scene, this.camera);
+
     // 7. Visual Storyteller Director (Scroll synchronizer)
     this.storyteller = new StorytellerDirector(
       this.scissors,
@@ -129,13 +153,65 @@ export class Hero3DExperience {
     }
     window.addEventListener('click', this.handleClick, { passive: true });
 
+    // 9. IntersectionObserver on #booking: pause rendering when scrolled fully into solid booking section
+    this.isAtBooking = false;
+    const bookingSection = document.getElementById('booking');
+    if (bookingSection && typeof IntersectionObserver !== 'undefined') {
+      this.intersectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          this.isAtBooking = entry.isIntersecting && entry.intersectionRatio >= 0.85;
+        });
+      }, { threshold: [0, 0.5, 0.85, 1.0] });
+      this.intersectionObserver.observe(bookingSection);
+    }
+
+    // 10. Pause rendering when browser tab is hidden
+    this.isTabHidden = false;
+    this.handleVisibilityChange = () => {
+      this.isTabHidden = document.hidden;
+      if (!this.isTabHidden && this.isRunning) {
+        this.clock.getDelta(); // reset delta to prevent sudden jump
+      }
+    };
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+
+    // 11. Dynamic prefers-reduced-motion listener
+    if (window.matchMedia) {
+      this.motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      this.handleMotionChange = (e) => {
+        if (e.matches) {
+          this.pause();
+          if (this.container) this.container.style.display = 'none';
+        } else {
+          if (this.container) this.container.style.display = '';
+          this.start();
+        }
+      };
+      this.motionQuery.addEventListener('change', this.handleMotionChange);
+    }
+
     // Initial positioning
     this.onScroll();
+  }
 
-    // Start render loop
+  start() {
+    if (this.isRunning) return;
     this.isRunning = true;
     this.clock.start();
     this.animate();
+
+    // Initial crisp snip when scene begins post-intro
+    setTimeout(() => {
+      this.triggerSnip();
+    }, 450);
+  }
+
+  pause() {
+    this.isRunning = false;
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
   }
 
   onResize() {
@@ -180,12 +256,22 @@ export class Hero3DExperience {
     if (this.storyteller) {
       this.storyteller.updateScrollProgress(this.scrollFraction);
     }
+    if (this.salonTools) {
+      this.salonTools.updateScroll(this.scrollFraction);
+    }
+    if (this.galleryPanels) {
+      this.galleryPanels.updateScroll(this.scrollFraction);
+    }
   }
 
   onClick(e) {
     // When clicking in upper or hero viewport, trigger a crisp scissors snip
     if (this.scissors && (!e.target || !e.target.closest('a, button, input, textarea, select'))) {
       this.scissors.triggerSnip();
+    }
+    // Check if a 3D gallery panel was clicked
+    if (this.galleryPanels) {
+      this.galleryPanels.handleClick(e);
     }
   }
 
@@ -210,7 +296,10 @@ export class Hero3DExperience {
     if (!this.isRunning) return;
     this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
 
-    const delta = Math.min(0.1, this.clock.getDelta());
+    // Pause rendering when browser tab is hidden or when scrolled all the way into solid flat booking
+    if (this.isTabHidden || this.isAtBooking) return;
+
+    const delta = Math.min(0.08, this.clock.getDelta());
     const time = this.clock.getElapsedTime();
 
     // Smooth mouse interpolation
@@ -220,6 +309,16 @@ export class Hero3DExperience {
     // Update scissors
     if (this.scissors) {
       this.scissors.update(delta, time, this.mouse);
+    }
+
+    // Update procedural salon tools (comb & brush in Scene 02 About)
+    if (this.salonTools) {
+      this.salonTools.update(delta, time, this.mouse);
+    }
+
+    // Update floating 3D gallery panels (Scene 04 Gallery)
+    if (this.galleryPanels) {
+      this.galleryPanels.update(delta, time, this.mouse);
     }
 
     // Update storyteller scroll transitions
@@ -232,7 +331,7 @@ export class Hero3DExperience {
       this.environment.update(delta, time);
     }
 
-    // Render
+    // Direct hardware rendering with tone-mapped physical shading
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -246,6 +345,40 @@ export class Hero3DExperience {
     window.removeEventListener('scroll', this.handleScroll);
     window.removeEventListener('mousemove', this.handleMouseMove);
     window.removeEventListener('click', this.handleClick);
+
+    if (this.handleVisibilityChange) {
+      document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    }
+    if (this.motionQuery && this.handleMotionChange) {
+      this.motionQuery.removeEventListener('change', this.handleMotionChange);
+    }
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+      this.intersectionObserver = null;
+    }
+
+    if (this.salonTools) {
+      this.salonTools.destroy();
+      this.salonTools = null;
+    }
+
+    if (this.galleryPanels) {
+      this.galleryPanels.destroy();
+      this.galleryPanels = null;
+    }
+
+    if (this.envTexture) {
+      this.envTexture.dispose();
+      this.envTexture = null;
+    }
+    if (this.pmremGenerator) {
+      this.pmremGenerator.dispose();
+      this.pmremGenerator = null;
+    }
+    if (this.roomEnv && typeof this.roomEnv.dispose === 'function') {
+      this.roomEnv.dispose();
+      this.roomEnv = null;
+    }
 
     disposeScene(this.scene, this.renderer);
     this.scene = null;

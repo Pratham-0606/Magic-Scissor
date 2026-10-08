@@ -393,7 +393,7 @@
 }
 
 .hero-bg-slide.active .hero-bg-img {
-  transform: scale(1.08) translate(-0.8%, -0.5%);
+  transform: scale(1.08) translate(calc(-0.8% + var(--parallax-x, 0px)), calc(-0.5% + var(--parallax-y, 0px)));
 }
 
 .hero-overlay-gradient {
@@ -479,6 +479,57 @@
   text-shadow: none !important;
 }
 
+/* ── Masked Headline Slide-Up (Safe Progressive Enhancement) ── */
+.hero-line-mask {
+  display: inline-block;
+  overflow: visible;
+  vertical-align: top;
+}
+
+.hero-line-inner {
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* Progressive reveal: masked translation only active when JS confirmed ready */
+html.js-ready:not(.reduced-motion) .hero-line-mask {
+  overflow: hidden;
+}
+
+html.js-ready:not(.reduced-motion) .hero-line-inner {
+  transform: translateY(118%);
+  opacity: 0;
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease;
+  will-change: transform, opacity;
+}
+
+/* Stagger line 1 & line 2 */
+html.js-ready:not(.reduced-motion) .hero-line-mask:first-of-type .hero-line-inner {
+  transition-delay: 0.12s;
+}
+
+html.js-ready:not(.reduced-motion) .hero-line-mask:nth-of-type(2) .hero-line-inner {
+  transition-delay: 0.28s;
+}
+
+/* Unveil lines on post-intro hero activation */
+html.js-ready .hero-reveal-active .hero-line-inner,
+html.js-ready .hero-section.hero-reveal-active .hero-line-inner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-line-mask {
+    overflow: visible !important;
+  }
+  .hero-line-inner {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
+
 .hero-description {
   font-size: clamp(0.96rem, 1.2vw, 1.12rem);
   color: #4A4E58 !important;
@@ -497,68 +548,89 @@
   margin-bottom: 28px;
 }
 
-/* ── Hero CTA buttons: unified outlined style (homepage only) ── */
+/* ── Hero CTA buttons: filled vibrant luxury style ── */
 .hero-cta-group .btn-gold,
 .hero-cta-group .btn-whatsapp,
 .hero-cta-group .btn-call {
-  background: transparent !important;
-  border: 1.5px solid var(--accent-primary) !important;
-  color: var(--accent-dark) !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease, filter 0.22s ease;
 }
 
-.hero-cta-group .btn-gold svg,
-.hero-cta-group .btn-whatsapp svg,
-.hero-cta-group .btn-call svg {
-  color: var(--accent-primary);
-  fill: var(--accent-primary);
-  stroke: var(--accent-primary);
-  transition: color 0.22s ease, fill 0.22s ease, stroke 0.22s ease, transform 0.22s ease;
+/* Explore Services → filled terracotta/gold */
+.hero-cta-group .btn-gold {
+  background: linear-gradient(135deg, #B86B49 0%, #9B5333 100%) !important;
+  border: 1.5px solid #B86B49 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(184, 107, 73, 0.35) !important;
 }
 
-/* Explore Services → terracotta/gold on hover */
 .hero-cta-group .btn-gold:hover {
-  transform: translateY(-3px) scale(1.08) !important;
-  background: var(--accent-gradient) !important;
-  border-color: var(--accent-primary) !important;
-  color: #ffffff !important;
-  box-shadow: 0 6px 18px rgba(184, 107, 73, 0.45) !important;
+  transform: translateY(-2px) scale(1.03) !important;
+  background: linear-gradient(135deg, #C87854 0%, #A65A39 100%) !important;
+  border-color: #C87854 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 8px 24px rgba(184, 107, 73, 0.5) !important;
 }
 
-/* Book via WhatsApp → green on hover */
-.hero-cta-group .btn-whatsapp:hover {
-  transform: translateY(-3px) scale(1.08) !important;
+/* Book via WhatsApp → filled WhatsApp emerald */
+.hero-cta-group .btn-whatsapp {
   background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
-  border-color: #25D366 !important;
-  color: #ffffff !important;
-  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45) !important;
+  border: 1.5px solid #20BD5A !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35) !important;
+}
+
+.hero-cta-group .btn-whatsapp svg {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+.hero-cta-group .btn-whatsapp:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  background: linear-gradient(135deg, #2EE070 0%, #17A08F 100%) !important;
+  border-color: #2EE070 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5) !important;
 }
 
 .hero-cta-group .btn-whatsapp:hover svg {
-  color: #ffffff !important;
-  fill: #ffffff !important;
-  stroke: #ffffff !important;
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+  stroke: #FFFFFF !important;
 }
 
-/* Call button → dark/charcoal on hover */
+/* Call button → filled rich dark bronze / espresso */
+.hero-cta-group .btn-call {
+  background: linear-gradient(135deg, #3D2B22 0%, #241812 100%) !important;
+  border: 1.5px solid #4D372C !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(45, 26, 17, 0.3) !important;
+}
+
+.hero-cta-group .btn-call svg {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
 .hero-cta-group .btn-call:hover {
-  transform: translateY(-3px) scale(1.08) !important;
-  background: linear-gradient(135deg, #C86D4A 0%, #A95333 100%) !important;
-  border-color: #C86D4A !important;
-  color: #ffffff !important;
-  box-shadow: 0 6px 18px rgba(200, 109, 74, 0.45) !important;
+  transform: translateY(-2px) scale(1.03) !important;
+  background: linear-gradient(135deg, #4E372C 0%, #2E1F18 100%) !important;
+  border-color: #5C4235 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 8px 24px rgba(45, 26, 17, 0.48) !important;
 }
 
 .hero-cta-group .btn-call:hover svg {
-  color: #ffffff !important;
-  fill: #ffffff !important;
-  stroke: #ffffff !important;
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+  stroke: #FFFFFF !important;
 }
 
 
@@ -579,18 +651,23 @@
   transform: translateY(-2px);
 }
 
-/* Hero Stats Strip (Pristine Light Theme) */
+/* Hero Stats Strip (Physical Plate Elevation & Layered Shadows) */
 .hero-stats-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   padding: 24px 32px;
   background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(200, 109, 74, 0.22);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 154, 126, 0.28);
   border-radius: var(--radius-lg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(184, 107, 73, 0.06);
+  box-shadow:
+    0 1px 2px rgba(18, 16, 24, 0.03),
+    0 8px 24px -4px rgba(18, 16, 24, 0.08),
+    0 18px 36px -8px rgba(184, 107, 73, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(212, 154, 126, 0.14);
   align-items: center;
 }
 
@@ -598,11 +675,52 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  transition: transform 0.24s ease;
 }
 
 .stat-item:not(:last-child) {
   border-right: 1px solid rgba(184, 107, 73, 0.15);
   padding-right: 20px;
+}
+
+/* Staggered Physical Plate Rise-In */
+html.js-ready:not(.reduced-motion) .hero-stats-strip .stat-item {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+html.js-ready .hero-reveal-active .hero-stats-strip .stat-item:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.35s;
+}
+
+html.js-ready .hero-reveal-active .hero-stats-strip .stat-item:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.45s;
+}
+
+html.js-ready .hero-reveal-active .hero-stats-strip .stat-item:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.55s;
+}
+
+html.js-ready .hero-reveal-active .hero-stats-strip .stat-item:nth-child(4) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.65s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-stats-strip .stat-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 .stat-value {
@@ -2496,4 +2614,479 @@
   font-weight: 600;
   font-size: 0.95rem;
   text-align: center;
+}
+
+/* ==========================================================================
+   Liquid Glass & Metallic Shine System (Plain CSS - Universal)
+   ========================================================================== */
+
+/* 1. Liquid glass optical backdrop refraction & container isolation */
+.btn,
+.molten-active-link-btn,
+.molten-nav-btn,
+.drawer-nav-link,
+.drawer-btn,
+.service-tab-btn,
+.drum-nav-btn,
+.video-ctrl-btn,
+.mobile-menu-btn,
+.nav-drawer-close,
+.modal-close-btn,
+.header-tel-btn,
+.insta-cta-btn,
+.footer-social-link,
+.drawer-instagram-card,
+.toast-retry-btn,
+.toast-close-btn,
+.style-upload-replace-btn,
+.style-upload-remove-btn,
+.style-upload-error-retry-btn,
+.lightbox-retry-btn,
+.lightbox-fallback-btn,
+:where(button:not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn)),
+:where(input[type="submit"], input[type="button"]) {
+  overflow: hidden;
+  isolation: isolate;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+.btn,
+.molten-active-link-btn,
+.molten-nav-btn,
+.drawer-nav-link,
+.drawer-btn,
+.service-tab-btn,
+.video-ctrl-btn,
+.mobile-menu-btn,
+.header-tel-btn,
+.insta-cta-btn,
+.footer-social-link,
+.drawer-instagram-card,
+.toast-retry-btn,
+.toast-close-btn,
+.style-upload-replace-btn,
+.style-upload-remove-btn,
+.style-upload-error-retry-btn,
+.lightbox-retry-btn,
+.lightbox-fallback-btn,
+:where(button:not(.drum-nav-btn):not(.modal-close-btn):not(.nav-drawer-close):not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn)),
+:where(input[type="submit"], input[type="button"]) {
+  position: relative;
+}
+
+/* Ensure child text, icons, and SVGs stay layered above the liquid glass shine */
+.btn > *,
+.molten-active-link-btn > *,
+.molten-nav-btn > *,
+.drawer-nav-link > *,
+.drawer-btn > *,
+.service-tab-btn > *,
+.drum-nav-btn > *,
+.video-ctrl-btn > *,
+.mobile-menu-btn > *,
+.nav-drawer-close > *,
+.modal-close-btn > *,
+.header-tel-btn > *,
+.insta-cta-btn > *,
+.footer-social-link > *,
+.drawer-instagram-card > *,
+.toast-retry-btn > *,
+.toast-close-btn > *,
+.style-upload-replace-btn > *,
+.style-upload-remove-btn > *,
+.style-upload-error-retry-btn > *,
+.lightbox-retry-btn > *,
+.lightbox-fallback-btn > *,
+:where(button:not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn)) > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* 2. Traveling liquid glass caustic shine layer */
+.btn::before,
+.molten-active-link-btn::before,
+.molten-nav-btn::before,
+.drawer-nav-link::before,
+.drawer-btn::before,
+.service-tab-btn::before,
+.drum-nav-btn::before,
+.video-ctrl-btn::before,
+.mobile-menu-btn::before,
+.nav-drawer-close::before,
+.modal-close-btn::before,
+.header-tel-btn::before,
+.insta-cta-btn::before,
+.footer-social-link::before,
+.drawer-instagram-card::before,
+.toast-retry-btn::before,
+.toast-close-btn::before,
+.style-upload-replace-btn::before,
+.style-upload-remove-btn::before,
+.style-upload-error-retry-btn::before,
+.lightbox-retry-btn::before,
+.lightbox-fallback-btn::before,
+:where(button:not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn))::before {
+  content: "";
+  position: absolute;
+  top: -15%;
+  bottom: -15%;
+  left: -65%;
+  width: 58%;
+  background: linear-gradient(110deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 18%,
+    rgba(255, 255, 255, 0.35) 38%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(212, 154, 126, 0.45) 54%,
+    rgba(255, 255, 255, 0.35) 60%,
+    rgba(255, 255, 255, 0.08) 80%,
+    transparent 100%
+  );
+  filter: blur(2px);
+  mix-blend-mode: screen;
+  opacity: 0.72;
+  transform: skewX(-14deg) translateX(0);
+  transition: transform 2.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  .btn:hover::before,
+  .molten-active-link-btn:hover::before,
+  .molten-nav-btn:hover::before,
+  .drawer-nav-link:hover::before,
+  .drawer-btn:hover::before,
+  .service-tab-btn:hover::before,
+  .drum-nav-btn:hover::before,
+  .video-ctrl-btn:hover::before,
+  .mobile-menu-btn:hover::before,
+  .nav-drawer-close:hover::before,
+  .modal-close-btn:hover::before,
+  .header-tel-btn:hover::before,
+  .insta-cta-btn:hover::before,
+  .footer-social-link:hover::before,
+  .drawer-instagram-card:hover::before,
+  .toast-retry-btn:hover::before,
+  .toast-close-btn:hover::before,
+  .style-upload-replace-btn:hover::before,
+  .style-upload-remove-btn:hover::before,
+  .style-upload-error-retry-btn:hover::before,
+  .lightbox-retry-btn:hover::before,
+  .lightbox-fallback-btn:hover::before,
+  :where(button:not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn)):hover::before {
+    transform: skewX(-14deg) translateX(320%);
+    opacity: 0.92;
+  }
+}
+
+.btn:focus-visible::before,
+.molten-active-link-btn:focus-visible::before,
+.molten-nav-btn:focus-visible::before,
+.drawer-nav-link:focus-visible::before,
+.drawer-btn:focus-visible::before,
+.service-tab-btn:focus-visible::before,
+.drum-nav-btn:focus-visible::before,
+.video-ctrl-btn:focus-visible::before,
+.mobile-menu-btn:focus-visible::before,
+.nav-drawer-close:focus-visible::before,
+.modal-close-btn:focus-visible::before,
+.header-tel-btn:focus-visible::before,
+.insta-cta-btn:focus-visible::before,
+.footer-social-link:focus-visible::before,
+.drawer-instagram-card:focus-visible::before,
+.toast-retry-btn:focus-visible::before,
+.toast-close-btn:focus-visible::before,
+.style-upload-replace-btn:focus-visible::before,
+.style-upload-remove-btn:focus-visible::before,
+.style-upload-error-retry-btn:focus-visible::before,
+.lightbox-retry-btn:focus-visible::before,
+.lightbox-fallback-btn:focus-visible::before,
+:where(button:not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn)):focus-visible::before {
+  transform: skewX(-14deg) translateX(320%);
+  opacity: 0.92;
+}
+
+.btn:disabled::before,
+.btn[aria-disabled="true"]::before,
+.molten-active-link-btn:disabled::before,
+.molten-active-link-btn[aria-disabled="true"]::before,
+.molten-nav-btn:disabled::before,
+.molten-nav-btn[aria-disabled="true"]::before,
+.drawer-nav-link:disabled::before,
+.drawer-nav-link[aria-disabled="true"]::before,
+.drawer-btn:disabled::before,
+.drawer-btn[aria-disabled="true"]::before,
+.service-tab-btn:disabled::before,
+.service-tab-btn[aria-disabled="true"]::before,
+.drum-nav-btn:disabled::before,
+.drum-nav-btn[aria-disabled="true"]::before,
+.header-tel-btn:disabled::before,
+.header-tel-btn[aria-disabled="true"]::before,
+.insta-cta-btn:disabled::before,
+.insta-cta-btn[aria-disabled="true"]::before,
+:where(button:not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn)):disabled::before,
+:where(button:not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn))[aria-disabled="true"]::before {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn::before,
+  .molten-active-link-btn::before,
+  .molten-nav-btn::before,
+  .drawer-nav-link::before,
+  .drawer-btn::before,
+  .service-tab-btn::before,
+  .drum-nav-btn::before,
+  .video-ctrl-btn::before,
+  .mobile-menu-btn::before,
+  .nav-drawer-close::before,
+  .modal-close-btn::before,
+  .header-tel-btn::before,
+  .insta-cta-btn::before,
+  .footer-social-link::before,
+  .drawer-instagram-card::before,
+  .toast-retry-btn::before,
+  .toast-close-btn::before,
+  .style-upload-replace-btn::before,
+  .style-upload-remove-btn::before,
+  .style-upload-error-retry-btn::before,
+  .lightbox-retry-btn::before,
+  .lightbox-fallback-btn::before,
+  :where(button:not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn))::before {
+    transition: none;
+    transform: skewX(-14deg) translateX(0);
+  }
+}
+
+/* ==========================================================================
+   Liquid Glass Specular Meniscus & Outer Drop Shadows
+   ========================================================================== */
+
+/* Gold / Terracotta button liquid glass refraction */
+.btn-gold:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 4px 16px rgba(184, 107, 73, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.16), inset 0 -1px 2px rgba(0, 0, 0, 0.14) !important;
+}
+.btn-gold:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 8px 24px rgba(184, 107, 73, 0.5), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.25), inset 0 -1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+
+.btn-primary:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 4px 18px rgba(200, 109, 74, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.16), inset 0 -1px 2px rgba(0, 0, 0, 0.14);
+}
+.btn-primary:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 8px 25px rgba(200, 109, 74, 0.55), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.25), inset 0 -1px 2px rgba(0, 0, 0, 0.18);
+}
+
+/* WhatsApp emerald liquid glass refraction */
+.btn-whatsapp:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.18), inset 0 -1px 2px rgba(0, 0, 0, 0.14) !important;
+}
+.btn-whatsapp:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.28), inset 0 -1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Call button rich espresso liquid glass refraction */
+.btn-call:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 4px 16px rgba(45, 26, 17, 0.3), inset 0 1px 1.5px rgba(255, 255, 255, 0.55), inset 0 8px 14px rgba(255, 255, 255, 0.14), inset 0 -1px 2px rgba(0, 0, 0, 0.22) !important;
+}
+.btn-call:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 8px 24px rgba(45, 26, 17, 0.48), inset 0 1.5px 2px rgba(255, 255, 255, 0.75), inset 0 10px 18px rgba(255, 255, 255, 0.22), inset 0 -1px 2px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Outline & Glass buttons with reference drop shadow + liquid optical rim */
+.btn-outline:not(:disabled):not([aria-disabled="true"]),
+.btn-outline-gold:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16), inset 0 1px 1.5px rgba(255, 255, 255, 0.55), inset 0 8px 14px rgba(255, 255, 255, 0.12), inset 0 -1px 1.5px rgba(0, 0, 0, 0.08);
+}
+.btn-outline:not(:disabled):not([aria-disabled="true"]):hover,
+.btn-outline-gold:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 4px 22px rgba(184, 107, 73, 0.25), inset 0 1.5px 2px rgba(255, 255, 255, 0.75), inset 0 10px 16px rgba(255, 255, 255, 0.22);
+}
+
+.btn-glass:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16), inset 0 1px 1.5px rgba(255, 255, 255, 0.7), inset 0 8px 14px rgba(255, 255, 255, 0.2), inset 0 -1px 1.5px rgba(0, 0, 0, 0.08);
+}
+.btn-glass:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), inset 0 1.5px 2px rgba(255, 255, 255, 0.88), inset 0 10px 18px rgba(255, 255, 255, 0.3);
+}
+
+.btn-maps:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16), inset 0 1px 1.5px rgba(255, 255, 255, 0.6), inset 0 8px 14px rgba(255, 255, 255, 0.16), inset 0 -1px 2px rgba(0, 0, 0, 0.14);
+}
+.btn-maps:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 8px 24px rgba(226, 74, 59, 0.5), inset 0 1.5px 2px rgba(255, 255, 255, 0.8), inset 0 10px 18px rgba(255, 255, 255, 0.25);
+}
+
+/* Header Direct Phone Call Capsule */
+.header-tel-btn:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 4px 14px rgba(184, 107, 73, 0.18), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.16), inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+.header-tel-btn:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 6px 20px rgba(184, 107, 73, 0.35), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.25), inset 0 -1px 2px rgba(0, 0, 0, 0.14) !important;
+}
+
+/* Instagram Follow CTA Pill */
+.insta-cta-btn:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 4px 16px rgba(214, 36, 159, 0.22), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.18), inset 0 -1px 2px rgba(0, 0, 0, 0.14) !important;
+}
+.insta-cta-btn:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 8px 25px rgba(214, 36, 159, 0.45), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.28), inset 0 -1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Footer Social Icon Buttons */
+.footer-social-link:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), inset 0 1px 1.5px rgba(255, 255, 255, 0.5), inset 0 6px 10px rgba(255, 255, 255, 0.12);
+}
+.footer-social-link:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 6px 18px rgba(184, 107, 73, 0.4), inset 0 1.5px 2px rgba(255, 255, 255, 0.75), inset 0 8px 14px rgba(255, 255, 255, 0.22);
+}
+
+/* Molten gallery buttons liquid glass reflection */
+.molten-active-link-btn:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 4px 14px rgba(184, 107, 73, 0.32), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.16), inset 0 -1px 2px rgba(0, 0, 0, 0.14);
+}
+.molten-active-link-btn:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 6px 22px rgba(184, 107, 73, 0.5), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.25), inset 0 -1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.molten-nav-btn:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.5), inset 0 6px 10px rgba(255, 255, 255, 0.12);
+}
+.molten-nav-btn:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 0 20px rgba(184, 107, 73, 0.4), inset 0 1.5px 2px rgba(255, 255, 255, 0.75), inset 0 8px 14px rgba(255, 255, 255, 0.22);
+}
+
+/* ==========================================================================
+   Drawer Navigation Links & Menu Buttons Liquid Glass
+   ========================================================================== */
+
+/* Main Navigation Links (Inactive) */
+.drawer-nav-link:not(.active) {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 1.5px rgba(255, 255, 255, 0.22), inset 0 8px 12px rgba(255, 255, 255, 0.04), inset 0 -1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+.drawer-nav-link:not(.active):hover {
+  box-shadow: 0 6px 20px rgba(184, 107, 73, 0.32), inset 0 1.5px 2px rgba(255, 255, 255, 0.55), inset 0 10px 16px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Main Navigation Active Link (Home) */
+.drawer-nav-link.active {
+  box-shadow: 0 6px 20px rgba(184, 107, 73, 0.48), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.18), inset 0 -1px 2px rgba(0, 0, 0, 0.14) !important;
+}
+.drawer-nav-link.active:hover {
+  box-shadow: 0 8px 24px rgba(184, 107, 73, 0.58), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.25), inset 0 -1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Quick Action: Book an Appointment (Terracotta) */
+.drawer-btn.drawer-btn-book {
+  box-shadow: 0 4px 14px rgba(184, 107, 73, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.16), inset 0 -1px 2px rgba(0, 0, 0, 0.14) !important;
+}
+.drawer-btn.drawer-btn-book:hover {
+  box-shadow: 0 8px 24px rgba(184, 107, 73, 0.52), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.25), inset 0 -1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Quick Action: WhatsApp (Emerald) */
+.drawer-btn.drawer-btn-whatsapp {
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.18), inset 0 -1px 2px rgba(0, 0, 0, 0.14) !important;
+}
+.drawer-btn.drawer-btn-whatsapp:hover {
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.52), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.28), inset 0 -1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Quick Action: Call Us (Sapphire Blue) */
+.drawer-btn.drawer-btn-call {
+  box-shadow: 0 4px 14px rgba(30, 108, 181, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.18), inset 0 -1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+.drawer-btn.drawer-btn-call:hover {
+  box-shadow: 0 8px 24px rgba(30, 108, 181, 0.52), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.28), inset 0 -1px 2px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* Quick Action: Get Directions (Coral Crimson) */
+.drawer-btn.drawer-btn-directions {
+  box-shadow: 0 4px 14px rgba(226, 74, 59, 0.35), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.18), inset 0 -1px 2px rgba(0, 0, 0, 0.14) !important;
+}
+.drawer-btn.drawer-btn-directions:hover {
+  box-shadow: 0 8px 24px rgba(226, 74, 59, 0.52), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.28), inset 0 -1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* ==========================================================================
+   Filter Tabs, Carousel Controls, Modals & Utility Buttons
+   ========================================================================== */
+
+/* Service category tabs liquid glass */
+.service-tab-btn:not(.active) {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), inset 0 1px 1.5px rgba(255, 255, 255, 0.8), inset 0 8px 12px rgba(255, 255, 255, 0.22), inset 0 -1px 2px rgba(0, 0, 0, 0.06);
+}
+.service-tab-btn:not(.active):hover {
+  box-shadow: 0 4px 16px rgba(184, 107, 73, 0.2), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 10px 16px rgba(255, 255, 255, 0.35);
+}
+
+.service-tab-btn.active {
+  box-shadow: 0 4px 18px rgba(184, 107, 73, 0.42), inset 0 1px 1.5px rgba(255, 255, 255, 0.65), inset 0 8px 14px rgba(255, 255, 255, 0.18), inset 0 -1px 2px rgba(0, 0, 0, 0.14) !important;
+}
+.service-tab-btn.active:hover {
+  box-shadow: 0 8px 24px rgba(184, 107, 73, 0.55), inset 0 1.5px 2px rgba(255, 255, 255, 0.85), inset 0 10px 18px rgba(255, 255, 255, 0.25), inset 0 -1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* 3D Drum Navigation Buttons */
+.drum-nav-btn {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14), inset 0 1px 1.5px rgba(255, 255, 255, 0.85), inset 0 8px 12px rgba(255, 255, 255, 0.25);
+}
+.drum-nav-btn:hover {
+  box-shadow: 0 8px 24px rgba(184, 107, 73, 0.4), inset 0 1.5px 2px rgba(255, 255, 255, 0.75);
+}
+
+/* Video Showcase Controls */
+.video-ctrl-btn {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 1.5px rgba(255, 255, 255, 0.4);
+}
+.video-ctrl-btn:hover {
+  box-shadow: 0 8px 24px rgba(184, 107, 73, 0.5), inset 0 1.5px 2px rgba(255, 255, 255, 0.7);
+}
+
+/* Header Mobile Menu Toggle Button */
+.mobile-menu-btn {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15), inset 0 1px 1.5px rgba(255, 255, 255, 0.3);
+}
+.mobile-menu-btn:hover {
+  box-shadow: 0 4px 18px rgba(184, 107, 73, 0.35), inset 0 1.5px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Drawer Social Connect Card */
+.drawer-instagram-card {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 1.5px rgba(255, 255, 255, 0.12);
+}
+.drawer-instagram-card:hover {
+  box-shadow: 0 8px 24px rgba(184, 107, 73, 0.28), inset 0 1.5px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Dialog & Drawer Close Buttons */
+.nav-drawer-close,
+.modal-close-btn {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 1.5px rgba(255, 255, 255, 0.25);
+}
+.nav-drawer-close:hover,
+.modal-close-btn:hover {
+  box-shadow: 0 4px 16px rgba(184, 107, 73, 0.45), inset 0 1.5px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Toast and Style Upload Utility Action Buttons */
+.toast-retry-btn,
+.toast-close-btn,
+.style-upload-replace-btn,
+.style-upload-remove-btn,
+.style-upload-error-retry-btn,
+.lightbox-retry-btn,
+.lightbox-fallback-btn {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), inset 0 1px 1.5px rgba(255, 255, 255, 0.4), inset 0 6px 10px rgba(255, 255, 255, 0.1);
+}
+.toast-retry-btn:hover,
+.toast-close-btn:hover,
+.style-upload-replace-btn:hover,
+.style-upload-remove-btn:hover,
+.style-upload-error-retry-btn:hover,
+.lightbox-retry-btn:hover,
+.lightbox-fallback-btn:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22), inset 0 1.5px 2px rgba(255, 255, 255, 0.65), inset 0 8px 12px rgba(255, 255, 255, 0.18);
 }

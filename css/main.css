@@ -210,6 +210,40 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
+/* Cinematic Soft Perimeter Vignette (Pure CSS, pointer-events: none) */
+.cinema-vignette-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 998;
+  background: radial-gradient(
+    circle at 50% 50%,
+    transparent 60%,
+    rgba(184, 107, 73, 0.035) 82%,
+    rgba(18, 17, 24, 0.10) 100%
+  );
+  mix-blend-mode: multiply;
+}
+
+/* Lenis Smooth Scrolling Core */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch] {
+  overscroll-behavior: contain;
+}
+
 /* Cinema Interactive Follow-Spot */
 .cinema-spotlight-layer {
   position: fixed;
@@ -547,9 +581,24 @@ h4 {
   position: relative;
 }
 
-/* Eyebrow Tag Removed */
+/* Chapter Labels removed per request */
 .cinema-scene-tag {
   display: none !important;
+}
+
+.cinema-scene-tag::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 1px;
+  background: var(--accent-primary, #B86B49);
+  opacity: 0.65;
+}
+
+.cinema-scene-tag.revealed,
+.cinema-scene-tag.in-view {
+  opacity: 0.95;
+  transform: translateY(0);
 }
 
 /* Badge Component */

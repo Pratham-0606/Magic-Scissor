@@ -54,6 +54,7 @@ export class ScissorsModel {
       clearcoat: 0.75,
       clearcoatRoughness: 0.12,
       reflectivity: 0.92,
+      envMapIntensity: 1.5,
       side: THREE.DoubleSide
     });
 
@@ -61,6 +62,7 @@ export class ScissorsModel {
       color: new THREE.Color(0xfcf8f2),
       metalness: 0.98,
       roughness: 0.08,
+      envMapIntensity: 1.6,
       side: THREE.DoubleSide
     });
 
@@ -69,7 +71,8 @@ export class ScissorsModel {
       metalness: 0.92,
       roughness: 0.22,
       clearcoat: 0.8,
-      clearcoatRoughness: 0.18
+      clearcoatRoughness: 0.18,
+      envMapIntensity: 1.4
     });
 
     const rubberSilencerMat = new THREE.MeshStandardMaterial({
@@ -263,6 +266,19 @@ export class ScissorsModel {
     jewelMesh.position.z = 0.085;
     pivotAssembly.add(jewelMesh);
 
+    // Warm specular glint halo (golden bloom glow fallback)
+    const glintGeom = new THREE.RingGeometry(0.06, 0.28, 24);
+    const glintMat = new THREE.MeshBasicMaterial({
+      color: 0xE8B582,
+      transparent: true,
+      opacity: 0.38,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide
+    });
+    this.glintMesh = new THREE.Mesh(glintGeom, glintMat);
+    this.glintMesh.position.z = 0.095;
+    pivotAssembly.add(this.glintMesh);
+
     this.pivotGroup.add(pivotAssembly);
 
     // Center initial placement
@@ -315,6 +331,12 @@ export class ScissorsModel {
     const targetRotY = mouseOffset.x * 0.22;
     this.group.rotation.x += (targetRotX - this.group.rotation.x) * 0.08;
     this.group.rotation.y += (targetRotY - this.group.rotation.y) * 0.08;
+
+    // 4. Subtle pulse on golden pivot glint
+    if (this.glintMesh) {
+      const glintScale = 1.0 + Math.sin(time * 2.6) * 0.10;
+      this.glintMesh.scale.set(glintScale, glintScale, 1);
+    }
   }
 
   async loadGLB(path) {

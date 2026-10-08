@@ -23,6 +23,8 @@ export class ThreeDimensionalGallery {
       observer.observe(galleryGrid, { childList: true });
     }
 
+    this.setupScrollFloat();
+
     // Intercept lightbox close to return card smoothly
     const lightbox = document.getElementById('galleryLightbox');
     if (lightbox) {
@@ -122,5 +124,35 @@ export class ThreeDimensionalGallery {
     card.addEventListener('mouseenter', onMouseEnter);
     card.addEventListener('mousemove', onMouseMove);
     card.addEventListener('mouseleave', onMouseLeave);
+  }
+
+  // Scroll-driven staggered 3D panel depth across salon photos
+  setupScrollFloat() {
+    if (this.prefersReducedMotion) return;
+    const gallerySection = document.getElementById('gallery');
+    if (!gallerySection) return;
+
+    let isTicking = false;
+    window.addEventListener('scroll', () => {
+      if (isTicking) return;
+      isTicking = true;
+      requestAnimationFrame(() => {
+        isTicking = false;
+        const rect = gallerySection.getBoundingClientRect();
+        const viewH = window.innerHeight;
+        if (rect.top > viewH || rect.bottom < 0) return;
+
+        const progress = (viewH - rect.top) / (viewH + rect.height);
+        const cards = gallerySection.querySelectorAll('.gallery-card');
+        cards.forEach((card, idx) => {
+          if (card.classList.contains('gallery-focus-active')) return;
+          const depthFactor = (idx % 2 === 0) ? 1 : -1;
+          const floatZ = Math.sin(progress * Math.PI) * 14 * depthFactor;
+          const floatY = (progress - 0.5) * -16 * depthFactor;
+          card.style.setProperty('--gallery-float-z', `${floatZ.toFixed(1)}px`);
+          card.style.setProperty('--gallery-float-y', `${floatY.toFixed(1)}px`);
+        });
+      });
+    }, { passive: true });
   }
 }
