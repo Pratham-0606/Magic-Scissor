@@ -2657,7 +2657,6 @@ html.js-ready .hero-reveal-active .hero-stats-strip .stat-item:nth-child(4) {
 .drawer-nav-link,
 .drawer-btn,
 .service-tab-btn,
-.video-ctrl-btn,
 .mobile-menu-btn,
 .header-tel-btn,
 .insta-cta-btn,
@@ -2670,7 +2669,7 @@ html.js-ready .hero-reveal-active .hero-stats-strip .stat-item:nth-child(4) {
 .style-upload-error-retry-btn,
 .lightbox-retry-btn,
 .lightbox-fallback-btn,
-:where(button:not(.drum-nav-btn):not(.modal-close-btn):not(.nav-drawer-close):not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn)),
+:where(button:not(.video-ctrl-btn):not(.drum-nav-btn):not(.modal-close-btn):not(.nav-drawer-close):not(#btnGetStarted):not(.intro-btn):not(.scissors-btn):not(#toggleSupabaseSettingsBtn)),
 :where(input[type="submit"], input[type="button"]) {
   position: relative;
 }

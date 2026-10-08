@@ -24,6 +24,9 @@
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap"
     rel="stylesheet">
 
+  <!-- Preload Hero LCP Image -->
+  <link rel="preload" href="assets/images/salon_styling_arena.webp" as="image" type="image/webp" fetchpriority="high">
+
   <!-- Core & Component Stylesheets -->
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/intro.css">
@@ -184,25 +187,25 @@
       <div class="hero-background-media" id="heroDynamicBg">
         <!-- Dynamic Salon Views Slides -->
         <div class="hero-bg-slide active" data-index="0" data-title="Main Styling Floor" data-category="Styling Floor">
-          <img src="assets/images/salon_styling_arena.jpg" alt="Main Styling Floor - Magic Scissors" class="hero-bg-img"
+          <img src="assets/images/salon_styling_arena.webp" alt="Main Styling Floor - Magic Scissors" class="hero-bg-img"
             fetchpriority="high" decoding="async">
         </div>
         <div class="hero-bg-slide" data-index="1" data-title="Reception & Waiting Lounge"
           data-category="Reception Lounge">
-          <img src="assets/images/salon_reception_foyer.jpg" alt="Reception & Waiting Lounge - Magic Scissors"
+          <img src="assets/images/salon_reception_foyer.webp" alt="Reception & Waiting Lounge - Magic Scissors"
             class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
         </div>
         <div class="hero-bg-slide" data-index="2" data-title="Pedicure & Spa Area" data-category="Pedicure Area">
-          <img src="assets/images/salon_pedicure_spa.jpg" alt="Pedicure & Spa Area - Magic Scissors" class="hero-bg-img"
+          <img src="assets/images/salon_pedicure_spa.webp" alt="Pedicure & Spa Area - Magic Scissors" class="hero-bg-img"
             fetchpriority="low" loading="lazy" decoding="async">
         </div>
         <div class="hero-bg-slide" data-index="3" data-title="Hair Wash & Treatment Suite" data-category="Wash Suite">
-          <img src="assets/images/salon_wash_suite.jpg" alt="Hair Wash & Treatment Suite - Magic Scissors"
+          <img src="assets/images/salon_wash_suite.webp" alt="Hair Wash & Treatment Suite - Magic Scissors"
             class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
         </div>
         <div class="hero-bg-slide" data-index="4" data-title="Private Bridal & Styling Suite"
           data-category="Bridal Suite">
-          <img src="assets/images/salon_vip_bridal.jpg" alt="Private Bridal & Styling Suite - Magic Scissors"
+          <img src="assets/images/salon_vip_bridal.webp" alt="Private Bridal & Styling Suite - Magic Scissors"
             class="hero-bg-img" fetchpriority="low" loading="lazy" decoding="async">
         </div>
 
@@ -282,10 +285,10 @@
       <div class="container">
         <div class="about-grid">
           <div class="about-image-composition">
-            <img src="assets/images/salon_hair_styling.jpg" alt="Stylist precision haircut at Magic Scissors"
+            <img src="assets/images/salon_hair_styling.webp" alt="Stylist precision haircut at Magic Scissors"
               class="about-main-img" width="580" height="520" loading="lazy" decoding="async"
               onload="this.classList.add('is-loaded')"
-              onerror="this.onerror=null;this.src='assets/images/salon_styling_arena.jpg';this.classList.add('is-loaded');">
+              onerror="this.onerror=null;this.src='assets/images/salon_styling_arena.webp';this.classList.add('is-loaded');">
             <div class="about-float-badge">
               <div class="badge-icon">✂</div>
               <h4>Precision Shears</h4>
@@ -396,7 +399,7 @@
 
         <div style="text-align: center; margin-top: 32px;">
           <a href="gallery.html" class="btn btn-outline-gold" style="padding: 12px 28px; font-size: 0.9rem; letter-spacing: 0.08em;">
-            View Complete Gallery &amp; Suites →
+            View Complete Gallery &amp; Suites
           </a>
         </div>
       </div>
@@ -433,7 +436,7 @@
           <div class="video-container">
             <!-- Ambient Video with Smooth Controls and Fallback Poster -->
             <video id="salonVideo" class="salon-video-player" loop muted playsinline
-              poster="assets/images/salon_styling_arena.jpg">
+              poster="assets/images/salon_styling_arena.webp">
               <!-- Source will play once video file is dropped, fallbacks seamlessly -->
               <source src="assets/videos/salon_walkthrough.mp4" type="video/mp4">
               Your browser does not support HTML5 video.
@@ -507,11 +510,11 @@
         </div>
 
         <div class="instagram-grid">
-          <button type="button" class="insta-tile" data-img="assets/images/salon_styling_arena.jpg"
+          <button type="button" class="insta-tile" data-img="assets/images/salon_styling_arena.webp"
             data-title="Main Styling Floor"
             data-desc="Spacious styling floor with arched backlit mirrors and comfortable leather styling chairs."
             aria-label="Open photo: Main Styling Floor" title="Click to view photo">
-            <img src="assets/images/salon_styling_arena.jpg" alt="Main Styling Floor" loading="lazy" decoding="async"
+            <img src="assets/images/salon_styling_arena.webp" alt="Main Styling Floor" loading="lazy" decoding="async"
               onload="this.classList.add('is-loaded')"
               onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
             <div class="insta-overlay">
@@ -527,11 +530,11 @@
               <span class="insta-overlay-label">View Photo</span>
             </div>
           </button>
-          <button type="button" class="insta-tile" data-img="assets/images/salon_reception_foyer.jpg"
+          <button type="button" class="insta-tile" data-img="assets/images/salon_reception_foyer.webp"
             data-title="Reception & Waiting Lounge"
             data-desc="Welcoming reception desk and comfortable lounge for arriving guests."
             aria-label="Open photo: Reception & Waiting Lounge" title="Click to view photo">
-            <img src="assets/images/salon_reception_foyer.jpg" alt="Reception & Waiting Lounge" loading="lazy"
+            <img src="assets/images/salon_reception_foyer.webp" alt="Reception & Waiting Lounge" loading="lazy"
               decoding="async" onload="this.classList.add('is-loaded')"
               onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
             <div class="insta-overlay">
@@ -547,11 +550,11 @@
               <span class="insta-overlay-label">View Photo</span>
             </div>
           </button>
-          <button type="button" class="insta-tile" data-img="assets/images/salon_pedicure_spa.jpg"
+          <button type="button" class="insta-tile" data-img="assets/images/salon_pedicure_spa.webp"
             data-title="Pedicure & Foot Care"
             data-desc="Quiet foot reflexology and pedicure stations designed for comfort."
             aria-label="Open photo: Pedicure & Foot Care" title="Click to view photo">
-            <img src="assets/images/salon_pedicure_spa.jpg" alt="Pedicure & Foot Care" loading="lazy" decoding="async"
+            <img src="assets/images/salon_pedicure_spa.webp" alt="Pedicure & Foot Care" loading="lazy" decoding="async"
               onload="this.classList.add('is-loaded')"
               onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
             <div class="insta-overlay">
@@ -567,11 +570,11 @@
               <span class="insta-overlay-label">View Photo</span>
             </div>
           </button>
-          <button type="button" class="insta-tile" data-img="assets/images/salon_wash_suite.jpg"
+          <button type="button" class="insta-tile" data-img="assets/images/salon_wash_suite.webp"
             data-title="Hair Wash Suite"
             data-desc="Ergonomic wash basins designed for deep scalp care and restorative treatments."
             aria-label="Open photo: Hair Wash Suite" title="Click to view photo">
-            <img src="assets/images/salon_wash_suite.jpg" alt="Hair Wash Suite" loading="lazy" decoding="async"
+            <img src="assets/images/salon_wash_suite.webp" alt="Hair Wash Suite" loading="lazy" decoding="async"
               onload="this.classList.add('is-loaded')"
               onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
             <div class="insta-overlay">
@@ -587,11 +590,11 @@
               <span class="insta-overlay-label">View Photo</span>
             </div>
           </button>
-          <button type="button" class="insta-tile" data-img="assets/images/salon_vip_bridal.jpg"
+          <button type="button" class="insta-tile" data-img="assets/images/salon_vip_bridal.webp"
             data-title="Private Bridal Suite"
             data-desc="Dedicated dressing and makeup suite for brides and private appointments."
             aria-label="Open photo: Private Bridal Suite" title="Click to view photo">
-            <img src="assets/images/salon_vip_bridal.jpg" alt="Private Bridal Suite" loading="lazy" decoding="async"
+            <img src="assets/images/salon_vip_bridal.webp" alt="Private Bridal Suite" loading="lazy" decoding="async"
               onload="this.classList.add('is-loaded')"
               onerror="this.onerror=null;this.src='assets/images/salon_interior.jpg';this.classList.add('is-loaded');">
             <div class="insta-overlay">
