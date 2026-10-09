@@ -5,6 +5,19 @@
 import { supabaseService } from './supabase-client.js';
 import { ButtonLoader, ToastManager, Skeleton, EmptyState, ErrorClassifier } from './ui-feedback.js';
 
+function escapeHTML(str) {
+  if (!str) return '';
+  return str.toString().replace(/[&<>'"]/g, 
+    tag => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    }[tag])
+  );
+}
+
 export class ConciergeDashboard {
   constructor() {
     this.drawer = document.getElementById("conciergeDrawer");
@@ -13,33 +26,21 @@ export class ConciergeDashboard {
     this.init();
   }
 
-  isAdmin() {
-    if (sessionStorage.getItem("ms_admin_auth") === "true") return true;
-
-    // URL parameter or hash check: ?admin=true or #admin or #staff
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("admin") || window.location.hash.toLowerCase().includes("admin") || window.location.hash.toLowerCase().includes("staff")) {
-      sessionStorage.setItem("ms_admin_auth", "true");
-      return true;
+  async isAdmin() {
+    // Determine admin securely using actual Supabase JWT app_metadata
+    if (!supabaseService.isConfigured || !supabaseService.client) return false;
+    try {
+      const { data: { session }, error } = await supabaseService.client.auth.getSession();
+      if (error || !session || !session.user) return false;
+      return session.user.app_metadata?.role === 'admin';
+    } catch (e) {
+      return false;
     }
-
-    // Check if authenticated user is admin/staff
-    const user = supabaseService.getCurrentUser();
-    if (user && (
-      (user.email && (user.email.toLowerCase().includes("admin") || user.email.toLowerCase().includes("concierge"))) ||
-      user.role === "admin" ||
-      user.vip_tier === "Salon Admin / Concierge"
-    )) {
-      sessionStorage.setItem("ms_admin_auth", "true");
-      return true;
-    }
-
-    return false;
   }
 
-  updateVisibility() {
+  async updateVisibility() {
     if (!this.openBtn) return;
-    if (this.isAdmin()) {
+    if (await this.isAdmin()) {
       this.openBtn.style.display = "inline-flex";
       this.openBtn.title = "Staff Live Appointments Desk";
       const spanText = this.openBtn.querySelector("span:not(.header-badge-count)");
@@ -50,17 +51,8 @@ export class ConciergeDashboard {
   }
 
   promptAdminPasscode() {
-    const code = prompt("🔒 Magic Scissors Staff Security\nEnter Admin / Concierge Access Passcode:");
-    if (code === null) return false;
-    if (code === "1234" || code.toLowerCase() === "admin" || code.toLowerCase() === "magicscissors") {
-      sessionStorage.setItem("ms_admin_auth", "true");
-      this.updateVisibility();
-      ToastManager.success("Staff Concierge Desk unlocked.");
-      return true;
-    } else {
-      ToastManager.error("Access Denied: Incorrect staff passcode.");
-      return false;
-    }
+    ToastManager.error("Access Denied: You must be signed in as a staff member.");
+    return false;
   }
 
   init() {
@@ -79,18 +71,19 @@ export class ConciergeDashboard {
     this.bindDrawerEvents();
   }
 
-  updateBadge(appointments) {
+  async updateBadge(appointments) {
     const badge = document.getElementById("conciergePendingBadge");
     if (badge) {
       const pendingCount = appointments.filter(a => a.status === 'pending').length;
       badge.textContent = pendingCount;
-      badge.style.display = (this.isAdmin() && pendingCount > 0) ? "inline-flex" : "none";
+      const adminStatus = await this.isAdmin();
+      badge.style.display = (adminStatus && pendingCount > 0) ? "inline-flex" : "none";
     }
   }
 
-  open() {
+  async open() {
     if (!this.drawer) return;
-    if (!this.isAdmin()) {
+    if (!(await this.isAdmin())) {
       const ok = this.promptAdminPasscode();
       if (!ok) return;
     }
@@ -188,8 +181,8 @@ export class ConciergeDashboard {
             <div class="glass-card" style="padding: 18px; border-color: ${apt.status === 'pending' ? 'var(--gold-border-glow)' : 'rgba(255,255,255,0.1)'};">
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
                 <div>
-                  <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 2px;">${apt.client_name}</h4>
-                  <p style="color: var(--text-muted); font-size: 0.82rem;">📞 ${apt.client_phone} ${apt.client_email ? '• ✉️ ' + apt.client_email : ''}</p>
+                  <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 2px;">${escapeHTML(apt.client_name)}</h4>
+                  <p style="color: var(--text-muted); font-size: 0.82rem;">📞 ${escapeHTML(apt.client_phone)} ${apt.client_email ? '• ✉️ ' + escapeHTML(apt.client_email) : ''}</p>
                 </div>
                 <span class="badge-gold" style="
                   ${apt.status === 'confirmed' ? 'background: rgba(37,211,102,0.2); border-color: #25D366; color: #a3ffc8;' : ''}
@@ -201,9 +194,9 @@ export class ConciergeDashboard {
               </div>
 
               <div style="background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 12px;">
-                <div style="color: var(--gold-light); font-weight: 600; font-size: 0.9rem;">${apt.service_name}</div>
-                <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 2px;">📅 ${apt.preferred_date} • ⏰ ${apt.time_slot}</div>
-                ${apt.notes ? `<div style="font-size: 0.78rem; color: #aaa; margin-top: 4px; font-style: italic;">Note: "${apt.notes}"</div>` : ''}
+                <div style="color: var(--gold-light); font-weight: 600; font-size: 0.9rem;">${escapeHTML(apt.service_name)}</div>
+                <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 2px;">📅 ${escapeHTML(apt.preferred_date)} • ⏰ ${escapeHTML(apt.time_slot)}</div>
+                ${apt.notes ? `<div style="font-size: 0.78rem; color: #aaa; margin-top: 4px; font-style: italic;">Note: "${escapeHTML(apt.notes)}"</div>` : ''}
               </div>
 
               <!-- Action Buttons -->
@@ -232,30 +225,6 @@ export class ConciergeDashboard {
         }).join("")}
       </div>
 
-      <!-- Supabase Setup Footer & Project Key Helper -->
-      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.78rem; color: var(--text-muted);">
-          Status: <strong style="color: ${supabaseService.isConfigured ? '#25D366' : 'var(--gold-light)'};">
-            ${supabaseService.isConfigured ? '● Connected to Supabase Cloud' : '● Reactive Offline-First Mode'}
-          </strong>
-        </span>
-        <button id="toggleSupabaseSettingsBtn" type="button" style="background: none; border: none; color: var(--gold-light); font-size: 0.78rem; cursor: pointer; text-decoration: underline;">
-          Configure Supabase Keys
-        </button>
-      </div>
-
-      <!-- Config Inputs (Collapsible) -->
-      <div id="supabaseConfigBox" style="display: none; margin-top: 15px; padding: 14px; background: rgba(0,0,0,0.5); border-radius: var(--radius-sm); border: 1px solid var(--gold-border);">
-        <label for="cfgSupabaseUrl" style="font-size: 0.78rem; color: var(--gold-light); display: block;">Supabase Project URL</label>
-        <input type="text" id="cfgSupabaseUrl" placeholder="https://xyzcompany.supabase.co" style="width: 100%; padding: 8px 12px; margin: 4px 0 10px; background: #111; border: 1px solid #333; color: #fff; border-radius: 4px; font-size: 0.8rem;">
-        
-        <label for="cfgSupabaseKey" style="font-size: 0.78rem; color: var(--gold-light); display: block;">Supabase Anon Public Key</label>
-        <input type="text" id="cfgSupabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="width: 100%; padding: 8px 12px; margin: 4px 0 10px; background: #111; border: 1px solid #333; color: #fff; border-radius: 4px; font-size: 0.8rem;">
-        
-        <button type="button" id="saveSupabaseKeysBtn" class="btn btn-gold" style="width: 100%; padding: 8px; font-size: 0.82rem;">
-          Save & Connect Supabase
-        </button>
-      </div>
     `;
 
     // Bind dynamic events inside drawer
@@ -315,37 +284,6 @@ export class ConciergeDashboard {
       });
     });
 
-    const toggleBtn = container.querySelector("#toggleSupabaseSettingsBtn");
-    const cfgBox = container.querySelector("#supabaseConfigBox");
-    if (toggleBtn && cfgBox) {
-      toggleBtn.addEventListener("click", () => {
-        cfgBox.style.display = cfgBox.style.display === "none" ? "block" : "none";
-      });
-    }
-
-    const saveBtn = container.querySelector("#saveSupabaseKeysBtn");
-    if (saveBtn) {
-      saveBtn.addEventListener("click", () => {
-        const url = container.querySelector("#cfgSupabaseUrl").value.trim();
-        const key = container.querySelector("#cfgSupabaseKey").value.trim();
-        if (!url || !url.startsWith("http")) {
-          ToastManager.error("Please enter a valid Supabase Project URL starting with https://");
-          return;
-        }
-        if (!key || key.length < 20) {
-          ToastManager.error("Please enter a valid Supabase Anon Public Key.");
-          return;
-        }
-
-        ButtonLoader.start(saveBtn, "Connecting to Cloud...");
-        setTimeout(() => {
-          supabaseService.setCredentials(url, key);
-          ButtonLoader.stop(saveBtn);
-          ToastManager.success("Supabase credentials configured successfully! Real-time connected.");
-          this.render(supabaseService.getLocalAppointments());
-        }, 400);
-      });
-    }
   }
 
   bindDrawerEvents() {

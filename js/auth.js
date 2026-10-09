@@ -214,10 +214,7 @@ export class AuthManager {
         const res = await supabaseService.signInUser(email, password);
         if (res && res.success) {
           ToastManager.success(`Welcome back, ${res.user.name.split(" ")[0]}!`);
-          if (email.toLowerCase().includes("admin") || email.toLowerCase().includes("concierge")) {
-            sessionStorage.setItem("ms_admin_auth", "true");
-            window.magicScissorsApp?.conciergeDashboard?.updateVisibility();
-          }
+          window.magicScissorsApp?.conciergeDashboard?.updateVisibility();
           this.updateHeaderAccountBtn();
           this.renderProfileView(res.user);
         } else {
@@ -378,7 +375,6 @@ export class AuthManager {
       container.querySelector("#authBookNewBtn")?.addEventListener("click", () => this.closeAuthModal());
       
       container.querySelector("#authBtnSignOut")?.addEventListener("click", () => {
-        sessionStorage.removeItem("ms_admin_auth");
         supabaseService.signOutUser();
         this.updateHeaderAccountBtn();
         ToastManager.info("You have been signed out.");
